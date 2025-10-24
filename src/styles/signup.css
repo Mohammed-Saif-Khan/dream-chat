@@ -1,0 +1,21 @@
+/* In your main CSS file or a dedicated CSS module */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 2px; /* Width of the entire scrollbar */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Color of the scrollbar track */
+  border-radius: 2px; /* Optional: Rounded corners for the track */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #fff; /* Color of the scrollbar thumb */
+  border-radius: 2px; /* Optional: Rounded corners for the thumb */
+  border: 2px solid #f1f1f1; /* Optional: Border around the thumb */
+}
+
+/* For Firefox (requires a separate property) */
+.custom-scrollbar {
+  scrollbar-width: thin; /* "auto" or "none" */
+  scrollbar-color: #888 #f1f1f1; /* thumb color track color */
+}
