@@ -1,15 +1,21 @@
 import {
+  Ban,
+  Clock3,
   Contact,
   Disc,
   File,
   Image,
   MapPin,
   MessageCircle,
+  MessageCircleOff,
   PhoneOutgoing,
   Settings,
+  Trash,
   Users,
   Video,
   VideoOff,
+  VolumeX,
+  X,
 } from "lucide-react";
 
 import AVATAR_1 from "@/assets/home/avatar-01.jpg";
@@ -270,5 +276,38 @@ export const newChatData = [
     img: AVATAR_6,
     name: "Carla Jenkins",
     work: "Business Analyst",
+  },
+];
+
+export const chatHeaderSetting = [
+  {
+    id: "1",
+    icon: X,
+    label: "Close Chat",
+  },
+  {
+    id: "2",
+    icon: VolumeX,
+    label: "Mute Notification",
+  },
+  {
+    id: "3",
+    icon: Clock3,
+    label: "Disappearing Message",
+  },
+  {
+    id: "4",
+    icon: MessageCircleOff,
+    label: "Clear Message",
+  },
+  {
+    id: "5",
+    icon: Trash,
+    label: "Delete Message",
+  },
+  {
+    id: "6",
+    icon: Ban,
+    label: "Block Message",
   },
 ];

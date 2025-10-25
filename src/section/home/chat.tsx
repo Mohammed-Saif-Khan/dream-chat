@@ -1,5 +1,5 @@
 import React from "react";
 
 export default function Chat() {
-  return <div>asdf</div>;
+  return <div>Home</div>;
 }

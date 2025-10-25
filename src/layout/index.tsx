@@ -8,11 +8,11 @@ export default function WebLayout({
   return (
     <div className="flex h-screen w-full">
       <Menubar />
-      <div className="grid md:grid-cols-12 flex-1 w-full">
-        <div className="md:col-span-3 border-r flex flex-col h-screen">
+      <div className="grid lg:grid-cols-12 flex-1 w-full">
+        <div className="lg:col-span-3 border-r flex flex-col h-screen">
           <Sidebar />
         </div>
-        <div className="md:col-span-9 h-screen w-full">{children}</div>
+        <div className="lg:col-span-9 h-screen w-full">{children}</div>
       </div>
     </div>
   );

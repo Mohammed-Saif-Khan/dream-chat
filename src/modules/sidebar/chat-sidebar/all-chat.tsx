@@ -49,7 +49,7 @@ export default function AllChat() {
       {chatList?.map((item, index) => (
         <div
           key={index}
-          className="flex items-center justify-between max-w-md bg-background p-5 rounded-md group ring-0 hover:ring-2 ring-primary transition-all duration-300 ease-in-out my-2 cursor-pointer"
+          className="flex items-center justify-between lg:max-w-md bg-background p-5 rounded-md group ring-0 hover:ring-2 ring-primary transition-all duration-300 ease-in-out my-2 cursor-pointer"
         >
           <div className="flex items-center gap-2">
             <AvatarDP

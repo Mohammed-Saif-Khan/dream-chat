@@ -1,4 +1,5 @@
 "use client";
+
 import { Field, FieldError, FieldLabel, FieldSet } from "@/components/ui/field";
 import {
   InputGroup,
@@ -15,6 +16,7 @@ import {
   UseFormRegister,
   UseFormSetValue,
 } from "react-hook-form";
+import React from "react";
 
 interface TextBoxProps<T extends FieldValues> {
   label?: string;
@@ -34,11 +36,32 @@ interface TextBoxProps<T extends FieldValues> {
     endAddon?: string;
     inputGroup?: string;
     inputGroupButton?: string;
+    fieldSet?: string;
   };
   minLength?: number;
   maxLength?: number;
-  startAddon?: React.ReactNode;
-  endAddon?: React.ReactNode;
+  startAddon?: React.ReactNode | React.ReactNode[];
+  endAddon?: React.ReactNode | React.ReactNode[];
+  startVariant?:
+    | "link"
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | null
+    | undefined;
+  startSize?: "sm" | "icon-sm" | "xs" | "icon-xs" | null | undefined;
+  endVariant?:
+    | "link"
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | null
+    | undefined;
+  endSize?: "sm" | "icon-sm" | "xs" | "icon-xs" | null | undefined;
 }
 
 export default function TextBox<T extends FieldValues>({
@@ -57,16 +80,56 @@ export default function TextBox<T extends FieldValues>({
   maxLength,
   startAddon,
   endAddon,
+  startVariant,
+  startSize,
+  endVariant,
+  endSize,
 }: TextBoxProps<T>) {
+  const renderAddons = (
+    addons: React.ReactNode | React.ReactNode[],
+    position: "start" | "end"
+  ) => {
+    if (!addons) return null;
+
+    const variant = position === "start" ? startVariant : endVariant;
+    const size = position === "start" ? startSize : endSize;
+    const addonClass =
+      position === "start" ? className.startAddon : className.endAddon;
+
+    return (
+      <InputGroupAddon
+        align={position === "end" ? "inline-end" : undefined}
+        className={addonClass}
+      >
+        {React.Children.toArray(addons).map((addon, index) => (
+          <InputGroupButton
+            key={index}
+            variant={variant}
+            size={size}
+            className={cn(
+              "hover:bg-accent transition-colors",
+              className.inputGroupButton
+            )}
+          >
+            {addon}
+          </InputGroupButton>
+        ))}
+      </InputGroupAddon>
+    );
+  };
+
   return (
-    <FieldSet className="mb-3">
+    <FieldSet className={cn("mb-3", className.fieldSet)}>
       <Field className="gap-1.5">
         {label && (
           <FieldLabel htmlFor={String(name)} className={className.label}>
             {label}
           </FieldLabel>
         )}
-        <InputGroup className={cn(className?.inputGroup)}>
+
+        <InputGroup className={cn(className.inputGroup)}>
+          {renderAddons(startAddon, "start")}
+
           <InputGroupInput
             {...(register ? register(name, { required }) : {})}
             onChange={(e) => {
@@ -88,19 +151,7 @@ export default function TextBox<T extends FieldValues>({
             className={cn(className.input)}
           />
 
-          {startAddon && (
-            <InputGroupAddon className={className.startAddon}>
-              {startAddon}
-            </InputGroupAddon>
-          )}
-
-          {endAddon && (
-            <InputGroupAddon align="inline-end" className={className.endAddon}>
-              <InputGroupButton className={className.inputGroupButton}>
-                {endAddon}
-              </InputGroupButton>
-            </InputGroupAddon>
-          )}
+          {renderAddons(endAddon, "end")}
         </InputGroup>
 
         {errors?.[name] && (

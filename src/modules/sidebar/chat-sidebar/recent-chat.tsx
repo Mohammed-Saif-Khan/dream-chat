@@ -48,7 +48,7 @@ export default function RecentChat() {
           clickable: true,
         }}
         modules={[FreeMode]}
-        className="mySwiper max-w-xs overflow-hidden"
+        className="mySwiper lg:max-w-xs max-w-3xl overflow-hidden"
       >
         {RecentChatData?.map((item, index) => (
           <SwiperSlide key={index}>

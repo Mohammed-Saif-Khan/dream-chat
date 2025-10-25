@@ -1,16 +1,14 @@
 "use client";
-import Image from "next/image";
-import React from "react";
 import LOGO from "@/assets/auth/logo.png";
-import ModeToogleButton from "@/components/button/mode-toogle";
-import AvatarDP from "@/components/avatar";
 import AUTH_AVATAR from "@/assets/home/avatar-12.jpg";
-import { LogOut } from "lucide-react";
-import Link from "next/link";
+import AvatarDP from "@/components/avatar";
+import ModeToogleButton from "@/components/button/mode-toogle";
 import { Toggle } from "@/components/ui/toggle";
 import { cn } from "@/lib/utils";
+import { menubarHideURL, navbar } from "@/utils/constant";
+import Image from "next/image";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { navbar, menubarHideURL } from "@/utils/constant";
 
 export default function Menubar() {
   const pathname = usePathname();
@@ -43,16 +41,12 @@ export default function Menubar() {
           </div>
         </div>
         <div className="flex flex-col items-center gap-6">
+          <ModeToogleButton />
           <AvatarDP
             src={AUTH_AVATAR}
             alt="person_1"
             fallback="MS"
             avatarSize="size-10"
-          />
-          <ModeToogleButton />
-          <LogOut
-            size={26}
-            className="text-muted-foreground hover:text-foreground cursor-pointer"
           />
         </div>
       </div>
