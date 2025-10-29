@@ -6,6 +6,7 @@ import GALLAERY_1 from "@/assets/home/gallery-01.jpeg";
 import React from "react";
 import VoiceChat from "@/components/chat/voice-chat";
 import DocuChat from "@/components/chat/doc-chat";
+import VideoPlayer from "@/components/chat/video-player";
 
 export default function Chat() {
   return (
@@ -29,6 +30,7 @@ export default function Chat() {
       <ChatImage sender={false} senderName="Edward Lietz" imgSrc={GALLAERY_1} />
       <VoiceChat sender={true} audioSrc="horse.org" />
       <DocuChat sender={false} senderName="Edward Lietz" />
+      <VideoPlayer sender={true} />
     </div>
   );
 }

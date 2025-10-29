@@ -190,3 +190,20 @@ body {
 .animate-bounceDot {
   animation: bounceDot 1.4s infinite ease-in-out both;
 }
+
+.media-player[data-view-type="video"] {
+  aspect-ratio: 16 / 9;
+}
+
+.vds-video-layout {
+  --video-brand: hsl(0, 0%, 96%);
+  /* Layout customization */
+}
+
+.vds-audio-layout {
+  --audio-brand: hsl(0, 0%, 96%);
+}
+
+.plyr {
+  --plyr-color-main: hsl(198, 100%, 50%);
+}
