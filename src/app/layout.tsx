@@ -23,7 +23,7 @@ export default function RootLayout({
       <body className={`${archivo.variable} antialiased`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="light"
+          defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >

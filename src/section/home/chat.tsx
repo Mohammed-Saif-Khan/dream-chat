@@ -28,7 +28,7 @@ export default function Chat() {
       <DateDivider date="Today, July 24" />
       <ChatImage sender={false} senderName="Edward Lietz" imgSrc={GALLAERY_1} />
       <VoiceChat sender={true} audioSrc="horse.org" />
-      <DocuChat sender={false} />
+      <DocuChat sender={false} senderName="Edward Lietz" />
     </div>
   );
 }

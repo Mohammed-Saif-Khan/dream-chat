@@ -12,7 +12,7 @@ export default function WebLayout({
         <div className="lg:col-span-3 border-r flex flex-col h-screen">
           <Sidebar />
         </div>
-        <div className="lg:col-span-9 w-full">{children}</div>
+        <div className="lg:col-span-9 lg:block hidden w-full">{children}</div>
       </div>
     </div>
   );
