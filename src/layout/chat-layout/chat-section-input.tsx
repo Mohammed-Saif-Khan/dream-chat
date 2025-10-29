@@ -14,11 +14,11 @@ export default function ChatInput() {
         ]}
         endVariant="default"
         endSize="icon-sm"
-        endAddon={<SendHorizontal size={18} className="text-white" />}
+        endAddon={<SendHorizontal size={18} className="text-white " />}
         className={{
-          input: "bg-muted dark:bg-muted h-12",
-          startAddon: "bg-muted h-12 rounded-l-sm",
-          endAddon: "bg-muted h-12 rounded-r-sm",
+          input: "bg-gray-200 dark:bg-muted h-12",
+          startAddon: "bg-gray-200 dark:bg-muted h-12 rounded-l-sm",
+          endAddon: "bg-gray-200 dark:bg-muted h-12 rounded-r-sm",
           fieldSet: "mb-0",
           inputGroup:
             "has-[[data-slot=input-group-control]:focus-visible]:border-none has-[[data-slot=input-group-control]:focus-visible]:ring-ring has-[[data-slot=input-group-control]:focus-visible]:ring-0 shadow-none border-none",

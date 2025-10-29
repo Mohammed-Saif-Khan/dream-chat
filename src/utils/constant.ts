@@ -1,16 +1,23 @@
 import {
   Ban,
+  Check,
+  Clipboard,
   Clock3,
   Contact,
   Disc,
   File,
+  Forward,
+  Heart,
   Image,
   MapPin,
   MessageCircle,
   MessageCircleOff,
   PhoneOutgoing,
+  Pin,
+  Reply,
   Settings,
   Trash,
+  Trash2,
   Users,
   Video,
   VideoOff,
@@ -309,5 +316,70 @@ export const chatHeaderSetting = [
     id: "6",
     icon: Ban,
     label: "Block Message",
+  },
+];
+
+export const messageMenu = [
+  {
+    id: "1",
+    icon: Reply,
+    label: "Reply",
+  },
+  {
+    id: "2",
+    icon: Forward,
+    label: "Forward",
+  },
+  {
+    id: "3",
+    icon: Clipboard,
+    label: "Copy",
+  },
+  {
+    id: "4",
+    icon: Heart,
+    label: "Mark as Favourite",
+  },
+  {
+    id: "5",
+    icon: Pin,
+    label: "Pin",
+  },
+  {
+    id: "5",
+    icon: Trash2,
+    label: "Delete",
+    sender: true,
+  },
+  {
+    id: "6",
+    icon: Check,
+    label: "Mark as Unread",
+    sender: true,
+  },
+];
+
+export const siderBarMenu = [
+  {
+    id: "1",
+    icon: Pin,
+    label: "Pin",
+  },
+  {
+    id: "2",
+    icon: Heart,
+    label: "Mark as Favourite",
+  },
+  {
+    id: "3",
+    icon: Check,
+    label: "Mark as Unread",
+    sender: true,
+  },
+  {
+    id: "4",
+    icon: Trash2,
+    label: "Delete",
+    sender: true,
   },
 ];

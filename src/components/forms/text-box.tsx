@@ -106,10 +106,7 @@ export default function TextBox<T extends FieldValues>({
             key={index}
             variant={variant}
             size={size}
-            className={cn(
-              "hover:bg-accent transition-colors",
-              className.inputGroupButton
-            )}
+            className={cn("transition-colors", className.inputGroupButton)}
           >
             {addon}
           </InputGroupButton>

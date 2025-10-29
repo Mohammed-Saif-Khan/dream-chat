@@ -16,7 +16,7 @@ export default function Menubar() {
 
   return (
     !menubarShow && (
-      <div className="py-2 px-2 pb-10 bg-background h-full flex items-center flex-col justify-between border-r">
+      <div className="py-2 px-2 pb-10 bg-background h-full lg:flex hidden items-center flex-col justify-between border-r">
         <div>
           <Image src={LOGO} width={55} height={30} alt="logo" />
           <div className="mt-4 flex flex-col items-center gap-6">

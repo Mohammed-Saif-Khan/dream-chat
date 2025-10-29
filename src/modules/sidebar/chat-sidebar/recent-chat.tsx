@@ -40,6 +40,7 @@ export default function RecentChat() {
           </DropdownMenu>
         </div>
       </div>
+
       <Swiper
         slidesPerView={4.5}
         spaceBetween={30}
@@ -48,7 +49,7 @@ export default function RecentChat() {
           clickable: true,
         }}
         modules={[FreeMode]}
-        className="mySwiper lg:max-w-xs max-w-3xl overflow-hidden"
+        className="mySwiper lg:max-w-xs"
       >
         {RecentChatData?.map((item, index) => (
           <SwiperSlide key={index}>

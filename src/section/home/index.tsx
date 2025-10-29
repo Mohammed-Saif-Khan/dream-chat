@@ -1,9 +1,8 @@
 "use client";
-import React from "react";
-import Welcome from "./welcome";
+import ChatLayout from "@/layout/chat-layout";
 import { useSearchParams } from "next/navigation";
 import Chat from "./chat";
-import ChatLayout from "@/layout/chat-layout";
+import Welcome from "./welcome";
 
 export default function Home() {
   const searchParams = useSearchParams();

@@ -3,7 +3,7 @@
 import AvatarDP from "@/components/avatar";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { chatList } from "@/utils/constant";
+import { chatList, siderBarMenu } from "@/utils/constant";
 import { Icon } from "@iconify/react";
 import { CheckCheck, EllipsisVertical, Funnel } from "lucide-react";
 import {
@@ -14,8 +14,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useNavigate } from "@/hooks/use-navigate";
 
 export default function AllChat() {
+  const { push } = useNavigate();
+
   return (
     <div className="pt-5 px-5 pb-3.5 h-full flex flex-col">
       <div className="flex items-center justify-between mb-3">
@@ -49,6 +52,7 @@ export default function AllChat() {
       {chatList?.map((item, index) => (
         <div
           key={index}
+          onClick={() => push(`?receiver=${item?.name}`)}
           className="flex items-center justify-between lg:max-w-md bg-background p-5 rounded-md group ring-0 hover:ring-2 ring-primary transition-all duration-300 ease-in-out my-2 cursor-pointer"
         >
           <div className="flex items-center gap-2">
@@ -68,13 +72,12 @@ export default function AllChat() {
                 <div className="flex items-center gap-1">
                   <p className="text-sm text-muted-foreground">is typing</p>
                   <span className="flex space-x-1 mt-2">
-                    <span className="w-1 h-1 bg-muted-foreground rounded-full animate-bounceDot delay-[0ms]"></span>
-                    <span className="w-1 h-1 bg-muted-foreground rounded-full animate-bounceDot delay-[150ms]"></span>
-                    <span className="w-1 h-1 bg-muted-foreground rounded-full animate-bounceDot delay-[300ms]"></span>
+                    <span className="dot"></span>
+                    <span className="dot"></span>
+                    <span className="dot"></span>
                   </span>
                 </div>
               )}
-
               <div className={cn("flex items-center gap-2")}>
                 {item?.icon && (
                   <item.icon
@@ -127,11 +130,29 @@ export default function AllChat() {
                   {item?.unreadCount}
                 </Badge>
               )}
-              <EllipsisVertical
-                width={16}
-                height={16}
-                className="text-muted-foreground cursor-pointer"
-              />
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <EllipsisVertical
+                    width={16}
+                    height={16}
+                    className="text-muted-foreground cursor-pointer"
+                  />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="bg-background">
+                  {siderBarMenu?.map((item, index) => {
+                    const Icon = item?.icon;
+                    return (
+                      <DropdownMenuItem
+                        key={`SIDERBAR-MENU-${index}`}
+                        className="cursor-pointer focus:text-primary"
+                      >
+                        <Icon className="focus:text-primary" />
+                        {item?.label}
+                      </DropdownMenuItem>
+                    );
+                  })}
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </div>
