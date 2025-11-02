@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  AudioMimeType,
   HLSMimeType,
   MediaPlayer,
   MediaProvider,

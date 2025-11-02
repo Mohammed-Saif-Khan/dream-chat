@@ -7,7 +7,7 @@ export default async function WebLayout({
   pathname,
 }: {
   children: React.ReactNode;
-  pathname: string;
+  pathname?: string;
 }) {
   return (
     <div className="flex h-screen w-full">

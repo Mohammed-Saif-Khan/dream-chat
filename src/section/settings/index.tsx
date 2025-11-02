@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 "use client";
 import {
   Accordion,
@@ -19,10 +20,9 @@ import React from "react";
 import PersonalInfo from "./account/personal-info";
 import SocialsProfiles from "./account/socials-profiles";
 import DeleteAccountDialog from "./others/delete-account";
+import LogoutDialog from "./others/logout";
 import MuteBlockedUserDialog from "./others/mute-blocked-user";
 import SecurityFormt from "./security/security-form";
-import Logout from "./others/logout";
-import LogoutDialog from "./others/logout";
 
 export type muteBlockType = {
   open: boolean;

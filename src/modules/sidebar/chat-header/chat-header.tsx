@@ -15,7 +15,7 @@ import React from "react";
 import InviteDialog from "./invite-dialog";
 import { capitalizeFirstLetter } from "@/utils/capitalizeFirstLetter";
 
-export default function ChatHeader({ heading }: { heading: string }) {
+export default function ChatHeader({ heading }: { heading?: string }) {
   const [newChatDialog, setNewChatDialog] = React.useState<boolean>(false);
   const [inviteDialog, setInviteDialog] = React.useState<boolean>(false);
 

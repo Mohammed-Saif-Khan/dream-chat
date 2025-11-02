@@ -2,7 +2,6 @@
 import AvatarDP from "@/components/avatar";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
@@ -11,7 +10,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { newChatData } from "@/utils/constant";
 import { SearchIcon } from "lucide-react";
@@ -26,8 +24,6 @@ export default function MuteBlockedUserDialog({
   open,
   onClose,
 }: MuteBlockedUserDialogProps) {
-  console.log(open, "kdiei");
-
   return (
     <Dialog
       open={open?.open}

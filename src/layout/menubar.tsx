@@ -4,6 +4,7 @@ import AUTH_AVATAR from "@/assets/home/avatar-12.jpg";
 import AvatarDP from "@/components/avatar";
 import ModeToogleButton from "@/components/button/mode-toogle";
 import { Toggle } from "@/components/ui/toggle";
+import { useNavigate } from "@/hooks/use-navigate";
 import { cn } from "@/lib/utils";
 import { menubarHideURL, navbar } from "@/utils/constant";
 import Image from "next/image";
@@ -11,6 +12,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export default function Menubar() {
+  const { push } = useNavigate();
   const pathname = usePathname();
   const menubarShow = menubarHideURL.includes(pathname);
 
@@ -18,7 +20,14 @@ export default function Menubar() {
     !menubarShow && (
       <div className="py-2 px-2 pb-10 bg-background h-full lg:flex hidden items-center flex-col justify-between border-r">
         <div>
-          <Image src={LOGO} width={55} height={30} alt="logo" />
+          <Image
+            src={LOGO}
+            width={55}
+            height={30}
+            alt="logo"
+            onClick={() => push("/home")}
+            className="cursor-pointer"
+          />
           <div className="mt-4 flex flex-col items-center gap-6">
             {navbar?.map((item, index) => {
               const Icon = item?.icon;
