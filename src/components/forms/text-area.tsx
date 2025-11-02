@@ -1,3 +1,4 @@
+"use client";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import {
@@ -36,7 +37,7 @@ export default function TextArea<T extends FieldValues>({
   onChange,
 }: TextAreaProps<T>) {
   return (
-    <div className="my-4 w-full">
+    <div className="my-0 w-full">
       <Label className={cn("mb-2", labelClass)}>{label}</Label>
       <Textarea
         {...(register ? register(name as Path<T>, { required }) : {})}

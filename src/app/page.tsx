@@ -1,13 +1,6 @@
-import WebLayout from "@/layout";
-import Home from "@/section/home";
-import { Suspense } from "react";
+import React from "react";
+import SignIn from "./auth/sign-in/page";
 
 export default function Page() {
-  return (
-    <WebLayout>
-      <Suspense fallback={<p>Loding...</p>}>
-        <Home />
-      </Suspense>
-    </WebLayout>
-  );
+  return <SignIn />;
 }

@@ -13,8 +13,9 @@ import { EllipsisVertical, Plus, Search, Send } from "lucide-react";
 import NewChatDialog from "./new-chat-dialog";
 import React from "react";
 import InviteDialog from "./invite-dialog";
+import { capitalizeFirstLetter } from "@/utils/capitalizeFirstLetter";
 
-export default function ChatHeader() {
+export default function ChatHeader({ heading }: { heading: string }) {
   const [newChatDialog, setNewChatDialog] = React.useState<boolean>(false);
   const [inviteDialog, setInviteDialog] = React.useState<boolean>(false);
 
@@ -22,7 +23,11 @@ export default function ChatHeader() {
     <div>
       <div className="pt-5 px-5">
         <div className="flex items-center justify-between">
-          <h1 className="text-xl font-bold text-foreground">Chats</h1>
+          <h1 className="text-xl font-bold text-foreground">
+            {heading === "home"
+              ? "Chats"
+              : capitalizeFirstLetter(heading || "")}
+          </h1>
           <div className="flex items-center gap-2">
             <Button
               size="icon"

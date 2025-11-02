@@ -12,7 +12,7 @@ import {
   MapPin,
   MessageCircle,
   MessageCircleOff,
-  PhoneOutgoing,
+  PhoneCall,
   Pin,
   Reply,
   Settings,
@@ -66,7 +66,7 @@ export const navbar = [
   {
     id: "5",
     link: "/call",
-    icon: PhoneOutgoing,
+    icon: PhoneCall,
   },
   {
     id: "6",

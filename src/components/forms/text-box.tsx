@@ -124,7 +124,7 @@ export default function TextBox<T extends FieldValues>({
           </FieldLabel>
         )}
 
-        <InputGroup className={cn(className.inputGroup)}>
+        <InputGroup className={cn(className.inputGroup, "rounded-sm")}>
           {renderAddons(startAddon, "start")}
 
           <InputGroupInput

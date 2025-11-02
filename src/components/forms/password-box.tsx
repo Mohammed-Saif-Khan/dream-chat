@@ -63,7 +63,7 @@ export default function PasswordBox<T extends FieldValues>({
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   return (
-    <FieldSet className="mb-4">
+    <FieldSet className="mb-2">
       <Field className="gap-1.5">
         <div className="flex items-center justify-between">
           {label && (
@@ -84,7 +84,7 @@ export default function PasswordBox<T extends FieldValues>({
             </FieldLabel>
           )}
         </div>
-        <InputGroup>
+        <InputGroup className="rounded-sm">
           {startAddon && (
             <InputGroupAddon className={className?.startAddon}>
               {startAddon}

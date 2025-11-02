@@ -20,7 +20,7 @@ export default function AllChat() {
   const { push } = useNavigate();
 
   return (
-    <div className="pt-5 px-5 pb-3.5 h-full flex flex-col">
+    <div className="pt-5 pb-3.5 h-full flex flex-col">
       <div className="flex items-center justify-between mb-3">
         <h1 className="text-lg font-semibold text-foreground">All Chats</h1>
         <div className="flex items-center gap-2">

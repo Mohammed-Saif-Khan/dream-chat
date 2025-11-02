@@ -7,6 +7,7 @@ import React from "react";
 import VoiceChat from "@/components/chat/voice-chat";
 import DocuChat from "@/components/chat/doc-chat";
 import VideoPlayer from "@/components/chat/video-player";
+import MissedAudioCall from "@/components/chat/missed-audio-call-chat";
 
 export default function Chat() {
   return (
@@ -30,7 +31,12 @@ export default function Chat() {
       <ChatImage sender={false} senderName="Edward Lietz" imgSrc={GALLAERY_1} />
       <VoiceChat sender={true} audioSrc="horse.org" />
       <DocuChat sender={false} senderName="Edward Lietz" />
-      <VideoPlayer sender={true} />
+      <VideoPlayer
+        sender={true}
+        videoSrc="https://files.vidstack.io/sprite-fight/720p.mp4"
+        videoType="video/mp4"
+      />
+      <MissedAudioCall sender={false} senderName="Edward Lietz" />
     </div>
   );
 }

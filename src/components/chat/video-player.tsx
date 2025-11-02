@@ -1,6 +1,12 @@
 "use client";
 
-import { MediaPlayer, MediaProvider } from "@vidstack/react";
+import {
+  AudioMimeType,
+  HLSMimeType,
+  MediaPlayer,
+  MediaProvider,
+  VideoMimeType,
+} from "@vidstack/react";
 import {
   DefaultVideoLayout,
   defaultLayoutIcons,
@@ -16,9 +22,16 @@ import ChatMenu from "./controls/chat-menu";
 type VdieoPlayerProps = {
   sender: boolean;
   senderName?: string;
+  videoSrc: string;
+  videoType: VideoMimeType | HLSMimeType | "video/youtube" | "video/vimeo";
 };
 
-export default function VideoPlayer({ sender, senderName }: VdieoPlayerProps) {
+export default function VideoPlayer({
+  sender,
+  senderName,
+  videoSrc,
+  videoType,
+}: VdieoPlayerProps) {
   return (
     <div
       className={cn("flex flex-col items-start mb-4", sender && "items-end")}
@@ -44,16 +57,16 @@ export default function VideoPlayer({ sender, senderName }: VdieoPlayerProps) {
       >
         <div
           className={cn(
-            "mt-1 p-3 bg-muted md:max-w-[419px] w-fit rounded-t-xl text-sm tracking-wide",
+            "mt-1 p-3 md:max-w-[419px] w-fit rounded-t-xl text-sm tracking-wide",
             sender
-              ? "rounded-l-xl text-white"
+              ? "rounded-l-xl bg-primary text-white"
               : "rounded-r-xl bg-gray-200 dark:bg-muted"
           )}
         >
           <MediaPlayer
             src={{
-              src: "https://files.vidstack.io/sprite-fight/720p.mp4",
-              type: "video/mp4",
+              src: videoSrc,
+              type: videoType,
             }}
             playsInline
             aspectRatio="16/9"

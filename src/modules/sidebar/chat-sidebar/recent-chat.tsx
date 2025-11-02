@@ -17,7 +17,7 @@ import "swiper/css/free-mode";
 
 export default function RecentChat() {
   return (
-    <div className="pt-5 px-5">
+    <div>
       <div className="flex items-center justify-between mb-3">
         <h1 className="text-lg font-semibold text-foreground">Recent Chats</h1>
         <div className="flex items-center gap-2">
