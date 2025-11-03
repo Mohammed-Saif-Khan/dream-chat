@@ -48,7 +48,11 @@ export default function SignInForm() {
                 }}
                 startAddon={<Lock />}
               />
-              <SubmitButton size="lg" className="w-full rounded my-3">
+              <SubmitButton
+                link="/home"
+                size="lg"
+                className="w-full rounded my-3"
+              >
                 Sign In
               </SubmitButton>
               <div>

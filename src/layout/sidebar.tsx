@@ -22,7 +22,7 @@ export default function Sidebar({ pathname }: { pathname?: string }) {
       <ChatHeader heading={pathname} />
       <div className="flex flex-col overflow-hidden">
         <ScrollArea className="overflow-y-auto">
-          <div className="flex-1 overflow-y-auto pt-5 px-5">
+          <div className="flex-1 overflow-y-auto pt-5 px-4">
             {renderSidebar(pathname || "")}
             <div className="h-4" />
           </div>
