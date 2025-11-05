@@ -54,7 +54,7 @@ export default function DeleteAccountDialog({
                 ))}
               </ul>
 
-              <div className="flex items-start gap-3 mt-4">
+              <div className="flex items-start text-start gap-3 mt-4">
                 <Checkbox id="terms" />
                 <Label
                   htmlFor="terms"
@@ -72,11 +72,11 @@ export default function DeleteAccountDialog({
           <Button
             variant="outline"
             onClick={() => onClose(false)}
-            className="w-32"
+            className="md:w-32"
           >
             Cancel
           </Button>
-          <Button className="bg-[#7E3AF2] hover:bg-[#6c2de5] w-32 text-white">
+          <Button className="bg-[#7E3AF2] hover:bg-[#6c2de5] md:w-32 text-white">
             Delete
           </Button>
         </DialogFooter>

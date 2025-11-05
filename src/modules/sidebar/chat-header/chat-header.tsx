@@ -21,7 +21,7 @@ export default function ChatHeader({ heading }: { heading?: string }) {
 
   return (
     <div>
-      <div className="pt-5 px-5">
+      <div className="pt-5 px-4">
         <div className="flex items-center justify-between">
           <h1 className="text-xl font-bold text-foreground">
             {heading === "home"
@@ -68,7 +68,7 @@ export default function ChatHeader({ heading }: { heading?: string }) {
                 "bg-background dark:bg-background h-12 rounded rounded-r-none",
               endAddon: "bg-background h-12 hover:bg-background rounded-r",
               inputGroup:
-                "has-[[data-slot=input-group-control]:focus-visible]:border-none has-[[data-slot=input-group-control]:focus-visible]:ring-ring has-[[data-slot=input-group-control]:focus-visible]:ring-0 shadow-none border-none",
+                "has-[[data-slot=input-group-control]:focus-visible]:border-none has-[[data-slot=input-group-control]:focus-visible]:ring-ring has-[[data-slot=input-group-control]:focus-visible]:ring-0 shadow-none border-none w-full",
               inputGroupButton: "hover:bg-background bg-background p-0",
             }}
           />

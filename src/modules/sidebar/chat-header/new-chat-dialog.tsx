@@ -30,7 +30,7 @@ const NewChatDialog = ({ open, onClose }: NewChatDialogProps) => {
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="flex flex-col">
         <DialogHeader>
-          <DialogTitle>New Chat</DialogTitle>
+          <DialogTitle className="text-start">New Chat</DialogTitle>
 
           <DialogDescription
             asChild
@@ -44,10 +44,10 @@ const NewChatDialog = ({ open, onClose }: NewChatDialogProps) => {
                 </Button>
               </ButtonGroup>
               <div>
-                <p className="text-base font-medium text-foreground mb-3">
+                <p className="text-base text-start font-medium text-foreground mb-3">
                   Contacts
                 </p>
-                <ScrollArea className="h-[calc(80vh-200px)] pr-2">
+                <ScrollArea className="pr-2">
                   {newChatData?.map((item, index) => (
                     <Label
                       key={`NEW-CHAT-${index}`}
@@ -82,6 +82,11 @@ const NewChatDialog = ({ open, onClose }: NewChatDialogProps) => {
         </DialogHeader>
 
         <DialogFooter className="flex flex-wrap w-full">
+          <DialogClose asChild className="w-full">
+            <Button size="lg" variant="outline" className="rounded-sm w-full">
+              Cancel
+            </Button>
+          </DialogClose>
           <Button
             size="lg"
             type="submit"
@@ -89,11 +94,6 @@ const NewChatDialog = ({ open, onClose }: NewChatDialogProps) => {
           >
             Start Chat
           </Button>
-          <DialogClose asChild className="w-full">
-            <Button size="lg" variant="outline" className="rounded-sm w-full">
-              Cancel
-            </Button>
-          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>

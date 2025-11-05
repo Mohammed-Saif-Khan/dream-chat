@@ -40,6 +40,11 @@ const InviteDialog = ({ open, onClose }: InviteDialogProps) => {
         </DialogHeader>
 
         <DialogFooter className="flex flex-wrap w-full">
+          <DialogClose asChild className="w-full">
+            <Button size="lg" variant="outline" className="rounded-sm w-full">
+              Cancel
+            </Button>
+          </DialogClose>
           <Button
             size="lg"
             type="submit"
@@ -47,11 +52,6 @@ const InviteDialog = ({ open, onClose }: InviteDialogProps) => {
           >
             Send Invitation
           </Button>
-          <DialogClose asChild className="w-full">
-            <Button size="lg" variant="outline" className="rounded-sm w-full">
-              Cancel
-            </Button>
-          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>

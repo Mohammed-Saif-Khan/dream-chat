@@ -50,7 +50,7 @@ export default function MuteBlockedUserDialog({
                 <p className="text-base font-medium text-foreground mb-3">
                   Users
                 </p>
-                <ScrollArea className="h-[calc(80vh-200px)] pr-2">
+                <ScrollArea className="pr-2">
                   {newChatData?.map((item, index) => (
                     <div
                       key={`NEW-CHAT-${index}`}
