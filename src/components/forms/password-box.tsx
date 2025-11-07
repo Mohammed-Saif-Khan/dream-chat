@@ -1,7 +1,14 @@
 "use client";
-import { cn } from "@/lib/utils";
-import { Eye, EyeClosed } from "lucide-react";
+
 import React, { useState } from "react";
+import { Field, FieldError, FieldLabel, FieldSet } from "@/components/ui/field";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "@/components/ui/input-group";
+import { cn } from "@/lib/utils";
 import {
   FieldErrors,
   FieldValues,
@@ -10,39 +17,27 @@ import {
   UseFormRegister,
   UseFormSetValue,
 } from "react-hook-form";
-import { Field, FieldError, FieldLabel, FieldSet } from "@/components/ui/field";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupButton,
-  InputGroupInput,
-} from "@/components/ui/input-group";
+import { Lock, Eye, EyeOff } from "lucide-react";
 
 interface PasswordBoxProps<T extends FieldValues> {
   label?: string;
-  labelClass?: string;
   register?: UseFormRegister<T>;
   required?: boolean;
   setValue?: UseFormSetValue<T>;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  value?: string;
   placeholder?: string;
   errors?: FieldErrors<T>;
   name: Path<T>;
   className?: {
     label?: string;
     input?: string;
-    startAddon?: string;
-    endAddon?: string;
+    inputGroup?: string;
+    fieldSet?: string;
+    inputGroupButton?: string;
   };
-  forgotPassword?: {
-    position: "up" | "down";
-    side?: "start" | "end";
-    className?: string;
-    onClick?: React.MouseEventHandler<HTMLLabelElement>;
-  };
-  startAddon?: React.ReactNode;
-  endAddon?: React.ReactNode;
-  autoComplete?: string;
+  minLength?: number;
+  maxLength?: number;
 }
 
 export default function PasswordBox<T extends FieldValues>({
@@ -51,87 +46,81 @@ export default function PasswordBox<T extends FieldValues>({
   required,
   setValue,
   onChange,
+  value,
   placeholder,
   errors,
   name,
   className = {},
-  forgotPassword,
-  startAddon,
-  endAddon,
-  autoComplete,
+  minLength,
+  maxLength,
 }: PasswordBoxProps<T>) {
-  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <FieldSet className="mb-2">
+    <FieldSet className={cn("mb-3", className.fieldSet)}>
       <Field className="gap-1.5">
-        <div className="flex items-center justify-between">
-          {label && (
-            <FieldLabel htmlFor={String(name)} className={cn(className?.label)}>
-              {label}
-            </FieldLabel>
-          )}
-          {forgotPassword?.position === "up" && (
-            <FieldLabel
-              onClick={forgotPassword?.onClick}
-              className={cn(
-                "mb-2 ml-auto inline text-sm underline-offset-4 hover:underline cursor-pointer",
-                forgotPassword?.className,
-                forgotPassword?.side === "end" && "text-end"
-              )}
-            >
-              Forgot Password?
-            </FieldLabel>
-          )}
-        </div>
-        <InputGroup className="rounded-sm">
-          {startAddon && (
-            <InputGroupAddon className={className?.startAddon}>
-              {startAddon}
-            </InputGroupAddon>
-          )}
+        {label && (
+          <FieldLabel htmlFor={String(name)} className={className.label}>
+            {label}
+          </FieldLabel>
+        )}
 
+        <InputGroup className={cn(className.inputGroup, "rounded-sm")}>
+          {/* Left: Lock icon */}
+          <InputGroupAddon>
+            <InputGroupButton
+              variant="ghost"
+              size="icon-sm"
+              type="button"
+              className={cn("cursor-default", className.inputGroupButton)}
+              aria-hidden="true"
+              tabIndex={-1}
+            >
+              <Lock className="w-4 h-4 opacity-70" />
+            </InputGroupButton>
+          </InputGroupAddon>
+
+          {/* Input */}
           <InputGroupInput
-            type={showPassword ? "text" : "password"}
             {...(register ? register(name, { required }) : {})}
             onChange={(e) => {
               const trimmedValue = e.target.value.trimStart();
-              setValue?.(name, trimmedValue as PathValue<T, Path<T>>, {
-                shouldValidate: true,
-              });
+
+              if (setValue) {
+                setValue(name, trimmedValue as PathValue<T, Path<T>>, {
+                  shouldValidate: true,
+                });
+              }
+
               if (onChange) onChange(e);
             }}
-            autoComplete={autoComplete}
+            type={showPassword ? "text" : "password"}
+            value={value}
+            minLength={minLength}
+            maxLength={maxLength}
             placeholder={placeholder}
-            className={cn("tracking-widest", className?.input)}
+            className={cn(className.input)}
+            autoComplete="current-password"
           />
 
+          {/* Right: Eye/EyeOff toggle */}
           <InputGroupAddon align="inline-end">
             <InputGroupButton
+              variant="ghost"
               size="icon-sm"
-              onClick={() => setShowPassword(!showPassword)}
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              aria-label={showPassword ? "Hide password" : "Show password"}
+              className={cn("cursor-pointer", className.inputGroupButton)}
             >
               {showPassword ? (
-                <Eye className="cursor-pointer" />
+                <EyeOff className="w-4 h-4 opacity-70" />
               ) : (
-                <EyeClosed className="cursor-pointer" />
+                <Eye className="w-4 h-4 opacity-70" />
               )}
             </InputGroupButton>
-            {endAddon}
           </InputGroupAddon>
         </InputGroup>
-        {forgotPassword?.position === "down" && (
-          <FieldLabel
-            onClick={forgotPassword?.onClick}
-            className={cn(
-              "mb-2 ml-auto inline text-sm underline-offset-4 hover:underline cursor-pointer",
-              forgotPassword?.className,
-              forgotPassword?.side === "end" && "text-end"
-            )}
-          >
-            Forgot Password?
-          </FieldLabel>
-        )}
         {errors?.[name] && (
           <FieldError>{String(errors[name]?.message)}</FieldError>
         )}

@@ -1,14 +1,16 @@
 "use client";
+import FACEBOOK from "@/assets/auth/facebook.svg";
 import LOGO from "@/assets/auth/full-logo.svg";
 import SubmitButton from "@/components/button/submit-button";
 import PasswordBox from "@/components/forms/password-box";
 import TextBox from "@/components/forms/text-box";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Icon } from "@iconify/react";
-import { Lock, User } from "lucide-react";
-import Image from "next/image";
-import FACEBOOK from "@/assets/auth/facebook.svg";
+import { FieldLabel } from "@/components/ui/field";
 import { useNavigate } from "@/hooks/use-navigate";
+import { cn } from "@/lib/utils";
+import { Icon } from "@iconify/react";
+import { User } from "lucide-react";
+import Image from "next/image";
 
 export default function SignInForm() {
   const { push } = useNavigate();
@@ -39,15 +41,17 @@ export default function SignInForm() {
               <PasswordBox
                 name="username"
                 label="Password"
-                autoComplete="off"
-                forgotPassword={{
-                  position: "down",
-                  side: "end",
-                  className: "text-primary",
-                  onClick: () => push("/auth/forgot-password"),
-                }}
-                startAddon={<Lock />}
+                placeholder="Enter  Password"
+                className={{ fieldSet: "mb-2" }}
               />
+              <FieldLabel
+                onClick={() => push("/auth/forgot-password")}
+                className={cn(
+                  "mb-2 ml-auto text-sm underline-offset-4 hover:underline cursor-pointer flex items-center justify-end text-primary"
+                )}
+              >
+                Forgot Password?
+              </FieldLabel>
               <SubmitButton
                 link="/home"
                 size="lg"
