@@ -27,18 +27,8 @@ export default function ResetPasswordForm() {
           </CardHeader>
           <CardContent>
             <form>
-              <PasswordBox
-                name="username"
-                label="New Password"
-                autoComplete="off"
-                startAddon={<Lock />}
-              />
-              <PasswordBox
-                name="username"
-                label="Confirm Password"
-                autoComplete="off"
-                startAddon={<Lock />}
-              />
+              <PasswordBox name="username" label="New Password" />
+              <PasswordBox name="username" label="Confirm Password" />
               <SubmitButton
                 link="/auth/success"
                 size="lg"
