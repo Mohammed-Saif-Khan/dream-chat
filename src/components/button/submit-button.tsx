@@ -20,6 +20,7 @@ interface SubmitButtonProps {
   size?: "default" | "sm" | "lg" | "icon";
   side?: "start" | "center" | "end";
   target?: "_blank" | "_self" | "_parent" | "_top";
+  form?: string;
 }
 
 const SubmitButton: React.FC<SubmitButtonProps> = ({
@@ -36,12 +37,14 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
   size,
   side,
   target,
+  form,
 }) => {
   return (
     <div className={cn(side && `flex items-center justify-${side}`)}>
       {link ? (
         <Link href={link} target={target}>
           <Button
+            form={form}
             size={size}
             type={type}
             onClick={onClick}

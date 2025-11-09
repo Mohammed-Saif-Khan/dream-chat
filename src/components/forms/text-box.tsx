@@ -131,13 +131,11 @@ export default function TextBox<T extends FieldValues>({
             {...(register ? register(name, { required }) : {})}
             onChange={(e) => {
               const trimmedValue = e.target.value.trimStart();
-
               if (setValue) {
                 setValue(name, trimmedValue as PathValue<T, Path<T>>, {
                   shouldValidate: true,
                 });
               }
-
               if (onChange) onChange(e);
             }}
             type={type}
@@ -152,7 +150,9 @@ export default function TextBox<T extends FieldValues>({
         </InputGroup>
 
         {errors?.[name] && (
-          <FieldError>{String(errors[name]?.message)}</FieldError>
+          <FieldError className="text-xs">
+            {String(errors[name]?.message)}
+          </FieldError>
         )}
       </Field>
     </FieldSet>

@@ -11,11 +11,40 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useNavigate } from "@/hooks/use-navigate";
 import SubmitButton from "@/components/button/submit-button";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { otpSchema, otpType } from "@/schema/auth/otp";
+import { FieldError } from "@/components/ui/field";
+import { useAuthStore } from "@/store/auth";
 
 export default function OtpForm() {
   const { push } = useNavigate();
-
+  const { otpVerify } = useAuthStore();
   const [timeLeft, setTimeLeft] = React.useState(9 * 60 + 59);
+  const resetToken = localStorage?.getItem("resetPassword");
+
+  const {
+    control,
+    setValue,
+    handleSubmit,
+    formState: { isSubmitting, errors },
+  } = useForm<otpType>({
+    resolver: zodResolver(otpSchema),
+    mode: "all",
+    defaultValues: {
+      otp: "",
+    },
+  });
+
+  const onSubmit = async (data: otpType) => {
+    await otpVerify(data, push);
+  };
+
+  React.useEffect(() => {
+    if (resetToken) {
+      setValue("token", resetToken);
+    }
+  }, [resetToken]);
 
   React.useEffect(() => {
     if (timeLeft <= 0) return;
@@ -50,24 +79,32 @@ export default function OtpForm() {
             </p>
           </CardHeader>
           <CardContent>
-            <form>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <div className="flex items-center justify-center">
-                <InputOTP maxLength={6}>
-                  <InputOTPGroup>
-                    <InputOTPSlot className="md:h-14 md:w-14" index={0} />
-                    <InputOTPSlot className="md:h-14 md:w-14" index={1} />
-                  </InputOTPGroup>
-                  <InputOTPSeparator />
-                  <InputOTPGroup>
-                    <InputOTPSlot className="md:h-14 md:w-14" index={2} />
-                    <InputOTPSlot className="md:h-14 md:w-14" index={3} />
-                  </InputOTPGroup>
-                  <InputOTPSeparator />
-                  <InputOTPGroup>
-                    <InputOTPSlot className="md:h-14 md:w-14" index={4} />
-                    <InputOTPSlot className="md:h-14 md:w-14" index={5} />
-                  </InputOTPGroup>
-                </InputOTP>
+                <Controller
+                  control={control}
+                  name="otp"
+                  render={({ field }) => (
+                    <div>
+                      <InputOTP maxLength={4} {...field}>
+                        <InputOTPGroup>
+                          <InputOTPSlot className="md:h-14 md:w-14" index={0} />
+                          <InputOTPSlot className="md:h-14 md:w-14" index={1} />
+                        </InputOTPGroup>
+                        <InputOTPSeparator />
+                        <InputOTPGroup>
+                          <InputOTPSlot className="md:h-14 md:w-14" index={2} />
+                          <InputOTPSlot className="md:h-14 md:w-14" index={3} />
+                        </InputOTPGroup>
+                      </InputOTP>
+                      {errors?.otp && (
+                        <FieldError className="text-xs mt-4">
+                          {String(errors?.otp?.message)}
+                        </FieldError>
+                      )}
+                    </div>
+                  )}
+                />
               </div>
               <div className="mt-4 flex items-center justify-center">
                 {timeLeft > 0 ? (
@@ -81,8 +118,8 @@ export default function OtpForm() {
                 )}
               </div>
               <SubmitButton
-                link="/auth/reset-password"
                 size="lg"
+                isSubmitting={isSubmitting}
                 className="w-full rounded mt-4"
               >
                 Continue

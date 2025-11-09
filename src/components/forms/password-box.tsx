@@ -1,6 +1,5 @@
 "use client";
 
-import React, { useState } from "react";
 import { Field, FieldError, FieldLabel, FieldSet } from "@/components/ui/field";
 import {
   InputGroup,
@@ -9,6 +8,8 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group";
 import { cn } from "@/lib/utils";
+import { Eye, EyeClosed, Lock } from "lucide-react";
+import React, { useState } from "react";
 import {
   FieldErrors,
   FieldValues,
@@ -17,7 +18,6 @@ import {
   UseFormRegister,
   UseFormSetValue,
 } from "react-hook-form";
-import { Lock, Eye, EyeOff } from "lucide-react";
 
 interface PasswordBoxProps<T extends FieldValues> {
   label?: string;
@@ -114,15 +114,17 @@ export default function PasswordBox<T extends FieldValues>({
               className={cn("cursor-pointer", className.inputGroupButton)}
             >
               {showPassword ? (
-                <EyeOff className="w-4 h-4 opacity-70" />
-              ) : (
                 <Eye className="w-4 h-4 opacity-70" />
+              ) : (
+                <EyeClosed className="w-4 h-4 opacity-70" />
               )}
             </InputGroupButton>
           </InputGroupAddon>
         </InputGroup>
         {errors?.[name] && (
-          <FieldError>{String(errors[name]?.message)}</FieldError>
+          <FieldError className="text-xs">
+            {String(errors[name]?.message)}
+          </FieldError>
         )}
       </Field>
     </FieldSet>

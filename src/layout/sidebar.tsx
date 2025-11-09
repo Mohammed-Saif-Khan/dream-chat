@@ -2,15 +2,21 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import ChatHeader from "@/modules/sidebar/chat-header/chat-header";
 import ChatSidebar from "@/section/home/sidebar";
 import SettingSidebar from "@/section/settings";
+import { ProfileType } from "@/types/profile";
 import React from "react";
 
-export default function Sidebar({ pathname }: { pathname?: string }) {
-  const renderSidebar = (pathname: string) => {
+type SidebarProps = {
+  pathname?: string;
+  profile: ProfileType;
+};
+
+export default function Sidebar({ pathname, profile }: SidebarProps) {
+  const renderSidebar = (pathname: string, profile: ProfileType) => {
     switch (pathname) {
-      case "home":
+      case "chat":
         return <ChatSidebar />;
       case "settings":
-        return <SettingSidebar />;
+        return <SettingSidebar profile={profile} />;
       default:
         <ChatSidebar />;
         break;
@@ -23,7 +29,7 @@ export default function Sidebar({ pathname }: { pathname?: string }) {
       <div className="flex flex-col overflow-hidden">
         <ScrollArea className="overflow-y-auto">
           <div className="flex-1 overflow-y-auto pt-5 px-4">
-            {renderSidebar(pathname || "")}
+            {renderSidebar(pathname || "", profile)}
             <div className="h-4" />
           </div>
         </ScrollArea>

@@ -4,11 +4,38 @@ import SubmitButton from "@/components/button/submit-button";
 import PasswordBox from "@/components/forms/password-box";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useNavigate } from "@/hooks/use-navigate";
-import { Lock } from "lucide-react";
+import {
+  resetPasswordSchema,
+  resetPasswordType,
+} from "@/schema/auth/reset-password";
+import { useAuthStore } from "@/store/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
+import React from "react";
+import { useForm } from "react-hook-form";
 
 export default function ResetPasswordForm() {
   const { push } = useNavigate();
+  const { resetPassword } = useAuthStore();
+  const resetToken = localStorage?.getItem("resetPassword");
+
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    formState: { isSubmitting, errors },
+  } = useForm<resetPasswordType>({
+    resolver: zodResolver(resetPasswordSchema),
+    mode: "all",
+  });
+
+  const onSubmit = async (data: resetPasswordType) => {
+    await resetPassword(data, push);
+  };
+
+  React.useEffect(() => {
+    if (resetToken) return setValue("token", resetToken);
+  }, [resetToken]);
 
   return (
     <div className="w-full md:max-w-xl md:p-6 p-2">
@@ -26,12 +53,26 @@ export default function ResetPasswordForm() {
             </p>
           </CardHeader>
           <CardContent>
-            <form>
-              <PasswordBox name="username" label="New Password" />
-              <PasswordBox name="username" label="Confirm Password" />
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <PasswordBox
+                name="password"
+                label="New Password"
+                register={register}
+                setValue={setValue}
+                errors={errors}
+                placeholder="Enter New Password"
+              />
+              <PasswordBox
+                name="confirmPassword"
+                label="Confirm Password"
+                register={register}
+                setValue={setValue}
+                errors={errors}
+                placeholder="Enter Confirm Password"
+              />
               <SubmitButton
-                link="/auth/success"
                 size="lg"
+                isSubmitting={isSubmitting}
                 className="w-full rounded my-3"
               >
                 Reset Password

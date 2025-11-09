@@ -1,18 +1,36 @@
 "use client";
-import React from "react";
-import LOGO from "@/assets/auth/full-logo.svg";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import Image from "next/image";
-import TextBox from "@/components/forms/text-box";
-import { Lock, Mail, Phone, User } from "lucide-react";
-import PasswordBox from "@/components/forms/password-box";
-import SubmitButton from "@/components/button/submit-button";
-import { Icon } from "@iconify/react";
 import FACEBOOK from "@/assets/auth/facebook.svg";
+import LOGO from "@/assets/auth/full-logo.svg";
+import SubmitButton from "@/components/button/submit-button";
+import PasswordBox from "@/components/forms/password-box";
+import TextBox from "@/components/forms/text-box";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useNavigate } from "@/hooks/use-navigate";
+import { signUpSchema, SignUpType } from "@/schema/auth/signup";
+import { useAuthStore } from "@/store/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Icon } from "@iconify/react";
+import { Mail, Phone, User } from "lucide-react";
+import Image from "next/image";
+import { useForm } from "react-hook-form";
 
 export default function SignUpForm() {
   const { push } = useNavigate();
+  const { signup } = useAuthStore();
+
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    formState: { isSubmitting, errors },
+  } = useForm<SignUpType>({
+    resolver: zodResolver(signUpSchema),
+    mode: "all",
+  });
+
+  const onSubmit = async (data: SignUpType) => {
+    await signup(data, push);
+  };
 
   return (
     <div className="mx-auto md:max-w-xl md:p-6 p-2">
@@ -30,48 +48,77 @@ export default function SignUpForm() {
             </p>
           </CardHeader>
           <CardContent>
-            <form>
-              <div className="grid md:grid-cols-2 gap-2">
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="grid md:grid-cols-2 gap-3">
                 <TextBox
                   name="firstName"
-                  placeholder="Enter First Name"
                   label="First Name"
+                  register={register}
+                  setValue={setValue}
+                  errors={errors}
+                  placeholder="Enter First Name"
                   startAddon={<User />}
+                  className={{ fieldSet: "mb-0" }}
                 />
                 <TextBox
-                  name="lastNames"
+                  name="lastName"
+                  register={register}
+                  setValue={setValue}
+                  errors={errors}
                   placeholder="Enter Last Name"
                   label="Last Name"
                   startAddon={<User />}
+                  className={{ fieldSet: "mb-0" }}
                 />
-                <div className="md:col-span-2">
-                  <TextBox
-                    name="email"
-                    placeholder="Enter Email"
-                    label="Email"
-                    startAddon={<Mail />}
+
+                <TextBox
+                  name="email"
+                  register={register}
+                  setValue={setValue}
+                  errors={errors}
+                  placeholder="Enter Email"
+                  label="Email"
+                  startAddon={<Mail />}
+                  className={{ fieldSet: "mb-0" }}
+                />
+                <TextBox
+                  name="phone"
+                  register={register}
+                  setValue={setValue}
+                  errors={errors}
+                  placeholder="Enter Phone Number"
+                  label="Phone"
+                  maxLength={10}
+                  startAddon={<Phone />}
+                  className={{ fieldSet: "mb-0" }}
+                  onChange={(e) =>
+                    setValue("phone", e.target.value.replace(/[^\d+]/g, ""))
+                  }
+                />
+                <div className="col-span-2">
+                  <PasswordBox
+                    name="password"
+                    label="Password"
+                    register={register}
+                    setValue={setValue}
+                    errors={errors}
+                    placeholder="Enter Password"
                   />
-                  <TextBox
-                    name="phone"
-                    placeholder="Enter Phone Number"
-                    label="Phone"
-                    startAddon={<Phone />}
+                  <PasswordBox
+                    name="confirmPassword"
+                    label="Confirm Password"
+                    register={register}
+                    setValue={setValue}
+                    errors={errors}
+                    placeholder="Retype Password"
                   />
                 </div>
-                <TextBox
-                  name="userName"
-                  placeholder="Enter User Name"
-                  label="User Name"
-                  startAddon={<User />}
-                />
-                <PasswordBox
-                  name="username"
-                  label="Password"
-                  autoComplete="off"
-                  startAddon={<Lock />}
-                />
               </div>
-              <SubmitButton size="lg" className="w-full rounded my-3">
+              <SubmitButton
+                size="lg"
+                isSubmitting={isSubmitting}
+                className="w-full rounded my-3"
+              >
                 Sign In
               </SubmitButton>
               <div>
@@ -88,6 +135,7 @@ export default function SignUpForm() {
                   <SubmitButton
                     size="lg"
                     variant="outline"
+                    type="button"
                     className="text-foreground font-medium text-base w-full rounded [&_svg]:!size-6"
                     startIcon={
                       <Icon
@@ -104,6 +152,7 @@ export default function SignUpForm() {
                   <SubmitButton
                     size="lg"
                     variant="outline"
+                    type="button"
                     className="text-foreground font-medium text-base w-full rounded [&_svg]:!size-6"
                     startIcon={
                       <Image

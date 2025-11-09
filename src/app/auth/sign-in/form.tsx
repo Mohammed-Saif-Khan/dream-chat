@@ -8,12 +8,31 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FieldLabel } from "@/components/ui/field";
 import { useNavigate } from "@/hooks/use-navigate";
 import { cn } from "@/lib/utils";
+import { loginSchema, loginType } from "@/schema/auth/login";
+import { useAuthStore } from "@/store/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
-import { User } from "lucide-react";
+import { Mail } from "lucide-react";
 import Image from "next/image";
+import { useForm } from "react-hook-form";
 
 export default function SignInForm() {
   const { push } = useNavigate();
+  const { login } = useAuthStore();
+
+  const {
+    handleSubmit,
+    register,
+    setValue,
+    formState: { isSubmitting, errors },
+  } = useForm<loginType>({
+    resolver: zodResolver(loginSchema),
+    mode: "all",
+  });
+
+  const onSubmit = async (data: loginType) => {
+    await login(data, push);
+  };
 
   return (
     <div className="mx-auto md:max-w-xl md:p-6 p-2">
@@ -31,16 +50,22 @@ export default function SignInForm() {
             </p>
           </CardHeader>
           <CardContent>
-            <form>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <TextBox
-                name="username"
-                placeholder="Enter User Name"
-                label="User Name"
-                startAddon={<User />}
+                name="email"
+                label="Email"
+                register={register}
+                setValue={setValue}
+                errors={errors}
+                startAddon={<Mail />}
+                placeholder="Enter Email"
               />
               <PasswordBox
-                name="username"
+                name="password"
                 label="Password"
+                register={register}
+                setValue={setValue}
+                errors={errors}
                 placeholder="Enter  Password"
                 className={{ fieldSet: "mb-2" }}
               />
@@ -53,8 +78,8 @@ export default function SignInForm() {
                 Forgot Password?
               </FieldLabel>
               <SubmitButton
-                link="/home"
                 size="lg"
+                isSubmitting={isSubmitting}
                 className="w-full rounded my-3"
               >
                 Sign In
@@ -73,6 +98,7 @@ export default function SignInForm() {
                   <SubmitButton
                     size="lg"
                     variant="outline"
+                    type="button"
                     className="text-foreground font-medium text-base w-full rounded [&_svg]:!size-6"
                     startIcon={
                       <Icon
@@ -88,6 +114,7 @@ export default function SignInForm() {
                 <div className="w-full">
                   <SubmitButton
                     size="lg"
+                    type="button"
                     variant="outline"
                     className="text-foreground font-medium text-base w-full rounded [&_svg]:!size-6"
                     startIcon={

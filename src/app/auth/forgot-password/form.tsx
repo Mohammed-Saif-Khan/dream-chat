@@ -4,11 +4,33 @@ import SubmitButton from "@/components/button/submit-button";
 import TextBox from "@/components/forms/text-box";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useNavigate } from "@/hooks/use-navigate";
+import {
+  forgotPasswordSchema,
+  forgotPasswordType,
+} from "@/schema/auth/forgot-password";
+import { useAuthStore } from "@/store/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Mail } from "lucide-react";
 import Image from "next/image";
+import { useForm } from "react-hook-form";
 
 export default function ForgotPasswordForm() {
   const { push } = useNavigate();
+  const { forgotPassword } = useAuthStore();
+
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    formState: { isSubmitting, errors },
+  } = useForm<forgotPasswordType>({
+    resolver: zodResolver(forgotPasswordSchema),
+    mode: "all",
+  });
+
+  const onSubmit = async (data: forgotPasswordType) => {
+    await forgotPassword(data, push);
+  };
 
   return (
     <div className="max-w-xl w-full md:p-6 p-2">
@@ -26,16 +48,19 @@ export default function ForgotPasswordForm() {
             </p>
           </CardHeader>
           <CardContent>
-            <form>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <TextBox
                 name="email"
                 placeholder="Enter Email"
                 label="Email"
+                register={register}
+                setValue={setValue}
+                errors={errors}
                 startAddon={<Mail />}
               />
               <SubmitButton
-                link="/auth/otp"
                 size="lg"
+                isSubmitting={isSubmitting}
                 className="w-full rounded-md my-6"
               >
                 Send OTP

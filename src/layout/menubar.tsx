@@ -25,7 +25,7 @@ export default function Menubar() {
             width={55}
             height={30}
             alt="logo"
-            onClick={() => push("/home")}
+            onClick={() => push("/chat")}
             className="cursor-pointer"
           />
           <div className="mt-4 flex flex-col items-center gap-6">

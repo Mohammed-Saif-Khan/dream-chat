@@ -6,6 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { ProfileType } from "@/types/profile";
 import {
   Ban,
   Image,
@@ -23,19 +24,63 @@ import DeleteAccountDialog from "./others/delete-account";
 import LogoutDialog from "./others/logout";
 import MuteBlockedUserDialog from "./others/mute-blocked-user";
 import SecurityFormt from "./security/security-form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { personalSchema, personalType } from "@/schema/personal-info";
+import { fetchInstance } from "@/utils/fetch-instance";
+import toast from "react-hot-toast";
 
 export type muteBlockType = {
   open: boolean;
   type: string | null;
 };
 
-export default function SettingSidebar() {
+export default function SettingSidebar({ profile }: { profile: ProfileType }) {
   const [muteblockDialog, setMuteBlockDialog] = React.useState<muteBlockType>({
     open: false,
     type: null,
   });
   const [deleteDialog, setDeleteDialog] = React.useState<boolean>(false);
   const [logout, setLogout] = React.useState<boolean>(false);
+
+  const {
+    control,
+    register,
+    setValue,
+    reset,
+    handleSubmit,
+    formState: { isSubmitting, errors },
+  } = useForm<personalType>({
+    resolver: zodResolver(personalSchema),
+    mode: "all",
+    defaultValues: {
+      about: "Hey I'am using Dream Chat",
+    },
+  });
+
+  const onSubmit = async (data: personalType) => {
+    try {
+      const response = await fetchInstance("api/v1/profile", {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
+      const result = await response?.json();
+      if (response?.status === 200) {
+        toast.success(result?.message || "Profile Submit Successfully");
+      } else {
+        toast.error(result?.message || "failed to submit form");
+      }
+    } catch (error) {
+      console.log(error, "Account info failed to submit");
+      toast.error("Something went wrong");
+    }
+  };
+
+  React.useEffect(() => {
+    if (profile) {
+      reset(profile);
+    }
+  }, [profile]);
 
   return (
     <div>
@@ -54,7 +99,15 @@ export default function SettingSidebar() {
               </div>
             </AccordionTrigger>
             <AccordionContent>
-              <PersonalInfo />
+              <form id="profileForm" onSubmit={handleSubmit(onSubmit)}>
+                <PersonalInfo
+                  control={control}
+                  register={register}
+                  setValue={setValue}
+                  errors={errors}
+                  isSubmitting={isSubmitting}
+                />
+              </form>
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-2">
@@ -64,7 +117,14 @@ export default function SettingSidebar() {
               </div>
             </AccordionTrigger>
             <AccordionContent>
-              <SocialsProfiles />
+              <form id="socialForm" onSubmit={handleSubmit(onSubmit)}>
+                <SocialsProfiles
+                  register={register}
+                  setValue={setValue}
+                  errors={errors}
+                  isSubmitting={isSubmitting}
+                />
+              </form>
             </AccordionContent>
           </AccordionItem>
         </Accordion>
