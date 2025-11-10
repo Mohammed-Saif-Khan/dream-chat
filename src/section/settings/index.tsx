@@ -6,7 +6,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { personalSchema, personalType } from "@/schema/personal-info";
 import { ProfileType } from "@/types/profile";
+import { fetchInstance } from "@/utils/fetch-instance";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Ban,
   Image,
@@ -18,17 +21,14 @@ import {
   Waypoints,
 } from "lucide-react";
 import React from "react";
+import { Resolver, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import PersonalInfo from "./account/personal-info";
 import SocialsProfiles from "./account/socials-profiles";
 import DeleteAccountDialog from "./others/delete-account";
 import LogoutDialog from "./others/logout";
 import MuteBlockedUserDialog from "./others/mute-blocked-user";
 import SecurityFormt from "./security/security-form";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { personalSchema, personalType } from "@/schema/personal-info";
-import { fetchInstance } from "@/utils/fetch-instance";
-import toast from "react-hot-toast";
 
 export type muteBlockType = {
   open: boolean;
@@ -43,15 +43,16 @@ export default function SettingSidebar({ profile }: { profile: ProfileType }) {
   const [deleteDialog, setDeleteDialog] = React.useState<boolean>(false);
   const [logout, setLogout] = React.useState<boolean>(false);
 
-  const {
-    control,
-    register,
-    setValue,
-    reset,
-    handleSubmit,
-    formState: { isSubmitting, errors },
-  } = useForm<personalType>({
-    resolver: zodResolver(personalSchema),
+  const profileForm = useForm<personalType>({
+    resolver: zodResolver(personalSchema) as Resolver<personalType>,
+    mode: "all",
+    defaultValues: {
+      about: "Hey I'am using Dream Chat",
+    },
+  });
+
+  const socialForm = useForm<personalType>({
+    resolver: zodResolver(personalSchema) as Resolver<personalType>,
     mode: "all",
     defaultValues: {
       about: "Hey I'am using Dream Chat",
@@ -78,7 +79,8 @@ export default function SettingSidebar({ profile }: { profile: ProfileType }) {
 
   React.useEffect(() => {
     if (profile) {
-      reset(profile);
+      profileForm?.reset(profile);
+      socialForm?.reset(profile);
     }
   }, [profile]);
 
@@ -99,13 +101,14 @@ export default function SettingSidebar({ profile }: { profile: ProfileType }) {
               </div>
             </AccordionTrigger>
             <AccordionContent>
-              <form id="profileForm" onSubmit={handleSubmit(onSubmit)}>
+              <form onSubmit={profileForm.handleSubmit(onSubmit)}>
                 <PersonalInfo
-                  control={control}
-                  register={register}
-                  setValue={setValue}
-                  errors={errors}
-                  isSubmitting={isSubmitting}
+                  control={profileForm.control}
+                  register={profileForm.register}
+                  setValue={profileForm.setValue}
+                  errors={profileForm.formState.errors}
+                  isSubmitting={profileForm.formState.isSubmitting}
+                  avatarBind={profile?.avatar}
                 />
               </form>
             </AccordionContent>
@@ -117,12 +120,12 @@ export default function SettingSidebar({ profile }: { profile: ProfileType }) {
               </div>
             </AccordionTrigger>
             <AccordionContent>
-              <form id="socialForm" onSubmit={handleSubmit(onSubmit)}>
+              <form onSubmit={socialForm.handleSubmit(onSubmit)}>
                 <SocialsProfiles
-                  register={register}
-                  setValue={setValue}
-                  errors={errors}
-                  isSubmitting={isSubmitting}
+                  register={socialForm.register}
+                  setValue={socialForm.setValue}
+                  errors={socialForm.formState.errors}
+                  isSubmitting={socialForm.formState.isSubmitting}
                 />
               </form>
             </AccordionContent>

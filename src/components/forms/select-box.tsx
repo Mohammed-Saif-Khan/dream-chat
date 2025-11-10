@@ -61,6 +61,11 @@ type BaseProps<T extends FieldValues> = {
   value?: string;
   disabled?: boolean;
   loading?: boolean;
+  className?: {
+    selectGroup?: string;
+    label?: string;
+    selectTriggerClass?: string;
+  };
 };
 
 //  Conditional type for `setValue`
@@ -89,6 +94,7 @@ export default function SelectBox<T extends FieldValues>({
   errors,
   search,
   setValue,
+  className = {},
   multiSelect,
   customOption,
   placeholderColor,
@@ -404,19 +410,16 @@ export default function SelectBox<T extends FieldValues>({
         control={control}
         name={name as Path<T>}
         render={({ field }) => (
-          <div className="w-full mb-3">
-            {label && <Label className={cn("mb-2", labelClass)}>{label}</Label>}
-            <Select
-              onValueChange={(val) => {
-                field.onChange(val);
-                if (onValueChange) onValueChange(val);
-              }}
-              value={field.value || ""}
-            >
+          <div className={cn("w-full mb-3", className?.selectGroup)}>
+            {label && (
+              <Label className={cn("mb-2", className?.label)}>{label}</Label>
+            )}
+            <Select value={field.value}>
               <SelectTrigger
                 className={cn(
                   "w-full cursor-pointer",
-                  `data-[placeholder]:${placeholderColor}`
+                  `data-[placeholder]:${placeholderColor}`,
+                  className?.selectTriggerClass
                 )}
               >
                 <SelectValue placeholder={placeholder} />

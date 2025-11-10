@@ -11,8 +11,6 @@ export default async function Page({
   const { slug } = await params;
   const profile = await getProfile();
 
-  console.log(profile, "proifle");
-
   return (
     <WebLayout pathname={slug} profile={profile}>
       <Suspense fallback={<p>Loding...</p>}>

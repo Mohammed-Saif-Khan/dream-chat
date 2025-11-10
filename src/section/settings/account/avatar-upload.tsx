@@ -21,9 +21,9 @@ type CroppedArea = {
   y: number;
 };
 
-export default function AvatarUpload() {
+export default function AvatarUpload({ bind }: { bind: string }) {
   const inputRef = React.useRef<HTMLInputElement | null>(null);
-  const [avatarImage, setAvatarImage] = React.useState<string>();
+  const [avatarImage, setAvatarImage] = React.useState<string>(bind);
   const [imageSrc, setImageSrc] = React.useState<string>("");
   const [openCrop, setOpenCrop] = React.useState<boolean>(false);
   const [crop, setCrop] = React.useState<{ x: number; y: number }>({

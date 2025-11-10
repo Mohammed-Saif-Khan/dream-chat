@@ -25,14 +25,15 @@ export const personalSchema = z.object({
     message: "Last Name is required",
   }),
 
-  gender: z.enum(["male", "female"]).optional(),
+  gender: z.string().optional(),
 
-  dob: z
-    .date()
-    .optional()
-    .refine((val) => !val || (val instanceof Date && !isNaN(val.getTime())), {
-      message: "Invalid date format",
-    }),
+  dob: z.preprocess((val) => {
+    if (typeof val === "string") {
+      const parsed = new Date(val);
+      return isNaN(parsed.getTime()) ? undefined : parsed;
+    }
+    return val;
+  }, z.date().optional()),
 
   country: z
     .string()
@@ -83,7 +84,7 @@ export const personalSchema = z.object({
       message: "Invalid YouTube URL",
     }),
 
-  others: z
+  other: z
     .string()
     .optional()
     .refine((val) => !val || z.url().safeParse(val).success, {

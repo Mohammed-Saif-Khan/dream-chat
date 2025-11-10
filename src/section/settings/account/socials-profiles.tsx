@@ -67,7 +67,7 @@ export default function SocialsProfiles<T extends FieldValues>({
         endAddon={<Icon icon="mingcute:youtube-fill" width="24" height="24" />}
       />
       <TextBox
-        name={"others" as Path<T>}
+        name={"other" as Path<T>}
         register={register}
         setValue={setValue}
         errors={errors}
@@ -76,7 +76,6 @@ export default function SocialsProfiles<T extends FieldValues>({
       />
 
       <SubmitButton
-        form="socialForm"
         type="submit"
         startIcon={<Save />}
         isSubmitting={isSubmitting}

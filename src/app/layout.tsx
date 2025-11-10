@@ -22,12 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${archivo.variable} antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <ThemeProvider attribute="class" enableSystem disableTransitionOnChange>
           <Toaster position="top-center" reverseOrder={false} />
           <NextTopLoader color="#734cf7" showSpinner={false} />
           {children}

@@ -17,7 +17,6 @@ import { useForm } from "react-hook-form";
 export default function ResetPasswordForm() {
   const { push } = useNavigate();
   const { resetPassword } = useAuthStore();
-  const resetToken = localStorage?.getItem("resetPassword");
 
   const {
     register,
@@ -34,8 +33,9 @@ export default function ResetPasswordForm() {
   };
 
   React.useEffect(() => {
+    const resetToken = localStorage?.getItem("resetPassword");
     if (resetToken) return setValue("token", resetToken);
-  }, [resetToken]);
+  }, [setValue]);
 
   return (
     <div className="w-full md:max-w-xl md:p-6 p-2">

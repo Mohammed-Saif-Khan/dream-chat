@@ -21,6 +21,7 @@ interface PersonalInfoProps<T extends FieldValues> {
   setValue?: UseFormSetValue<T>;
   errors?: FieldErrors<T>;
   isSubmitting?: boolean;
+  avatarBind: string;
 }
 
 export default function PersonalInfo<T extends FieldValues>({
@@ -29,11 +30,12 @@ export default function PersonalInfo<T extends FieldValues>({
   setValue,
   errors,
   isSubmitting,
+  avatarBind,
 }: PersonalInfoProps<T>) {
   return (
     <div>
       <div className="flex items-center justify-center mb-4">
-        <AvatarUpload />
+        <AvatarUpload bind={avatarBind} />
       </div>
       <TextBox
         name={"firstName" as Path<T>}
@@ -52,11 +54,13 @@ export default function PersonalInfo<T extends FieldValues>({
         endAddon={<User />}
       />
       <SelectBox
+        control={control}
         name={"gender" as Path<T>}
         setValue={setValue}
         errors={errors}
         placeholder="Gender"
         selectLabel="Select Gender"
+        className={{ selectGroup: "mb-1" }}
         options={[
           { label: "Male", value: "male" },
           { label: "Female", value: "female" },
@@ -70,6 +74,7 @@ export default function PersonalInfo<T extends FieldValues>({
       />
       <TextBox
         name={"country" as Path<T>}
+        register={register}
         setValue={setValue}
         errors={errors}
         placeholder="Country"
@@ -84,7 +89,6 @@ export default function PersonalInfo<T extends FieldValues>({
         rows={32}
       />
       <SubmitButton
-        form="profileForm"
         startIcon={<Save />}
         isSubmitting={isSubmitting}
         className="mt-3 w-full rounded"

@@ -21,7 +21,6 @@ export default function OtpForm() {
   const { push } = useNavigate();
   const { otpVerify } = useAuthStore();
   const [timeLeft, setTimeLeft] = React.useState(9 * 60 + 59);
-  const resetToken = localStorage?.getItem("resetPassword");
 
   const {
     control,
@@ -41,10 +40,11 @@ export default function OtpForm() {
   };
 
   React.useEffect(() => {
+    const resetToken = localStorage?.getItem("resetPassword");
     if (resetToken) {
       setValue("token", resetToken);
     }
-  }, [resetToken]);
+  }, [setValue]);
 
   React.useEffect(() => {
     if (timeLeft <= 0) return;
