@@ -9,9 +9,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { useNavigate } from "@/hooks/use-navigate";
-import { fetchInstance } from "@/utils/fetch-instance";
-import { nextCookies } from "@/utils/next-cookies";
-import toast from "react-hot-toast";
+import { useAuthStore } from "@/store/auth";
 
 type logoutProps = {
   open: boolean;
@@ -20,25 +18,7 @@ type logoutProps = {
 
 export default function LogoutDialog({ open, onClose }: logoutProps) {
   const { replace } = useNavigate();
-
-  const logout = async () => {
-    try {
-      const response = await fetchInstance("api/v1/logout", {
-        method: "POST",
-      });
-      const result = await response?.json();
-      if (response?.status === 200) {
-        await nextCookies("token", undefined, "delete");
-        toast.success(result?.message || "Logout Successfully");
-        replace("/auth/sign-in");
-      } else {
-        toast.error(result?.message || "Failed to logout");
-      }
-    } catch (error) {
-      console.error("Error while logout", error);
-      toast.error("Something went wrong");
-    }
-  };
+  const { logout } = useAuthStore();
 
   return (
     <AlertDialog open={open} onOpenChange={onClose}>
@@ -55,7 +35,7 @@ export default function LogoutDialog({ open, onClose }: logoutProps) {
             Cancel
           </AlertDialogCancel>
           <AlertDialogAction
-            onClick={() => logout()}
+            onClick={() => logout(replace)}
             className="cursor-pointer text-white"
           >
             Continue

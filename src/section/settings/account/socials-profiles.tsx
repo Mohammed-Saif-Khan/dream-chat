@@ -35,12 +35,12 @@ export default function SocialsProfiles<T extends FieldValues>({
         endAddon={<Icon icon="ic:baseline-facebook" width="24" height="24" />}
       />
       <TextBox
-        name={"google" as Path<T>}
+        name={"instagram" as Path<T>}
         register={register}
         setValue={setValue}
         errors={errors}
-        placeholder="Google"
-        endAddon={<Icon icon="mdi:google" width="24" height="24" />}
+        placeholder="Instagram"
+        endAddon={<Icon icon="lineicons:instagram" width="24" height="24" />}
       />
       <TextBox
         name={"x" as Path<T>}

@@ -56,11 +56,11 @@ export const personalSchema = z.object({
       message: "Invalid Facebook URL",
     }),
 
-  google: z
+  instagram: z
     .string()
     .optional()
     .refine((val) => !val || z.url().safeParse(val).success, {
-      message: "Invalid Google URL",
+      message: "Invalid instagram URL",
     }),
 
   x: z

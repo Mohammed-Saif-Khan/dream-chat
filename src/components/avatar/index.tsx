@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { StaticImageData } from "next/image";
 
 type AvatarProps = {
-  src: string | StaticImageData;
+  src?: string | StaticImageData | null;
   alt: string;
   fallback: string;
   avatarSize?: string;
@@ -25,16 +25,25 @@ export default function AvatarDP({
   statusbar,
   statusbarClass,
 }: AvatarProps) {
-  const imageSrc = typeof src === "string" ? src : (src as StaticImageData).src;
+  // Safely get the URL
+  const imageSrc =
+    typeof src === "string"
+      ? src
+      : src && typeof src === "object"
+      ? src.src
+      : null;
 
   return (
     <div className="relative w-fit">
       <Avatar className={cn("cursor-pointer", avatarSize)}>
-        <AvatarImage src={imageSrc} alt={alt} className={cn(avatarImage)} />
+        {imageSrc && (
+          <AvatarImage src={imageSrc} alt={alt} className={cn(avatarImage)} />
+        )}
         <AvatarFallback className={cn(fallbackClass)}>
           {fallback}
         </AvatarFallback>
       </Avatar>
+
       {statusbar && (
         <span
           className={cn(

@@ -17,4 +17,5 @@ export type AuthStore = StateType & {
   forgotPassword: (data: forgotPasswordType, push: PushFn) => Promise<void>;
   otpVerify: (data: otpType, push: PushFn) => Promise<void>;
   resetPassword: (data: resetPasswordType, push: PushFn) => Promise<void>;
+  logout: (replace: PushFn) => Promise<void>;
 };

@@ -14,13 +14,14 @@ import NewChatDialog from "./new-chat-dialog";
 import React from "react";
 import InviteDialog from "./invite-dialog";
 import { capitalizeFirstLetter } from "@/utils/capitalizeFirstLetter";
+import { cn } from "@/lib/utils";
 
 export default function ChatHeader({ heading }: { heading?: string }) {
   const [newChatDialog, setNewChatDialog] = React.useState<boolean>(false);
   const [inviteDialog, setInviteDialog] = React.useState<boolean>(false);
 
   return (
-    <div>
+    <div className={cn(heading === "profile" ? "hidden" : "block")}>
       <div className="pt-5 px-4">
         <div className="flex items-center justify-between">
           <h1 className="text-xl font-bold text-foreground">

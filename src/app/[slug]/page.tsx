@@ -1,6 +1,7 @@
 import WebLayout from "@/layout";
 import Home from "@/section/home";
-import { getProfile } from "@/store/profile";
+import { getProfile } from "@/services/profile";
+import { ThemeProvider } from "@/theme/theme-provider";
 import { Suspense } from "react";
 
 export default async function Page({
@@ -12,10 +13,17 @@ export default async function Page({
   const profile = await getProfile();
 
   return (
-    <WebLayout pathname={slug} profile={profile}>
-      <Suspense fallback={<p>Loding...</p>}>
-        <Home />
-      </Suspense>
-    </WebLayout>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
+      <WebLayout pathname={slug} profile={profile}>
+        <Suspense fallback={<p>Loding...</p>}>
+          <Home profile={profile} />
+        </Suspense>
+      </WebLayout>
+    </ThemeProvider>
   );
 }

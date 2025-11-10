@@ -119,5 +119,24 @@ export const useAuthStore = create<AuthStore>()((set) => {
         set({ hasError: error as Error, isLoading: false });
       }
     },
+
+    logout: async (replace) => {
+      try {
+        const response = await fetchInstance("api/v1/logout", {
+          method: "POST",
+        });
+        const result = await response?.json();
+        if (response?.status === 200) {
+          await nextCookies("token", undefined, "delete");
+          toast.success(result?.message || "Logout Successfully");
+          replace("/auth/sign-in");
+        } else {
+          toast.error(result?.message || "Failed to logout");
+        }
+      } catch (error) {
+        console.error("Error while logout", error);
+        toast.error("Something went wrong");
+      }
+    },
   };
 });

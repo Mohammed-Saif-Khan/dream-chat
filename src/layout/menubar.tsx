@@ -1,20 +1,26 @@
 "use client";
 import LOGO from "@/assets/auth/logo.png";
-import AUTH_AVATAR from "@/assets/home/avatar-12.jpg";
 import AvatarDP from "@/components/avatar";
 import ModeToogleButton from "@/components/button/mode-toogle";
 import { Toggle } from "@/components/ui/toggle";
 import { useNavigate } from "@/hooks/use-navigate";
 import { cn } from "@/lib/utils";
+import { ProfileType } from "@/types/profile";
 import { menubarHideURL, navbar } from "@/utils/constant";
+import { getFallbackName } from "@/utils/getFallbackName";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export default function Menubar() {
+export default function Menubar({
+  profile,
+}: {
+  profile: ProfileType | undefined;
+}) {
   const { push } = useNavigate();
   const pathname = usePathname();
   const menubarShow = menubarHideURL.includes(pathname);
+  const fallbackName = getFallbackName(profile?.firstName, profile?.lastName);
 
   return (
     !menubarShow && (
@@ -51,12 +57,14 @@ export default function Menubar() {
         </div>
         <div className="flex flex-col items-center gap-6">
           <ModeToogleButton />
-          <AvatarDP
-            src={AUTH_AVATAR}
-            alt="person_1"
-            fallback="MS"
-            avatarSize="size-10"
-          />
+          <div onClick={() => push("/profile")}>
+            <AvatarDP
+              src={profile?.avatar}
+              alt="person_1"
+              avatarSize="size-10"
+              fallback={fallbackName}
+            />
+          </div>
         </div>
       </div>
     )

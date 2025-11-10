@@ -20,7 +20,8 @@ export async function nextCookies(
           httpOnly: true,
           secure: true,
           path: "/",
-          maxAge: 60 * 60 * 24 * 7,
+          // maxAge: 60 * 60 * 24 * 7,
+          maxAge: 60 * 60 * 1,
         });
       }
       break;

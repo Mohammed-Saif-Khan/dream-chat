@@ -26,9 +26,10 @@ import toast from "react-hot-toast";
 import PersonalInfo from "./account/personal-info";
 import SocialsProfiles from "./account/socials-profiles";
 import DeleteAccountDialog from "./others/delete-account";
-import LogoutDialog from "./others/logout";
+import LogoutDialog from "../../modules/logout-dialog/logout";
 import MuteBlockedUserDialog from "./others/mute-blocked-user";
 import SecurityFormt from "./security/security-form";
+import { useLogoutStore } from "@/store/logout";
 
 export type muteBlockType = {
   open: boolean;
@@ -41,7 +42,7 @@ export default function SettingSidebar({ profile }: { profile: ProfileType }) {
     type: null,
   });
   const [deleteDialog, setDeleteDialog] = React.useState<boolean>(false);
-  const [logout, setLogout] = React.useState<boolean>(false);
+  const { logout, setLogout } = useLogoutStore();
 
   const profileForm = useForm<personalType>({
     resolver: zodResolver(personalSchema) as Resolver<personalType>,
@@ -236,7 +237,7 @@ export default function SettingSidebar({ profile }: { profile: ProfileType }) {
         onClose={setMuteBlockDialog}
       />
       <DeleteAccountDialog open={deleteDialog} onClose={setDeleteDialog} />
-      <LogoutDialog open={logout} onClose={setLogout} />
+      <LogoutDialog open={logout} onClose={() => setLogout(false)} />
     </div>
   );
 }
