@@ -56,7 +56,6 @@ export default function PersonalInfo<T extends FieldValues>({
       <SelectBox
         control={control}
         name={"gender" as Path<T>}
-        setValue={setValue}
         errors={errors}
         placeholder="Gender"
         selectLabel="Select Gender"

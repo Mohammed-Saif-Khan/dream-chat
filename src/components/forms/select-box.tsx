@@ -414,7 +414,7 @@ export default function SelectBox<T extends FieldValues>({
             {label && (
               <Label className={cn("mb-2", className?.label)}>{label}</Label>
             )}
-            <Select value={field.value}>
+            <Select onValueChange={field.onChange} value={String(field.value)}>
               <SelectTrigger
                 className={cn(
                   "w-full cursor-pointer",

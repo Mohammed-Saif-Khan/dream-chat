@@ -7,6 +7,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { personalSchema, personalType } from "@/schema/personal-info";
+import { useLogoutStore } from "@/store/logout";
 import { ProfileType } from "@/types/profile";
 import { fetchInstance } from "@/utils/fetch-instance";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,13 +24,12 @@ import {
 import React from "react";
 import { Resolver, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import LogoutDialog from "../../modules/logout-dialog/logout";
 import PersonalInfo from "./account/personal-info";
 import SocialsProfiles from "./account/socials-profiles";
 import DeleteAccountDialog from "./others/delete-account";
-import LogoutDialog from "../../modules/logout-dialog/logout";
 import MuteBlockedUserDialog from "./others/mute-blocked-user";
 import SecurityFormt from "./security/security-form";
-import { useLogoutStore } from "@/store/logout";
 
 export type muteBlockType = {
   open: boolean;
@@ -48,6 +48,7 @@ export default function SettingSidebar({ profile }: { profile: ProfileType }) {
     resolver: zodResolver(personalSchema) as Resolver<personalType>,
     mode: "all",
     defaultValues: {
+      gender: undefined,
       about: "Hey I'am using Dream Chat",
     },
   });
@@ -55,9 +56,6 @@ export default function SettingSidebar({ profile }: { profile: ProfileType }) {
   const socialForm = useForm<personalType>({
     resolver: zodResolver(personalSchema) as Resolver<personalType>,
     mode: "all",
-    defaultValues: {
-      about: "Hey I'am using Dream Chat",
-    },
   });
 
   const onSubmit = async (data: personalType) => {
@@ -79,10 +77,16 @@ export default function SettingSidebar({ profile }: { profile: ProfileType }) {
   };
 
   React.useEffect(() => {
-    if (profile) {
-      profileForm?.reset(profile);
-      socialForm?.reset(profile);
-    }
+    if (!profile) return;
+    setTimeout(() => {
+      Object.entries(profile).forEach(([key, value]) => {
+        profileForm.setValue(
+          key as keyof personalType,
+          value === null || value === undefined ? undefined : value
+        );
+        socialForm.setValue(key as keyof personalType, value as string);
+      });
+    }, 0);
   }, [profile]);
 
   return (

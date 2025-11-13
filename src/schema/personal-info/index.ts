@@ -25,7 +25,7 @@ export const personalSchema = z.object({
     message: "Last Name is required",
   }),
 
-  gender: z.string().optional(),
+  gender: z.enum(["male", "female"]).optional(),
 
   dob: z.preprocess((val) => {
     if (typeof val === "string") {
