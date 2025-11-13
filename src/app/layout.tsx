@@ -1,4 +1,3 @@
-import { ThemeProvider } from "@/theme/theme-provider";
 import type { Metadata } from "next";
 import { Archivo } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
@@ -22,16 +21,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${archivo.variable} antialiased`}>
-        {/* <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        > */}
         <Toaster position="top-center" reverseOrder={false} />
         <NextTopLoader color="#734cf7" showSpinner={false} />
         {children}
-        {/* </ThemeProvider> */}
       </body>
     </html>
   );
