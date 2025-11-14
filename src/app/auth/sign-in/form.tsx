@@ -35,7 +35,7 @@ export default function SignInForm() {
   };
 
   return (
-    <div className="mx-auto md:max-w-xl md:p-6 p-2">
+    <div className="mx-auto md:max-w-xl md:p-6 p-2 flex flex-col min-h-dvh justify-center">
       <div className="flex items-center justify-center mb-10 mt-8">
         <Image src={LOGO} width={200} height={28} alt="logo-image" />
       </div>

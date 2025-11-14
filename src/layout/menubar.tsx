@@ -24,7 +24,7 @@ export default function Menubar({
 
   return (
     !menubarShow && (
-      <div className="py-2 px-2 pb-10 bg-background h-full lg:flex hidden items-center flex-col justify-between border-r">
+      <div className="xl:p-2 p-4 xl:pb-10 border-t xl:border-none bg-background lg:flex items-center flex-col justify-between border-r">
         <div>
           <Image
             src={LOGO}
@@ -32,13 +32,18 @@ export default function Menubar({
             height={30}
             alt="logo"
             onClick={() => push("/chat")}
-            className="cursor-pointer"
+            className="cursor-pointer xl:block hidden"
           />
-          <div className="mt-4 flex flex-col items-center gap-6">
+
+          <div className="xl:mt-4 flex xl:flex-col items-center justify-between xl:gap-6">
             {navbar?.map((item, index) => {
               const Icon = item?.icon;
               return (
-                <Link key={index} href={item?.link}>
+                <Link
+                  key={index}
+                  href={item?.link}
+                  className={cn(index === 5 ? "hidden xl:block" : "block")}
+                >
                   <p className="flex items-center flex-col gap-6">
                     <Toggle
                       className={cn(
@@ -53,9 +58,17 @@ export default function Menubar({
                 </Link>
               );
             })}
+            <div onClick={() => push("/profile")} className="xl:hidden">
+              <AvatarDP
+                src={profile?.avatar}
+                alt="person_1"
+                avatarSize="xl:size-10 size-8"
+                fallback={fallbackName}
+              />
+            </div>
           </div>
         </div>
-        <div className="flex flex-col items-center gap-6">
+        <div className="xl:flex hidden flex-col items-center gap-6">
           <ModeToogleButton />
           <div onClick={() => push("/profile")}>
             <AvatarDP

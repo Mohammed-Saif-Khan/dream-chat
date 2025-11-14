@@ -13,13 +13,13 @@ export default async function WebLayout({
   profile: ProfileType;
 }) {
   return (
-    <div className="flex h-screen w-full">
+    <div className="flex h-screen w-full xl:flex-row flex-col-reverse">
       <Menubar profile={profile} />
       <div className="grid lg:grid-cols-12 flex-1 w-full">
-        <div className="lg:col-span-3 border-r flex flex-col h-screen min-w-[361px] shrink-0">
+        <div className="xl:col-span-3 border-r flex flex-col xl:min-h-dvh h-[calc(100dvh-70px)] min-w-[361px] shrink-0">
           <Sidebar pathname={pathname} profile={profile} />
         </div>
-        <div className="lg:col-span-9 lg:block hidden w-full">{children}</div>
+        <div className="xl:col-span-9 xl:block hidden w-full">{children}</div>
       </div>
     </div>
   );

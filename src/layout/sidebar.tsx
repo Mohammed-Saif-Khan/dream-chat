@@ -33,7 +33,7 @@ export default function Sidebar({ pathname, profile }: SidebarProps) {
         <ScrollArea className="overflow-y-auto">
           <div className="flex-1 overflow-y-auto pt-5 px-4">
             {renderSidebar(pathname || "", profile)}
-            <div className="h-4" />
+            <div className="xl:h-4" />
           </div>
         </ScrollArea>
       </div>
