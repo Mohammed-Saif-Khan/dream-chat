@@ -18,6 +18,7 @@ import {
   Path,
 } from "react-hook-form";
 import { format } from "date-fns";
+import { Matcher } from "react-day-picker";
 
 type DatePickerBoxProps<T extends FieldValues> = {
   name: string;
@@ -27,6 +28,7 @@ type DatePickerBoxProps<T extends FieldValues> = {
   labelClass?: string;
   disabled?: boolean | ((date: Date) => boolean);
   placeholder?: string;
+  hidden?: Matcher | Matcher[];
 };
 
 export default function DatePickerBox<T extends FieldValues>({
@@ -37,6 +39,7 @@ export default function DatePickerBox<T extends FieldValues>({
   disabled,
   errors,
   placeholder,
+  hidden,
 }: DatePickerBoxProps<T>) {
   const [open, setOpen] = React.useState(false);
 
@@ -75,8 +78,12 @@ export default function DatePickerBox<T extends FieldValues>({
                 <Calendar
                   mode="single"
                   selected={field?.value}
-                  onSelect={field.onChange}
+                  onSelect={(d) => {
+                    field.onChange(d);
+                    setOpen(false);
+                  }}
                   disabled={disabled}
+                  hidden={hidden}
                   captionLayout="dropdown"
                 />
               </PopoverContent>

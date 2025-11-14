@@ -16,7 +16,7 @@ export default async function WebLayout({
     <div className="flex h-screen w-full">
       <Menubar profile={profile} />
       <div className="grid lg:grid-cols-12 flex-1 w-full">
-        <div className="lg:col-span-3 border-r flex flex-col h-screen shrink-0">
+        <div className="lg:col-span-3 border-r flex flex-col h-screen min-w-[361px] shrink-0">
           <Sidebar pathname={pathname} profile={profile} />
         </div>
         <div className="lg:col-span-9 lg:block hidden w-full">{children}</div>

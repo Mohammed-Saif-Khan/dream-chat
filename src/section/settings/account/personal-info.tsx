@@ -69,6 +69,7 @@ export default function PersonalInfo<T extends FieldValues>({
         control={control}
         errors={errors}
         name={"dob" as Path<T>}
+        hidden={{ after: new Date() }}
         placeholder="Date of Birth"
       />
       <TextBox

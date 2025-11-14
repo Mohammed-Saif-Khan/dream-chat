@@ -418,7 +418,6 @@ export default function SelectBox<T extends FieldValues>({
               <SelectTrigger
                 className={cn(
                   "w-full cursor-pointer",
-                  `data-[placeholder]:${placeholderColor}`,
                   className?.selectTriggerClass
                 )}
               >
@@ -436,7 +435,7 @@ export default function SelectBox<T extends FieldValues>({
                       <SelectItem
                         key={String(item.value)}
                         value={String(item.value)}
-                        className="cursor-pointer"
+                        className="cursor-pointer dark:focus:bg-primary"
                       >
                         {item.label}
                       </SelectItem>
