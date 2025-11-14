@@ -43,7 +43,7 @@ export default function Menubar({
                   key={index}
                   href={item?.link}
                   className={cn(
-                    index === 5 || index === 3 ? "hidden xl:block" : "block"
+                    index === 5 || index === 2 ? "hidden xl:block" : "block"
                   )}
                 >
                   <p className="flex items-center flex-col gap-6">
