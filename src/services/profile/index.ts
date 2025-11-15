@@ -14,6 +14,7 @@ export const getProfile = async () => {
       );
     }
     const result = await response.json();
+
     return result?.user;
   } catch (error) {
     console.log(

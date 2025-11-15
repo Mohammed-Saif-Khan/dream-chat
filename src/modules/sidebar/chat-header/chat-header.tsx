@@ -9,14 +9,16 @@ import {
 
 import TextBox from "@/components/forms/text-box";
 import { Button } from "@/components/ui/button";
-import { EllipsisVertical, Plus, Search, Send } from "lucide-react";
+import { EllipsisVertical, Plus, Search, Send, Settings } from "lucide-react";
 import NewChatDialog from "./new-chat-dialog";
 import React from "react";
 import InviteDialog from "./invite-dialog";
 import { capitalizeFirstLetter } from "@/utils/capitalizeFirstLetter";
 import { cn } from "@/lib/utils";
+import { useNavigate } from "@/hooks/use-navigate";
 
 export default function ChatHeader({ heading }: { heading?: string }) {
+  const { push } = useNavigate();
   const [newChatDialog, setNewChatDialog] = React.useState<boolean>(false);
   const [inviteDialog, setInviteDialog] = React.useState<boolean>(false);
 
@@ -29,7 +31,7 @@ export default function ChatHeader({ heading }: { heading?: string }) {
               ? "Chats"
               : capitalizeFirstLetter(heading || "")}
           </h1>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <Button
               size="icon"
               onClick={() => setNewChatDialog(true)}
@@ -41,8 +43,8 @@ export default function ChatHeader({ heading }: { heading?: string }) {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <EllipsisVertical
-                  width={16}
-                  height={16}
+                  width={20}
+                  height={20}
                   className="text-muted-foreground cursor-pointer"
                 />
               </DropdownMenuTrigger>
@@ -53,6 +55,13 @@ export default function ChatHeader({ heading }: { heading?: string }) {
                 >
                   <Send className="focus:text-primary" />
                   Invite Others
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => push("/settings")}
+                  className="cursor-pointer focus:text-primary lg:hidden flex"
+                >
+                  <Settings className="focus:text-primary" />
+                  Setting
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

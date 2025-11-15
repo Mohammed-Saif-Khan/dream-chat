@@ -4,7 +4,6 @@ import type { NextRequest } from "next/server";
 export async function middleware(request: NextRequest) {
   const token = request.cookies.get("token")?.value;
 
-  // Define routes that should be accessible without authentication
   const publicPaths = [
     "/auth/sign-in",
     "/auth/sign-up",
@@ -13,7 +12,7 @@ export async function middleware(request: NextRequest) {
     "auth/reset-password",
     "/auth/success",
     "/",
-  ]; // Add any other public routes
+  ];
 
   // Check if the current path is a public path
   const isPublicPath = publicPaths.some(
@@ -26,7 +25,6 @@ export async function middleware(request: NextRequest) {
   }
 
   if (token && isPublicPath) {
-    // If authenticated and trying to access login/register, redirect to a dashboard or home page (not '/')
     return NextResponse.redirect(new URL("/chat", request.url)); // Adjust '/' as needed
   }
 
