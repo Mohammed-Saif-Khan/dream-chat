@@ -24,7 +24,7 @@ export default function Menubar({
 
   return (
     !menubarShow && (
-      <div className="lg:p-2 p-4 lg:pb-10 border-t lg:border-none bg-background lg:flex items-center flex-col justify-between border-r">
+      <div className="lg:p-2 p-4 lg:pb-10 border-t lg:border-none bg-background lg:flex items-center flex-col justify-between border-r w-full">
         <div>
           <Image
             src={LOGO}
