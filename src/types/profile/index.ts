@@ -7,6 +7,7 @@ export interface ProfileType {
   phone: string;
   about: string;
   gender: string;
+  dob: string;
   country: string;
   createdAt: string;
   facebook: string;

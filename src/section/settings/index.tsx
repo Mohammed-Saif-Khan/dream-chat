@@ -96,7 +96,7 @@ export default function SettingSidebar({ profile }: { profile: ProfileType }) {
         <h1 className="text-lg font-semibold text-foreground mb-2">Account</h1>
         <Accordion
           type="multiple"
-          defaultValue={["item-1"]}
+          defaultValue={["item-1", "item-2"]}
           className="bg-background py-1 px-4 rounded-sm mb-6"
         >
           <AccordionItem value="item-1">

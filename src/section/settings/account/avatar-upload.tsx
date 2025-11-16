@@ -162,8 +162,8 @@ export default function AvatarUpload({ bind }: { bind: string }) {
 
       {/* Crop Dialog */}
       <Dialog open={openCrop} onOpenChange={setOpenCrop}>
-        <DialogTitle></DialogTitle>
         <DialogContent className="sm:max-w-[400px] h-[400px] flex flex-col">
+          <DialogTitle></DialogTitle>
           <div className="relative flex-1 bg-black">
             <Cropper
               image={imageSrc}
@@ -185,7 +185,7 @@ export default function AvatarUpload({ bind }: { bind: string }) {
               type="button"
               isSubmitting={loading}
               onClick={handleSaveCrop}
-              className="text-white"
+              className="text-white md:w-fit w-full"
             >
               Save
             </SubmitButton>
