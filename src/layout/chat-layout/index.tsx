@@ -9,8 +9,8 @@ export default function ChatLayout({
   return (
     <div className="flex flex-col h-svh w-full">
       <ChatHeader />
-      <ScrollArea className="flex-1 overflow-y-auto bg-[url(/home/bg-01.png)]">
-        <div className="pb-[90px]">{children}</div>
+      <ScrollArea className="flex-1 overflow-y-auto h-[calc(100dvh - 95px)] bg-[url(/home/bg-01.png)]">
+        <div className="pt-4 px-4 pb-24 xl:pb-0">{children}</div>
       </ScrollArea>
       <ChatInput />
     </div>
