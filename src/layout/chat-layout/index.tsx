@@ -10,7 +10,7 @@ export default function ChatLayout({
     <div className="flex flex-col h-svh w-full">
       <ChatHeader />
       <ScrollArea className="flex-1 overflow-y-auto bg-[url(/home/bg-01.png)]">
-        {children}
+        <div className="pb-[90px]">{children}</div>
       </ScrollArea>
       <ChatInput />
     </div>
