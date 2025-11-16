@@ -7,10 +7,10 @@ export default function ChatLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <div className="flex flex-col xl:h-dvh h-[105dvh] w-full">
+    <div className="flex flex-col h-dvh w-full">
       <ChatHeader />
-      <ScrollArea className="overflow-y-auto bg-[url(/home/bg-01.png)]">
-        {children} <div className="h-4" />
+      <ScrollArea className="flex-1 overflow-y-auto bg-[url(/home/bg-01.png)]">
+        {children}
       </ScrollArea>
       <ChatInput />
     </div>
