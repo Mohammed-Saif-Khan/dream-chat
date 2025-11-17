@@ -42,17 +42,17 @@ export default function RecentChat() {
       </div>
 
       <Swiper
-        slidesPerView={4.5}
         spaceBetween={30}
+        slidesPerView="auto"
         freeMode={true}
         pagination={{
           clickable: true,
         }}
         modules={[FreeMode]}
-        className="mySwiper lg:max-w-xs md:max-w-2xl sm:max-w-xl max-w-xs"
+        className="mySwiper"
       >
         {RecentChatData?.map((item, index) => (
-          <SwiperSlide key={index}>
+          <SwiperSlide key={index} className="!w-auto">
             <div className="flex items-center flex-col gap-1">
               <AvatarDP
                 src={item?.img}

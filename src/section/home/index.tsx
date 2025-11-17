@@ -10,7 +10,7 @@ export default function Home({ profile }: { profile: ProfileType }) {
   const receiverId = searchParams.get("receiver");
 
   return (
-    <div>
+    <>
       {receiverId ? (
         <ChatLayout>
           <Chat />
@@ -18,6 +18,6 @@ export default function Home({ profile }: { profile: ProfileType }) {
       ) : (
         <Welcome profile={profile} />
       )}
-    </div>
+    </>
   );
 }

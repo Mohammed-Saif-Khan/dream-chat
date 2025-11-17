@@ -18,25 +18,20 @@ export default async function WebLayout({
   const isChatOpen = Object.keys(query)?.length > 0;
 
   return (
-    <div className="flex w-full xl:flex-row flex-col-reverse">
-      <div className={cn(isChatOpen ? "hidden xl:flex" : "flex")}>
+    <div className="flex w-full md:flex-row flex-col-reverse">
+      <div className={cn(isChatOpen ? "hidden md:flex" : "flex")}>
         <Menubar profile={profile} />
       </div>
-      <div className="grid xl:grid-cols-12 flex-1 w-full">
+      <div className="flex w-full">
         <div
           className={cn(
-            "xl:col-span-3 border-r flex-col xl:min-h-dvh h-[calc(100dvh-70px)] min-w-[361px] shrink-0",
-            isChatOpen ? "hidden xl:flex" : "flex"
+            "md:col-span-3 border-r flex-col md:min-h-dvh h-[calc(100dvh-70px)] md:min-w-[361px] md:max-w-[361px] md:w-[361px] shrink-0",
+            isChatOpen ? "hidden md:flex" : "flex"
           )}
         >
           <Sidebar pathname={pathname} profile={profile} />
         </div>
-        <div
-          className={cn(
-            "xl:col-span-9 xl:grid hidden w-full",
-            isChatOpen ? "grid" : "hidden xl:grid"
-          )}
-        >
+        <div className={cn("w-full", isChatOpen ? "flex" : "hidden md:flex")}>
           {children}
         </div>
       </div>

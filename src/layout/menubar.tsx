@@ -24,7 +24,7 @@ export default function Menubar({
 
   return (
     !menubarShow && (
-      <div className="lg:p-2 p-4 lg:pb-10 border-t lg:border-none bg-background lg:flex items-center flex-col justify-between border-r w-full">
+      <div className="lg:p-2 p-4 md:pb-10 border-t md:border-none bg-background md:flex items-center flex-col justify-between border-r w-full">
         <div>
           <Image
             src={LOGO}
@@ -32,10 +32,10 @@ export default function Menubar({
             height={30}
             alt="logo"
             onClick={() => push("/chat")}
-            className="cursor-pointer lg:block hidden"
+            className="cursor-pointer md:block hidden"
           />
 
-          <div className="lg:mt-4 flex lg:flex-col items-center justify-between lg:gap-6">
+          <div className="md:mt-4 flex md:flex-col items-center justify-between md:gap-6">
             {navbar?.map((item, index) => {
               const Icon = item?.icon;
               return (
@@ -43,7 +43,7 @@ export default function Menubar({
                   key={index}
                   href={item?.link}
                   className={cn(
-                    index === 5 || index === 2 ? "hidden lg:block" : "block"
+                    index === 5 || index === 2 ? "hidden md:block" : "block"
                   )}
                 >
                   <p className="flex items-center flex-col gap-6">
@@ -60,17 +60,17 @@ export default function Menubar({
                 </Link>
               );
             })}
-            <div onClick={() => push("/profile")} className="lg:hidden">
+            <div onClick={() => push("/profile")} className="md:hidden">
               <AvatarDP
                 src={profile?.avatar}
                 alt="person_1"
-                avatarSize="lg:size-10 size-8"
+                avatarSize="md:size-10 size-8"
                 fallback={fallbackName}
               />
             </div>
           </div>
         </div>
-        <div className="lg:flex hidden flex-col items-center gap-6">
+        <div className="md:flex hidden flex-col items-center gap-6">
           <ModeToogleButton />
           <div onClick={() => push("/profile")}>
             <AvatarDP
