@@ -207,3 +207,8 @@ body {
 .plyr {
   --plyr-color-main: hsl(198, 100%, 50%);
 }
+
+.chat-scrollarea [data-radix-scroll-area-viewport] > div {
+  display: block !important;
+  min-width: auto !important;
+}

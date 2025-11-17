@@ -11,7 +11,7 @@ import MissedAudioCall from "@/components/chat/missed-audio-call-chat";
 
 export default function Chat() {
   return (
-    <div className="p-4">
+    <div className="p-5 px-4 block">
       {/* Test chat */}
       <ChatBubble
         sender={false}
