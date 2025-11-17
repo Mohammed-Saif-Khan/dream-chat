@@ -69,7 +69,7 @@ export default function ContactDetail({ data }: { data: ContactUserList[] }) {
         open={open?.open}
         onOpenChange={() => setOpen((prev) => ({ ...prev, open: false }))}
       >
-        <DialogContent className="h-screen min-w-full md:h-auto md:min-w-lg overflow-auto md:rounded-lg rounded-none">
+        <DialogContent className="h-dvh min-w-full md:h-auto md:min-w-lg overflow-auto md:rounded-lg rounded-none">
           <DialogHeader>
             <DialogTitle>Contact Detail</DialogTitle>
             <DialogDescription asChild>
