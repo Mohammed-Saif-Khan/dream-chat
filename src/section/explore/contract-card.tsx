@@ -8,8 +8,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { useHistoryUI } from "@/hooks/use-back-button";
 import { cn } from "@/lib/utils";
-import { ContactUserList } from "@/types/contact";
+import { ExploreUserList } from "@/types/contact";
 import { formatReadableDate } from "@/utils/formatDate";
 import { Icon } from "@iconify/react";
 import {
@@ -19,18 +20,9 @@ import {
   Phone,
   Video,
 } from "lucide-react";
-import { useState } from "react";
 
-type DialogProps = {
-  open: boolean;
-  data: ContactUserList | null;
-};
-
-export default function ContactDetail({ data }: { data: ContactUserList[] }) {
-  const [open, setOpen] = useState<DialogProps>({
-    open: false,
-    data: null,
-  });
+export default function ExploreDetail({ data }: { data: ExploreUserList[] }) {
+  const { isOpen, payload, open, close } = useHistoryUI<ExploreUserList>();
 
   return (
     <div>
@@ -39,7 +31,7 @@ export default function ContactDetail({ data }: { data: ContactUserList[] }) {
         data?.map((item, index) => (
           <div
             key={index}
-            onClick={() => setOpen({ open: true, data: item })}
+            onClick={() => open(item)}
             className="flex items-center justify-between lg:max-w-md bg-background p-5 rounded-md group ring-0 hover:ring-2 ring-primary transition-all duration-300 ease-in-out my-2 cursor-pointer"
           >
             <div className="flex items-center gap-2">
@@ -63,10 +55,7 @@ export default function ContactDetail({ data }: { data: ContactUserList[] }) {
             </div>
           </div>
         ))}
-      <Dialog
-        open={open?.open}
-        onOpenChange={() => setOpen((prev) => ({ ...prev, open: false }))}
-      >
+      <Dialog open={isOpen} onOpenChange={close}>
         <DialogContent className="dialog-full-width">
           <DialogHeader>
             <DialogTitle>Contact Detail</DialogTitle>
@@ -75,7 +64,7 @@ export default function ContactDetail({ data }: { data: ContactUserList[] }) {
                 <div className="flex items-center flex-wrap justify-between p-4 border-2 my-5 rounded-sm gap-3">
                   <div className="flex items-center gap-3">
                     <AvatarDP
-                      src={open?.data?.avatar}
+                      src={payload?.avatar}
                       alt="recent-chat"
                       fallback="recent-chat"
                       avatarSize="w-12 h-12"
@@ -83,10 +72,10 @@ export default function ContactDetail({ data }: { data: ContactUserList[] }) {
                     />
                     <div>
                       <p className="md:text-base text-sm font-semibold text-foreground text-start">
-                        {open?.data?.user?.firstName}
+                        {payload?.user?.firstName}
                       </p>
                       <p className="md:text-sm text-xs text-muted-foreground text-start">
-                        {open?.data?.about}
+                        {payload?.about}
                       </p>
                     </div>
                   </div>
@@ -121,7 +110,7 @@ export default function ContactDetail({ data }: { data: ContactUserList[] }) {
                     </p>
                   </div>
                   <div className="p-4 space-y-2">
-                    {open?.data?.dob && (
+                    {payload?.dob && (
                       <div className="grid md:grid-cols-2 grid-cols-1 items-center gap-1">
                         <div className="flex items-center gap-1.5">
                           <CalendarDays
@@ -133,7 +122,7 @@ export default function ContactDetail({ data }: { data: ContactUserList[] }) {
                           </p>
                         </div>
                         <p className="text-sm font-medium text-foreground text-start">
-                          {formatReadableDate(open?.data?.dob)}
+                          {formatReadableDate(payload?.dob)}
                         </p>
                       </div>
                     )}
@@ -149,7 +138,7 @@ export default function ContactDetail({ data }: { data: ContactUserList[] }) {
                         </p>
                       </div>
                       <p className="text-sm font-medium text-foreground text-start">
-                        {open?.data?.user?.phone}
+                        {payload?.user?.phone}
                       </p>
                     </div>
                     <div className="grid md:grid-cols-2 grid-cols-1 items-center gap-0">
@@ -163,17 +152,17 @@ export default function ContactDetail({ data }: { data: ContactUserList[] }) {
                         </p>
                       </div>
                       <p className="text-sm font-medium text-foreground text-start">
-                        {open?.data?.user?.email}
+                        {payload?.user?.email}
                       </p>
                     </div>
                   </div>
                 </div>
-                {(open?.data?.facebook ||
-                  open?.data?.linkedin ||
-                  open?.data?.youtube ||
-                  open?.data?.x ||
-                  open?.data?.instagram ||
-                  open?.data?.youtube) && (
+                {(payload?.facebook ||
+                  payload?.linkedin ||
+                  payload?.youtube ||
+                  payload?.x ||
+                  payload?.instagram ||
+                  payload?.youtube) && (
                   <div className="border-2 rounded-sm">
                     <div className="p-4 border-b-2">
                       <p className="text-base font-semibold text-foreground">
@@ -182,7 +171,7 @@ export default function ContactDetail({ data }: { data: ContactUserList[] }) {
                     </div>
 
                     <div className="p-4 space-y-2">
-                      {open?.data?.facebook && (
+                      {payload?.facebook && (
                         <div className="grid md:grid-cols-2 grid-cols-1 items-center">
                           <div className="flex items-center gap-1.5">
                             <Icon
@@ -196,11 +185,11 @@ export default function ContactDetail({ data }: { data: ContactUserList[] }) {
                             </p>
                           </div>
                           <p className="text-sm font-medium text-foreground text-start">
-                            {open?.data?.facebook}
+                            {payload?.facebook}
                           </p>
                         </div>
                       )}
-                      {open?.data?.x && (
+                      {payload?.x && (
                         <div className="grid md:grid-cols-2 grid-cols-1 items-center">
                           <div className="flex items-center gap-1.5">
                             <Icon
@@ -214,12 +203,12 @@ export default function ContactDetail({ data }: { data: ContactUserList[] }) {
                             </p>
                           </div>
                           <p className="text-sm font-medium text-foreground text-start">
-                            {open?.data?.x}
+                            {payload?.x}
                           </p>
                         </div>
                       )}
 
-                      {open?.data?.linkedin && (
+                      {payload?.linkedin && (
                         <div className="grid md:grid-cols-2 grid-cols-1 items-center">
                           <div className="flex items-center gap-1.5">
                             <Icon
@@ -233,12 +222,12 @@ export default function ContactDetail({ data }: { data: ContactUserList[] }) {
                             </p>
                           </div>
                           <p className="text-sm font-medium text-foreground text-start">
-                            {open?.data?.linkedin}
+                            {payload?.linkedin}
                           </p>
                         </div>
                       )}
 
-                      {open?.data?.instagram && (
+                      {payload?.instagram && (
                         <div className="grid md:grid-cols-2 grid-cols-1 items-center">
                           <div className="flex items-center gap-1.5">
                             <Icon
@@ -252,12 +241,12 @@ export default function ContactDetail({ data }: { data: ContactUserList[] }) {
                             </p>
                           </div>
                           <p className="text-sm font-medium text-foreground text-start">
-                            {open?.data?.instagram}
+                            {payload?.instagram}
                           </p>
                         </div>
                       )}
 
-                      {open?.data?.youtube && (
+                      {payload?.youtube && (
                         <div className="grid md:grid-cols-2 grid-cols-1 items-center">
                           <div className="flex items-center gap-1.5">
                             <Icon
@@ -271,7 +260,7 @@ export default function ContactDetail({ data }: { data: ContactUserList[] }) {
                             </p>
                           </div>
                           <p className="text-sm font-medium text-foreground text-start">
-                            {open?.data?.youtube}
+                            {payload.youtube}
                           </p>
                         </div>
                       )}

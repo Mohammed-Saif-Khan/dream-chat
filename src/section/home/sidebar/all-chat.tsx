@@ -15,9 +15,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useNavigate } from "@/hooks/use-navigate";
+import { useSearchParams } from "next/navigation";
 
 export default function AllChat() {
   const { push } = useNavigate();
+  const searchParams = useSearchParams();
+  const reciver = searchParams.get("receiver");
+
+  console.log(reciver, "reciverreciver");
 
   return (
     <div className="pt-5 pb-3.5 h-full flex flex-col">
@@ -53,7 +58,10 @@ export default function AllChat() {
         <div
           key={index}
           onClick={() => push(`?receiver=${item?.name}`)}
-          className="flex items-center justify-between lg:max-w-md bg-background p-5 rounded-md group ring-0 hover:ring-2 ring-primary transition-all duration-300 ease-in-out my-2 cursor-pointer"
+          className={cn(
+            "flex items-center justify-between lg:max-w-md bg-background p-5 rounded-md group ring-0 hover:ring-2 ring-primary transition-all duration-300 ease-in-out my-2 cursor-pointer",
+            item?.name === reciver && "ring-2"
+          )}
         >
           <div className="flex items-center gap-2">
             <AvatarDP

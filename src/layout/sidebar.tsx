@@ -1,6 +1,6 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import ChatHeader from "@/modules/sidebar/chat-header/chat-header";
-import Contact from "@/section/contact";
+import Explore from "@/section/explore";
 import ChatSidebar from "@/section/home/sidebar";
 import ProfileSidebar from "@/section/profile";
 import SettingSidebar from "@/section/settings";
@@ -21,8 +21,8 @@ export default function Sidebar({ pathname, profile }: SidebarProps) {
         return <SettingSidebar profile={profile} />;
       case "profile":
         return <ProfileSidebar profile={profile} />;
-      case "contact":
-        return <Contact />;
+      case "explore":
+        return <Explore />;
       default:
         <ChatSidebar />;
         break;

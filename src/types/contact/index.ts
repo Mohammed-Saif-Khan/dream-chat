@@ -1,4 +1,4 @@
-export interface ContactUserList {
+export interface ExploreUserList {
   about: string;
   avatar: string;
   dob: string;

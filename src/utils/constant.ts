@@ -3,6 +3,7 @@ import {
   Check,
   Clipboard,
   Clock3,
+  Compass,
   Contact,
   Disc,
   File,
@@ -50,8 +51,8 @@ export const navbar = [
   },
   {
     id: "2",
-    link: "/contact",
-    icon: Contact,
+    link: "/explore",
+    icon: Compass,
   },
   {
     id: "3",

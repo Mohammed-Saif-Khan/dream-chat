@@ -16,10 +16,11 @@ import InviteDialog from "./invite-dialog";
 import { capitalizeFirstLetter } from "@/utils/capitalizeFirstLetter";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "@/hooks/use-navigate";
+import { useHistoryUI } from "@/hooks/use-back-button";
 
 export default function ChatHeader({ heading }: { heading?: string }) {
   const { push } = useNavigate();
-  const [newChatDialog, setNewChatDialog] = React.useState<boolean>(false);
+  const { open, isOpen, close } = useHistoryUI<boolean>();
   const [inviteDialog, setInviteDialog] = React.useState<boolean>(false);
 
   return (
@@ -34,7 +35,7 @@ export default function ChatHeader({ heading }: { heading?: string }) {
           <div className="flex items-center gap-3">
             <Button
               size="icon"
-              onClick={() => setNewChatDialog(true)}
+              onClick={() => open(true)}
               className="rounded-full size-6 cursor-pointer"
             >
               <Plus color="white" />
@@ -84,7 +85,7 @@ export default function ChatHeader({ heading }: { heading?: string }) {
           />
         </div>
       </div>
-      <NewChatDialog open={newChatDialog} onClose={setNewChatDialog} />
+      <NewChatDialog open={isOpen} onClose={close} />
       <InviteDialog open={inviteDialog} onClose={setInviteDialog} />
     </div>
   );

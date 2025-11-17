@@ -1,19 +1,19 @@
 import { fetchInstance } from "@/utils/fetch-instance";
 
-export const getUserContactList = async () => {
+export const getUserExploreList = async () => {
   try {
     const response = await fetchInstance("api/v1/users");
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(
-        `Failed to fetch getUserContactList: ${response?.url} ${response.status} ${errorText}`
+        `Failed to fetch getUserExploreList: ${response?.url} ${response.status} ${errorText}`
       );
     }
     const result = await response.json();
     return result?.allUsers;
   } catch (error) {
     console.log(
-      "getUserContactList error:",
+      "getUserExploreList error:",
       error instanceof Error ? error.message : error
     );
   }
