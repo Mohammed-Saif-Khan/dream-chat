@@ -43,15 +43,16 @@ export default function Menubar({
                   key={index}
                   href={item?.link}
                   className={cn(
-                    index === 5 || index === 2 ? "hidden md:block" : "block"
+                    index === 5 || index === 2 ? "hidden md:block" : "block",
+                    "aria-[current=page]:text-accent aria-[current=page]:bg-accent"
                   )}
                 >
                   <p className="flex items-center flex-col gap-6">
                     <Toggle
+                      pressed={item?.link === pathname}
                       className={cn(
                         "[&_svg]:!size-6 cursor-pointer text-muted-foreground hover:text-foreground",
-                        item?.link === pathname &&
-                          "data-[state=on]:bg-accent data-[state=on]:text-accent-foreground"
+                        "group-aria-[current=page]:bg-accent group-aria-[current=page]:text-accent-foreground"
                       )}
                     >
                       <Icon size={26} className="cursor-pointer" />

@@ -212,3 +212,7 @@ body {
   display: block !important;
   min-width: auto !important;
 }
+
+.dialog-full-width[data-state="open"] {
+  @apply h-dvh min-w-full md:h-auto md:min-w-lg overflow-auto md:rounded-lg rounded-none;
+}

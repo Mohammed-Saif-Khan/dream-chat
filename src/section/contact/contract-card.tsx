@@ -32,8 +32,6 @@ export default function ContactDetail({ data }: { data: ContactUserList[] }) {
     data: null,
   });
 
-  console.log(data, "asdfwee");
-
   return (
     <div>
       {data &&
@@ -69,7 +67,7 @@ export default function ContactDetail({ data }: { data: ContactUserList[] }) {
         open={open?.open}
         onOpenChange={() => setOpen((prev) => ({ ...prev, open: false }))}
       >
-        <DialogContent className="h-dvh min-w-full md:h-auto md:min-w-lg overflow-auto md:rounded-lg rounded-none">
+        <DialogContent className="dialog-full-width">
           <DialogHeader>
             <DialogTitle>Contact Detail</DialogTitle>
             <DialogDescription asChild>
@@ -191,7 +189,7 @@ export default function ContactDetail({ data }: { data: ContactUserList[] }) {
                               icon="iconoir:facebook"
                               width="15"
                               height="15"
-                              className="text-black"
+                              className="dark:text-muted-foreground text-foreground"
                             />
                             <p className="text-sm dark:text-muted-foreground text-foreground">
                               Facebook
@@ -209,7 +207,7 @@ export default function ContactDetail({ data }: { data: ContactUserList[] }) {
                               icon="pajamas:twitter"
                               width="12"
                               height="12"
-                              className="text-black"
+                              className="dark:text-muted-foreground text-foreground"
                             />
                             <p className="text-sm dark:text-muted-foreground text-foreground">
                               X
@@ -228,7 +226,7 @@ export default function ContactDetail({ data }: { data: ContactUserList[] }) {
                               icon="mingcute:linkedin-line"
                               width="16"
                               height="16"
-                              className="text-black"
+                              className="dark:text-muted-foreground text-foreground"
                             />
                             <p className="text-sm dark:text-muted-foreground text-foreground">
                               Linkedin
@@ -247,7 +245,7 @@ export default function ContactDetail({ data }: { data: ContactUserList[] }) {
                               icon="iconoir:instagram"
                               width="15"
                               height="15"
-                              className="text-black"
+                              className="dark:text-muted-foreground text-foreground"
                             />
                             <p className="text-sm dark:text-muted-foreground text-foreground">
                               Instagram
@@ -266,7 +264,7 @@ export default function ContactDetail({ data }: { data: ContactUserList[] }) {
                               icon="iconoir:youtube"
                               width="15"
                               height="15"
-                              className="text-black"
+                              className="dark:text-muted-foreground text-foreground"
                             />
                             <p className="text-sm dark:text-muted-foreground text-foreground">
                               YouTube

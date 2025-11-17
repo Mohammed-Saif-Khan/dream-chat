@@ -39,17 +39,13 @@ const InviteDialog = ({ open, onClose }: InviteDialogProps) => {
           </DialogDescription>
         </DialogHeader>
 
-        <DialogFooter className="flex flex-wrap w-full">
-          <DialogClose asChild className="w-full">
-            <Button size="lg" variant="outline" className="rounded-sm w-full">
+        <DialogFooter className="flex flex-wrap">
+          <DialogClose asChild>
+            <Button size="lg" variant="outline" className="rounded-sm">
               Cancel
             </Button>
           </DialogClose>
-          <Button
-            size="lg"
-            type="submit"
-            className="text-white rounded-sm w-full"
-          >
+          <Button size="lg" type="submit" className="text-white rounded-sm">
             Send Invitation
           </Button>
         </DialogFooter>

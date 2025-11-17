@@ -46,8 +46,9 @@ export default function ChatHeader() {
             <p>Search</p>
           </TooltipContent>
         </Tooltip>
+
         <Tooltip>
-          <TooltipTrigger asChild>
+          <TooltipTrigger asChild className="hidden md:flex">
             <Video size={14} className="text-muted-foreground cursor-pointer" />
           </TooltipTrigger>
           <TooltipContent>
@@ -55,7 +56,7 @@ export default function ChatHeader() {
           </TooltipContent>
         </Tooltip>
         <Tooltip>
-          <TooltipTrigger asChild>
+          <TooltipTrigger asChild className="hidden md:flex">
             <Phone size={14} className="text-muted-foreground cursor-pointer" />
           </TooltipTrigger>{" "}
           <TooltipContent>
@@ -63,13 +64,14 @@ export default function ChatHeader() {
           </TooltipContent>
         </Tooltip>
         <Tooltip>
-          <TooltipTrigger asChild>
+          <TooltipTrigger asChild className="hidden md:flex">
             <Info size={14} className="text-muted-foreground cursor-pointer" />
           </TooltipTrigger>
           <TooltipContent>
             <p>Contact Info</p>
           </TooltipContent>
         </Tooltip>
+
         <DropdownMenu>
           <DropdownMenuTrigger>
             <EllipsisVertical

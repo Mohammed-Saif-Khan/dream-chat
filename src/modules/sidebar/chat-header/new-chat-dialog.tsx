@@ -24,14 +24,11 @@ type NewChatDialogProps = {
 };
 
 const NewChatDialog = ({ open, onClose }: NewChatDialogProps) => {
-  console.log("RE-rendering");
-
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="flex flex-col">
+      <DialogContent className="flex flex-col dialog-full-width">
         <DialogHeader>
           <DialogTitle className="text-start">New Chat</DialogTitle>
-
           <DialogDescription
             asChild
             className="mt-5 w-full flex-grow overflow-y-auto"
@@ -82,16 +79,12 @@ const NewChatDialog = ({ open, onClose }: NewChatDialogProps) => {
         </DialogHeader>
 
         <DialogFooter className="flex flex-wrap w-full">
-          <DialogClose asChild className="w-full">
-            <Button size="lg" variant="outline" className="rounded-sm w-full">
+          <DialogClose asChild>
+            <Button size="lg" variant="outline">
               Cancel
             </Button>
           </DialogClose>
-          <Button
-            size="lg"
-            type="submit"
-            className="text-white rounded-sm w-full"
-          >
+          <Button size="lg" type="submit" className="text-white rounded-sm">
             Start Chat
           </Button>
         </DialogFooter>
