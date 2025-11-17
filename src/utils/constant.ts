@@ -244,7 +244,7 @@ export const chatList = [
     online: true,
     message: "Location",
     icon: MapPin,
-    time: "02:40 PM",
+    time: "02:55 PM",
     delivered: true,
   },
   {
