@@ -9,7 +9,7 @@ export async function middleware(request: NextRequest) {
     "/auth/sign-up",
     "/auth/forgot-password",
     "/auth/otp",
-    "auth/reset-password",
+    "/auth/reset-password",
     "/auth/success",
     "/",
   ];
