@@ -1,3 +1,4 @@
+"use server";
 import { fetchInstance } from "@/utils/fetch-instance";
 import { nextCookies } from "@/utils/next-cookies";
 import { redirect } from "next/navigation";

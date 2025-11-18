@@ -4,7 +4,6 @@ import {
   Clipboard,
   Clock3,
   Compass,
-  Contact,
   Disc,
   File,
   Forward,
