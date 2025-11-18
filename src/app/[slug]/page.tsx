@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import WebLayout from "@/layout";
 import Home from "@/section/home";
 import { getProfile } from "@/services/profile";

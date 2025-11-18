@@ -1,13 +1,13 @@
-"use server";
 import { fetchInstance } from "@/utils/fetch-instance";
-import { nextCookies } from "@/utils/next-cookies";
 import { redirect } from "next/navigation";
 
 export const getProfile = async () => {
   const response = await fetchInstance("api/v1/profile");
   if (!response.ok) {
     if (response?.status === 401) {
-      await nextCookies("token", undefined, "delete");
+      await fetchInstance("api/v1/logout", {
+        method: "POST",
+      });
       redirect("/auth/sign-in");
     }
     const errorText = await response.text();
