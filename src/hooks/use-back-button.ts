@@ -22,6 +22,10 @@ export const useHistoryUI = <T>() => {
     window.history.back();
   };
 
+  const isClose = () => {
+    setState((prev) => ({ ...prev, isOpen: false }));
+  };
+
   React.useEffect(() => {
     const handlePop = () => {
       setState((prev) => ({ ...prev, isOpen: false }));
@@ -34,6 +38,7 @@ export const useHistoryUI = <T>() => {
   return {
     isOpen: state.isOpen,
     payload: state.payload,
+    isClose,
     open,
     close,
   };

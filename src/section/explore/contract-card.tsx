@@ -9,6 +9,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useHistoryUI } from "@/hooks/use-back-button";
+import { useNavigate } from "@/hooks/use-navigate";
 import { cn } from "@/lib/utils";
 import { ExploreUserList } from "@/types/contact";
 import { formatReadableDate } from "@/utils/formatDate";
@@ -20,9 +21,12 @@ import {
   Phone,
   Video,
 } from "lucide-react";
+import React from "react";
 
 export default function ExploreDetail({ data }: { data: ExploreUserList[] }) {
-  const { isOpen, payload, open, close } = useHistoryUI<ExploreUserList>();
+  const { push } = useNavigate();
+  const { isOpen, payload, open, close, isClose } =
+    useHistoryUI<ExploreUserList>();
 
   return (
     <div>
@@ -32,7 +36,7 @@ export default function ExploreDetail({ data }: { data: ExploreUserList[] }) {
           <div
             key={index}
             onClick={() => open(item)}
-            className="flex items-center justify-between lg:max-w-md bg-background p-5 rounded-md group ring-0 hover:ring-2 ring-primary transition-all duration-300 ease-in-out my-2 cursor-pointer"
+            className="flex items-center justify-between lg:max-w-md bg-background p-5 rounded-md group ring-0 hover:ring-2 ring-primary transition-all duration-300 ease-in-out my-4 cursor-pointer"
           >
             <div className="flex items-center gap-2">
               <AvatarDP
@@ -81,6 +85,10 @@ export default function ExploreDetail({ data }: { data: ExploreUserList[] }) {
                   </div>
                   <div className="space-x-3">
                     <Button
+                      onClick={() => {
+                        push(`?receiver=${payload?._id}`);
+                        isClose();
+                      }}
                       variant="outline"
                       size="icon-sm"
                       className="rounded-full [&_svg]:size-3.5!"

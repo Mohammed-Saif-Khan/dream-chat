@@ -17,7 +17,7 @@ interface SubmitButtonProps {
   link?: string;
   loader?: boolean;
   variant?: "default" | "outline" | "ghost" | "link" | "destructive";
-  size?: "default" | "sm" | "lg" | "icon";
+  size?: "default" | "sm" | "lg" | "icon" | "icon-sm" | "icon-lg";
   side?: "start" | "center" | "end";
   target?: "_blank" | "_self" | "_parent" | "_top";
   form?: string;
