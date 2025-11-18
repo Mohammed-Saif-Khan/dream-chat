@@ -25,7 +25,7 @@ export default async function WebLayout({
       <div className="flex w-full">
         <div
           className={cn(
-            "md:col-span-3 border-r flex-col md:min-h-dvh h-[calc(100dvh-70px)] md:min-w-[361px] md:max-w-[361px] md:w-[361px] shrink-0",
+            "md:col-span-3 border-r flex-col md:min-h-dvh h-[calc(100dvh-70px)] md:min-w-[361px] md:max-w-[361px] md:w-[361px] w-full shrink-0",
             isChatOpen ? "hidden md:flex" : "flex"
           )}
         >

@@ -33,8 +33,8 @@ export default function Sidebar({ pathname, profile }: SidebarProps) {
     <div className="w-full h-full bg-muted flex flex-col overflow-hidden">
       <ChatHeader heading={pathname} />
       <div className="flex flex-col overflow-hidden">
-        <ScrollArea className="overflow-y-auto">
-          <div className="flex-1 overflow-y-auto pt-5 px-4 w-[361px]">
+        <ScrollArea className="overflow-y-auto chat-scrollarea">
+          <div className="flex-1 overflow-y-auto pt-5 px-4">
             {renderSidebar(pathname || "", profile)}
             <div className="xl:h-4" />
           </div>
