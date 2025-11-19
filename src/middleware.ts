@@ -55,7 +55,7 @@ export async function middleware(request: NextRequest) {
   // If token exists → validate it here
   if (token) {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/profile`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/profile`,
       {
         headers: { Authorization: `Bearer ${token}` },
         cache: "no-store",
