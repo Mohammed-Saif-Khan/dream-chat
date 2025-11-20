@@ -1,4 +1,6 @@
+"use client";
 import { Card } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import { ProfileType } from "@/types/profile";
 import { formatReadableDate } from "@/utils/formatDate";
 import {
@@ -10,12 +12,16 @@ import {
   Mars,
   Phone,
 } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 export default function ProfielInfo({
   profile,
 }: {
-  profile: ProfileType | undefined;
+  profile?: ProfileType | undefined;
 }) {
+  const pathname = usePathname();
+  const isShow = pathname === "/chat" ? false : true;
+
   return (
     <div className="py-6">
       <div>
@@ -47,19 +53,22 @@ export default function ProfielInfo({
               <Phone size={14} className="text-muted-foreground" />
             </div>
           </div>
-          <div className="flex items-center justify-between pb-4 mb-4 border-b">
-            <div>
-              <p className="text-sm font-semibold text-foreground mb-1">
-                Gender
-              </p>
-              <p className="text-base text-muted-foreground capitalize">
-                {profile?.gender}
-              </p>
+          {isShow && (
+            <div className="flex items-center justify-between pb-4 mb-4 border-b">
+              <div>
+                <p className="text-sm font-semibold text-foreground mb-1">
+                  Gender
+                </p>
+                <p className="text-base text-muted-foreground capitalize">
+                  {profile?.gender}
+                </p>
+              </div>
+              <div>
+                <Mars size={14} className="text-muted-foreground" />
+              </div>
             </div>
-            <div>
-              <Mars size={14} className="text-muted-foreground" />
-            </div>
-          </div>
+          )}
+
           <div className="flex items-center justify-between pb-4 mb-4 border-b">
             <div>
               <p className="text-sm font-semibold text-foreground mb-1">
@@ -73,7 +82,12 @@ export default function ProfielInfo({
               <Mail size={14} className="text-muted-foreground" />
             </div>
           </div>
-          <div className="flex items-center justify-between pb-4 mb-4 border-b">
+          <div
+            className={cn(
+              "flex items-center justify-between",
+              isShow ? "border-b pb-4 mb-4" : "border-none pb-0 mb-0"
+            )}
+          >
             <div>
               <p className="text-sm font-semibold text-foreground mb-1">Bio</p>
               <p className="text-base text-muted-foreground">
@@ -84,32 +98,36 @@ export default function ProfielInfo({
               <Info size={14} className="text-muted-foreground" />
             </div>
           </div>
-          <div className="flex items-center justify-between pb-4 mb-4 border-b">
-            <div>
-              <p className="text-sm font-semibold text-foreground mb-1">
-                Location
-              </p>
-              <p className="text-base text-muted-foreground">
-                {profile?.country}
-              </p>
+          {isShow && (
+            <div className="flex items-center justify-between pb-4 mb-4 border-b">
+              <div>
+                <p className="text-sm font-semibold text-foreground mb-1">
+                  Location
+                </p>
+                <p className="text-base text-muted-foreground">
+                  {profile?.country}
+                </p>
+              </div>
+              <div>
+                <MapPinned size={14} className="text-muted-foreground" />
+              </div>
             </div>
-            <div>
-              <MapPinned size={14} className="text-muted-foreground" />
+          )}
+          {isShow && (
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-semibold text-foreground mb-1">
+                  Join Date
+                </p>
+                <p className="text-base text-muted-foreground">
+                  {formatReadableDate(profile?.createdAt)}
+                </p>
+              </div>
+              <div>
+                <CalendarDays size={14} className="text-muted-foreground" />
+              </div>
             </div>
-          </div>
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-semibold text-foreground mb-1">
-                Join Date
-              </p>
-              <p className="text-base text-muted-foreground">
-                {formatReadableDate(profile?.createdAt)}
-              </p>
-            </div>
-            <div>
-              <CalendarDays size={14} className="text-muted-foreground" />
-            </div>
-          </div>
+          )}
         </Card>
       </div>
     </div>

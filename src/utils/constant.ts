@@ -383,3 +383,22 @@ export const siderBarMenu = [
     sender: true,
   },
 ];
+
+export const profileItem = [
+  {
+    label: "Favourites",
+    icon: "image",
+  },
+  {
+    label: "Mute Notifications",
+    icon: "volume-off",
+  },
+  {
+    label: "Block Users",
+    icon: "user-off",
+  },
+  {
+    label: "Delete Chat",
+    icon: "trash",
+  },
+] as const;
