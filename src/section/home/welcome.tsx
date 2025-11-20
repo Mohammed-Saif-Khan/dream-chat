@@ -9,7 +9,7 @@ import { getFallbackName } from "@/utils/getFallbackName";
 
 export default function Welcome({ profile }: { profile: ProfileType }) {
   return (
-    <div className="bg-[url(/home/bg-01.png)] w-full min-h-screen flex flex-col items-center justify-center">
+    <div className="bg-[url(/home/dark-background.png)] w-full min-h-screen flex flex-col items-center justify-center">
       <div className="flex flex-col items-center">
         <div className="relative flex items-center gap-3 p-2.5 bg-background shadow-[0px_4px_10px_0px_rgba(0,0,0,0.1)] rounded-full w-fit">
           <AvatarDP
