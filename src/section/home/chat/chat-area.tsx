@@ -12,7 +12,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function Chat() {
   return (
-    <ScrollArea className="flex-1 overflow-y-auto h-[calc(100dvh - 95px)] bg-[url(/home/bg-01.png)] chat-scrollarea">
+    <ScrollArea className="flex-1 overflow-y-auto h-[calc(100dvh - 95px)] bg-[url(/home/dark-background.png)] chat-scrollarea">
       <div className="p-5 px-4 block">
         {/* Test chat */}
         <ChatBubble

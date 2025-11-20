@@ -47,7 +47,7 @@ export default function AvatarDP({
       {statusbar && (
         <span
           className={cn(
-            "border-background bg-online absolute end-0.5 bottom-0 size-3.5 rounded-full border-2",
+            "border-white bg-online absolute end-0.5 bottom-0 size-3.5 rounded-full border-2",
             statusbarClass
           )}
         >

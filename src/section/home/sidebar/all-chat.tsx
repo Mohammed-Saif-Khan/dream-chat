@@ -22,8 +22,6 @@ export default function AllChat() {
   const searchParams = useSearchParams();
   const reciver = searchParams.get("receiver");
 
-  console.log(reciver, "reciverreciver");
-
   return (
     <div className="pt-5 pb-3.5 h-full flex flex-col">
       <div className="flex items-center justify-between mb-3">
