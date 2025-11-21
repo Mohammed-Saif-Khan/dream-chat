@@ -3,17 +3,20 @@ import Menubar from "./menubar";
 import Sidebar from "./sidebar";
 import { ProfileType } from "@/types/profile";
 import { cn } from "@/lib/utils";
+import { ExploreUserList } from "@/types/contact";
 
 export default async function WebLayout({
   children,
   pathname,
   profile,
   query,
+  userList,
 }: {
   children: React.ReactNode;
   pathname?: string;
   profile: ProfileType;
   query: Record<string, string>;
+  userList: ExploreUserList[];
 }) {
   const isChatOpen = Object.keys(query)?.length > 0;
 
@@ -29,7 +32,7 @@ export default async function WebLayout({
             isChatOpen ? "hidden md:flex" : "flex"
           )}
         >
-          <Sidebar pathname={pathname} profile={profile} />
+          <Sidebar pathname={pathname} profile={profile} userList={userList} />
         </div>
         <div className={cn("w-full", isChatOpen ? "flex" : "hidden md:flex")}>
           {children}

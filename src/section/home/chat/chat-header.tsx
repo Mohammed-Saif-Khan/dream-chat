@@ -1,4 +1,3 @@
-import AVATAR_1 from "@/assets/home/avatar-01.jpg";
 import AvatarDP from "@/components/avatar";
 import { Card } from "@/components/ui/card";
 import {
@@ -24,6 +23,7 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import ProfielInfo from "@/section/profile/profile-info";
+import { ExploreUserList } from "@/types/contact";
 import { chatHeaderSetting, profileItem } from "@/utils/constant";
 import { Icon } from "@iconify/react";
 import {
@@ -37,11 +37,15 @@ import {
   Search,
   Video,
 } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 import { renderIcon } from "./render-icons";
-import Link from "next/link";
 
-export default function ChatHeader() {
+type ChatHeaderProps = {
+  data: ExploreUserList | undefined;
+};
+
+export default function ChatHeader({ data }: ChatHeaderProps) {
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -52,15 +56,16 @@ export default function ChatHeader() {
         </Link>
         <div onClick={() => setOpen(true)} className="flex items-center gap-3">
           <AvatarDP
-            src={AVATAR_1}
+            src={data?.avatar}
             alt="chat-user"
             fallback="A"
             avatarSize="md:w-12 md:h-12 w-10 h-10"
+            statusbarClass="md:size-3.5 size-3"
             statusbar={true}
           />
           <div>
-            <p className="md:text-base text-sm font-semibold text-accent-foreground">
-              Mark Villiams
+            <p className="md:text-base text-sm font-semibold text-accent-foreground capitalize">
+              {data?.user?.firstName} {data?.user?.lastName}
             </p>
             <p className="md:text-sm text-xs text-muted-foreground">Online</p>
           </div>
