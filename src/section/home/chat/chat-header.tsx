@@ -27,6 +27,7 @@ import ProfielInfo from "@/section/profile/profile-info";
 import { chatHeaderSetting, profileItem } from "@/utils/constant";
 import { Icon } from "@iconify/react";
 import {
+  ArrowLeft,
   ArrowRight,
   ChevronRight,
   EllipsisVertical,
@@ -38,26 +39,31 @@ import {
 } from "lucide-react";
 import React from "react";
 import { renderIcon } from "./render-icons";
-import { useHistoryUI } from "@/hooks/use-back-button";
+import Link from "next/link";
 
 export default function ChatHeader() {
-  const { isOpen, close, open } = useHistoryUI();
+  const [open, setOpen] = React.useState(false);
 
   return (
     <div className="py-2 px-4 bg-background border-b shadow-xs flex items-center justify-between">
-      <div onClick={() => open(true)} className="flex items-center gap-3">
-        <AvatarDP
-          src={AVATAR_1}
-          alt="chat-user"
-          fallback="A"
-          avatarSize="w-12 h-12"
-          statusbar={true}
-        />
-        <div>
-          <p className="text-base font-semibold text-accent-foreground">
-            Mark Villiams
-          </p>
-          <p className="text-sm text-muted-foreground">Online</p>
+      <div className="flex items-center gap-3">
+        <Link href="/chat">
+          <ArrowLeft size={16} className="flex md:hidden" />
+        </Link>
+        <div onClick={() => setOpen(true)} className="flex items-center gap-3">
+          <AvatarDP
+            src={AVATAR_1}
+            alt="chat-user"
+            fallback="A"
+            avatarSize="md:w-12 md:h-12 w-10 h-10"
+            statusbar={true}
+          />
+          <div>
+            <p className="md:text-base text-sm font-semibold text-accent-foreground">
+              Mark Villiams
+            </p>
+            <p className="md:text-sm text-xs text-muted-foreground">Online</p>
+          </div>
         </div>
       </div>
       <div className="flex items-center gap-3 md:gap-6">
@@ -93,7 +99,7 @@ export default function ChatHeader() {
           <TooltipTrigger
             asChild
             className="hidden md:flex"
-            onClick={() => open(true)}
+            onClick={() => setOpen(true)}
           >
             <Info size={14} className="text-muted-foreground cursor-pointer" />
           </TooltipTrigger>
@@ -127,7 +133,7 @@ export default function ChatHeader() {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <Sheet open={isOpen} onOpenChange={close}>
+      <Sheet open={open} onOpenChange={setOpen}>
         <SheetContent className="bg-muted flex flex-col md:w-auto w-full">
           <ScrollArea className="h-full chat-scrollarea">
             <SheetHeader>
