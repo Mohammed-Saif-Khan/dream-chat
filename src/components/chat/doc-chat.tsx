@@ -36,7 +36,7 @@ export default function DocuChat({ sender, senderName }: DocuChatProps) {
       >
         <div
           className={cn(
-            "mt-1 p-3 bg-muted md:max-w-[419px] w-fit rounded-t-xl text-sm tracking-wide flex items-center gap-x-8",
+            "mt-1 p-3 bg-muted md:max-w-[419px] w-2xs rounded-t-xl text-sm tracking-wide flex items-center gap-x-8",
             sender
               ? "rounded-l-xl bg-primary text-white"
               : "rounded-r-xl bg-gray-200 dark:bg-muted"

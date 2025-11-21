@@ -136,7 +136,7 @@ export default function ChatHeader() {
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetContent className="bg-muted flex flex-col md:w-auto w-full">
           <ScrollArea className="h-full chat-scrollarea">
-            <SheetHeader>
+            <SheetHeader className="fixed bg-muted w-full">
               <SheetTitle className="text-xl font-bold text-foreground">
                 Contact Info
               </SheetTitle>
