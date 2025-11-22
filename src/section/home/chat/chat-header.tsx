@@ -150,7 +150,7 @@ export default function ChatHeader({ data }: ChatHeaderProps) {
               <div className="p-4">
                 <div className="my-6 flex flex-col items-center justify-center">
                   <AvatarDP
-                    src="/home/avatar-01.jpg"
+                    src={data?.avatar}
                     alt="recent-chat"
                     fallback="recent-chat"
                     avatarSize="w-22 h-22"
@@ -158,8 +158,8 @@ export default function ChatHeader({ data }: ChatHeaderProps) {
                     statusbar={true}
                   />
                   <div className="mt-2">
-                    <p className="text-base font-semibold text-center text-foreground">
-                      Edward Lietz
+                    <p className="text-base font-semibold text-center text-foreground capitalize">
+                      {data?.user?.firstName} {data?.user?.lastName}
                     </p>
                     <p className="text-sm text-muted-foreground">
                       Last seen at 07:15 PM
@@ -188,7 +188,7 @@ export default function ChatHeader({ data }: ChatHeaderProps) {
                   </div>
                 </div>
                 <div>
-                  <ProfielInfo />
+                  <ProfielInfo data={data} />
                   <div>
                     <p className="text-lg font-semibold text-foreground mb-2">
                       Social Profiles

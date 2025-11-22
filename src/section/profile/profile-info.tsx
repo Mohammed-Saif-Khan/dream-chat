@@ -1,6 +1,7 @@
 "use client";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { ExploreUserList } from "@/types/contact";
 import { ProfileType } from "@/types/profile";
 import { formatReadableDate } from "@/utils/formatDate";
 import {
@@ -15,12 +16,14 @@ import {
 import { usePathname } from "next/navigation";
 
 export default function ProfielInfo({
+  data,
   profile,
 }: {
   profile?: ProfileType | undefined;
+  data?: ExploreUserList | undefined;
 }) {
   const pathname = usePathname();
-  const isShow = pathname === "/chat" ? false : true;
+  const isShow = pathname === "/explore" ? false : true;
 
   return (
     <div className="py-6">
@@ -33,7 +36,8 @@ export default function ProfielInfo({
             <div>
               <p className="text-sm font-semibold text-foreground mb-1">Name</p>
               <p className="text-base text-muted-foreground capitalize">
-                {profile?.firstName} {profile?.lastName}
+                {profile?.firstName || data?.user?.firstName}{" "}
+                {profile?.lastName || data?.user?.lastName}
               </p>
             </div>
             <div>
@@ -46,7 +50,7 @@ export default function ProfielInfo({
                 Phone
               </p>
               <p className="text-base text-muted-foreground capitalize">
-                {profile?.phone}
+                {profile?.phone || data?.user?.phone}
               </p>
             </div>
             <div>
@@ -75,7 +79,7 @@ export default function ProfielInfo({
                 Email Address
               </p>
               <p className="text-base text-muted-foreground">
-                {profile?.email}
+                {profile?.email || data?.user?.email}
               </p>
             </div>
             <div>
@@ -91,7 +95,7 @@ export default function ProfielInfo({
             <div>
               <p className="text-sm font-semibold text-foreground mb-1">Bio</p>
               <p className="text-base text-muted-foreground">
-                {profile?.about}
+                {profile?.about || data?.about}
               </p>
             </div>
             <div>
