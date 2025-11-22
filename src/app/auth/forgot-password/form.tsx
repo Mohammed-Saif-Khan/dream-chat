@@ -50,6 +50,7 @@ export default function ForgotPasswordForm() {
           <CardContent>
             <form onSubmit={handleSubmit(onSubmit)}>
               <TextBox
+                type="email"
                 name="email"
                 placeholder="Enter Email"
                 label="Email"

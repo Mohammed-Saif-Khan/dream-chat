@@ -52,6 +52,7 @@ export default function SignInForm() {
           <CardContent>
             <form onSubmit={handleSubmit(onSubmit)}>
               <TextBox
+                type="email"
                 name="email"
                 label="Email"
                 register={register}

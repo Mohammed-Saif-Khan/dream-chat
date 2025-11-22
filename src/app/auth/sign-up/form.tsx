@@ -72,6 +72,7 @@ export default function SignUpForm() {
                 />
 
                 <TextBox
+                  type="email"
                   name="email"
                   register={register}
                   setValue={setValue}
