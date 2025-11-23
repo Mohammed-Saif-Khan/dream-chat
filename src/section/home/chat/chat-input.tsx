@@ -1,27 +1,67 @@
 "use client";
 import TextBox from "@/components/forms/text-box";
 import { messageSchema, messageTyep } from "@/schema/message";
+import { socket } from "@/socket";
+import { MessageType } from "@/store/chat/type";
+import { fetchInstance } from "@/utils/fetch-instance";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Paperclip, SendHorizontal, Smile } from "lucide-react";
 import React from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 type ChatInputProps = {
   receiverId: string;
+  senderId: string;
+  addMessage: (message: MessageType) => void;
 };
 
-export default function ChatInput({ receiverId }: ChatInputProps) {
+export default function ChatInput({
+  receiverId,
+  senderId,
+  addMessage,
+}: ChatInputProps) {
+  const typingTimeoutRef = React.useRef<NodeJS.Timeout>(null);
+
+  const handleTyping = () => {
+    socket.emit("typing", { senderId, receiverId });
+
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current);
+    }
+
+    typingTimeoutRef.current = setTimeout(() => {
+      socket.emit("stop-typing", { senderId, receiverId });
+    }, 1500);
+  };
+
   const { handleSubmit, setValue, register, reset } = useForm<messageTyep>({
     resolver: zodResolver(messageSchema),
-    defaultValues: {
-      receiverId,
-    },
   });
 
   const onSendMessage = async (data: messageTyep) => {
-    reset({ message: " " });
-    console.log(data, "Send Message");
+    try {
+      socket.emit("stop-typing", { receiverId });
+      reset({ message: " " });
+      const response = await fetchInstance("api/v1/message", {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
+      const result = await response?.json();
+      if (response?.status === 200) {
+        addMessage(result?.data);
+      } else {
+        toast.error(result?.message || "Failed to send Messgae");
+      }
+    } catch (error) {
+      console.error("Something went wrong while sending message", error);
+      toast.error("Something went wrong");
+    }
   };
+
+  React.useEffect(() => {
+    setValue("receiverId", receiverId);
+  }, [receiverId]);
 
   return (
     <form
@@ -39,11 +79,13 @@ export default function ChatInput({ receiverId }: ChatInputProps) {
           <Paperclip key="clip" size={18} />,
         ]}
         onChange={(e) => {
+          handleTyping();
           setValue("message", e.target.value, { shouldValidate: true });
         }}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             handleSubmit(onSendMessage)();
+            socket.emit("stop-typing", { receiverId });
           }
         }}
         autoComplete="off"

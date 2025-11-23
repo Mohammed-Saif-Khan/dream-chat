@@ -6,12 +6,14 @@ type ChatBubblePorps = {
   sender: boolean;
   message: string;
   senderName?: string;
+  time: string;
 };
 
 export default function ChatBubble({
   sender,
   message,
   senderName,
+  time,
 }: ChatBubblePorps) {
   return (
     <div
@@ -23,11 +25,9 @@ export default function ChatBubble({
           sender && "flex-row-reverse mr-4"
         )}
       >
-        <p className="text-sm text-foreground">
-          {senderName ? "Edward Lietz" : "You"}
-        </p>
+        <p className="text-sm text-foreground">{senderName}</p>
         <Dot size={30} />
-        <p className="text-sm text-muted-foreground">02:39 PM</p>
+        <p className="text-sm text-muted-foreground">{time}</p>
         {sender && (
           <CheckCheck
             size={14}

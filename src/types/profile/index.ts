@@ -16,4 +16,5 @@ export interface ProfileType {
   other: string;
   youtube: string;
   x: string;
+  _id: string;
 }

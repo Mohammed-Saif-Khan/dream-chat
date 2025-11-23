@@ -216,3 +216,49 @@ body {
 .dialog-full-width[data-state="open"] {
   @apply h-dvh min-w-full md:h-auto md:min-w-lg overflow-auto md:rounded-lg rounded-none;
 }
+
+/* Chat Dot Indicator */
+.chat-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  animation: chat-bounce 1s infinite ease-in-out;
+  display: inline-block;
+  margin-right: 3px;
+  background-color: #4a4a4a; /* visible in light theme */
+}
+
+.dark .chat-dot {
+  background-color: #e6e6e6; /* visible in dark theme */
+}
+
+.chat-dot:nth-of-type(1) {
+  animation-delay: 0ms;
+}
+
+.chat-dot:nth-of-type(2) {
+  animation-delay: 150ms;
+}
+
+.chat-dot:nth-of-type(3) {
+  animation-delay: 300ms;
+}
+
+@keyframes chat-bounce {
+  0% {
+    transform: translateY(0px);
+    opacity: 0.4;
+  }
+  20% {
+    transform: translateY(-5px);
+    opacity: 1;
+  }
+  40% {
+    transform: translateY(0px);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(0px);
+    opacity: 0.4;
+  }
+}

@@ -1,48 +1,51 @@
 "use client";
 import ChatBubble from "@/components/chat/chat-bubble";
-import DateDivider from "@/components/chat/chat-divider";
-import ChatImage from "@/components/chat/chat-image";
-import GALLAERY_1 from "@/assets/home/gallery-01.jpeg";
-import React from "react";
-import VoiceChat from "@/components/chat/voice-chat";
-import DocuChat from "@/components/chat/doc-chat";
-import VideoPlayer from "@/components/chat/video-player";
-import MissedAudioCall from "@/components/chat/missed-audio-call-chat";
+import TypingIndicator from "@/components/chat/typing-indicator";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { cn } from "@/lib/utils";
+import { ChatType } from "@/store/chat/type";
+import getName from "@/utils/getName";
+import React from "react";
 
-export default function Chat() {
+type ChatProps = {
+  chat: ChatType | null;
+  senderId: string;
+  typing: boolean;
+};
+
+export default function Chat({ chat, senderId, typing }: ChatProps) {
+  console.log(typing, "typingtyping");
+  const scrollRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (scrollRef?.current) {
+      scrollRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [chat, typing]);
+
   return (
     <ScrollArea className="flex-1 overflow-y-auto h-[calc(100dvh - 95px)] bg-[url(/home/dark-background.png)] chat-scrollarea">
       <div className="p-5 px-4 block">
-        {/* Test chat */}
-        <ChatBubble
-          sender={false}
-          senderName="Edward Lietz"
-          message="Hi there! I'm interested in your services."
-        />
-        <ChatBubble
-          sender={false}
-          senderName="Edward Lietz"
-          message="Can you tell me more about what you offer?, Can you explain it breifly..."
-        />
-        <ChatBubble
-          sender={true}
-          message="Hello! Absolutely, we provide a range of services tailored to meet various business needs. Could you specify what you're looking for?"
-        />
-        <DateDivider date="Today, July 24" />
-        <ChatImage
-          sender={false}
-          senderName="Edward Lietz"
-          imgSrc={GALLAERY_1}
-        />
-        <VoiceChat sender={true} audioSrc="horse.org" />
-        <DocuChat sender={false} senderName="Edward Lietz" />
-        <VideoPlayer
-          sender={true}
-          videoSrc="https://files.vidstack.io/sprite-fight/720p.mp4"
-          videoType="video/mp4"
-        />
-        <MissedAudioCall sender={false} senderName="Edward Lietz" />
+        {chat?.message &&
+          chat?.message?.length > 0 &&
+          chat?.message?.map((msg, index) => (
+            <ChatBubble
+              key={`CHAT-MESSAGE-${index}`}
+              sender={msg?.senderId?._id === senderId}
+              senderName={getName(msg?.senderId, senderId)}
+              message={msg?.message}
+              time={msg?.time}
+            />
+          ))}
+        <div
+          className={cn(
+            "transition-all duration-300 ease-in-out",
+            typing ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+          )}
+        >
+          <TypingIndicator />
+        </div>
+        <div ref={scrollRef} />
       </div>
     </ScrollArea>
   );
