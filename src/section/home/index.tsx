@@ -13,12 +13,12 @@ type HomeProps = {
 export default function Home({ profile, userList }: HomeProps) {
   const searchParams = useSearchParams();
   const receiverId = searchParams.get("receiver");
-  const selectedUser = userList.find((user) => user?._id === receiverId);
+  const selectedUser = userList.find((u) => u?.user?._id === receiverId);
 
   return (
     <>
       {receiverId ? (
-        <ChatLayout selectedUser={selectedUser} />
+        <ChatLayout selectedUser={selectedUser} receiverId={receiverId} />
       ) : (
         <Welcome profile={profile} />
       )}

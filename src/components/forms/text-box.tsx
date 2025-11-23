@@ -16,7 +16,7 @@ import {
   UseFormRegister,
   UseFormSetValue,
 } from "react-hook-form";
-import React from "react";
+import React, { KeyboardEventHandler } from "react";
 
 interface TextBoxProps<T extends FieldValues> {
   label?: string;
@@ -62,6 +62,8 @@ interface TextBoxProps<T extends FieldValues> {
     | null
     | undefined;
   endSize?: "sm" | "icon-sm" | "xs" | "icon-xs" | null | undefined;
+  onKeyDown?: KeyboardEventHandler<HTMLInputElement>;
+  autoComplete?: string;
 }
 
 export default function TextBox<T extends FieldValues>({
@@ -84,6 +86,8 @@ export default function TextBox<T extends FieldValues>({
   startSize,
   endVariant,
   endSize,
+  onKeyDown,
+  autoComplete,
 }: TextBoxProps<T>) {
   const renderAddons = (
     addons: React.ReactNode | React.ReactNode[],
@@ -140,6 +144,8 @@ export default function TextBox<T extends FieldValues>({
             }}
             type={type}
             value={value}
+            autoComplete={autoComplete}
+            onKeyDown={onKeyDown}
             minLength={minLength}
             maxLength={maxLength}
             placeholder={placeholder}

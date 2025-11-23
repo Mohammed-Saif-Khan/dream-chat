@@ -19,6 +19,8 @@ export default async function Page({
   const profile = await getProfile();
   const userList = await getUserExploreList();
 
+  console.log(userList, "userListuserList");
+
   return (
     <ThemeProvider
       attribute="class"

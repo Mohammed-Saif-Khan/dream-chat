@@ -86,7 +86,7 @@ export default function ExploreDetail({ data }: { data: ExploreUserList[] }) {
                   <div className="space-x-3">
                     <Button
                       onClick={() => {
-                        push(`?receiver=${payload?._id}`);
+                        push(`?receiver=${payload?.user?._id}`);
                         isClose();
                       }}
                       variant="outline"

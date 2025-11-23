@@ -5,14 +5,18 @@ import ChatInput from "./chat-input";
 
 type ChatLayoutProps = {
   selectedUser: ExploreUserList | undefined;
+  receiverId: string;
 };
 
-export default function ChatLayout({ selectedUser }: ChatLayoutProps) {
+export default function ChatLayout({
+  selectedUser,
+  receiverId,
+}: ChatLayoutProps) {
   return (
     <div className="flex flex-col h-svh w-full">
       <ChatHeader data={selectedUser} />
       <Chat />
-      <ChatInput />
+      <ChatInput receiverId={receiverId} />
     </div>
   );
 }

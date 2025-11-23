@@ -40,7 +40,7 @@ export default function ChatBubble({
       >
         <div
           className={cn(
-            "mt-1 p-3 bg-muted md:max-w-[419px] md:w-fit w-2xs rounded-t-xl text-sm tracking-wide",
+            "mt-1 p-3 bg-muted md:max-w-[419px] md:w-fit max-w-2xs w-fit rounded-t-xl text-sm tracking-wide",
             sender
               ? "rounded-l-xl bg-primary text-white"
               : "rounded-r-xl bg-gray-200 dark:bg-muted"

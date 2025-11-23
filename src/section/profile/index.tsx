@@ -12,6 +12,8 @@ export default function ProfileSidebar({
 }: {
   profile?: ProfileType | undefined;
 }) {
+  console.log(profile, "profileprofile");
+
   return (
     <div>
       <h1 className="text-xl font-bold text-foreground mb-3">Profile</h1>
