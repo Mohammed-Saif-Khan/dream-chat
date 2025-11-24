@@ -37,5 +37,23 @@ export const useChatStore = create<ChatStore>()((set) => {
         },
       }));
     },
+
+    editMessageId: (tempId, updateMsg) => {
+      set((state) => ({
+        ...state,
+        chat: {
+          ...state.chat!,
+          message: (state?.chat?.message || []).map((msg) => {
+            if (msg?._id === tempId) {
+              return {
+                ...msg,
+                ...updateMsg,
+              };
+            }
+            return msg;
+          }),
+        },
+      }));
+    },
   };
 });

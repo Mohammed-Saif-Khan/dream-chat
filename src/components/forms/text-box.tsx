@@ -64,6 +64,7 @@ interface TextBoxProps<T extends FieldValues> {
   endSize?: "sm" | "icon-sm" | "xs" | "icon-xs" | null | undefined;
   onKeyDown?: KeyboardEventHandler<HTMLInputElement>;
   autoComplete?: string;
+  addOnButtonType?: "submit" | "reset" | "button" | undefined;
 }
 
 export default function TextBox<T extends FieldValues>({
@@ -88,6 +89,7 @@ export default function TextBox<T extends FieldValues>({
   endSize,
   onKeyDown,
   autoComplete,
+  addOnButtonType,
 }: TextBoxProps<T>) {
   const renderAddons = (
     addons: React.ReactNode | React.ReactNode[],
@@ -108,6 +110,7 @@ export default function TextBox<T extends FieldValues>({
         {React.Children.toArray(addons).map((addon, index) => (
           <InputGroupButton
             key={index}
+            type={addOnButtonType}
             variant={variant}
             size={size}
             className={cn("transition-colors", className.inputGroupButton)}

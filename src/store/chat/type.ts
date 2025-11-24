@@ -21,4 +21,5 @@ export type StateType = {
 export type ChatStore = StateType & {
   getChat: (id: string) => Promise<void>;
   addMessage: (message: MessageType) => void;
+  editMessageId: (tempId: string, updateMsg: MessageType) => void;
 };

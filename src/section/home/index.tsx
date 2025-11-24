@@ -23,6 +23,7 @@ export default function Home({ profile, userList }: HomeProps) {
           selectedUser={selectedUser}
           senderId={senderId}
           receiverId={receiverId}
+          profile={profile}
         />
       ) : (
         <Welcome profile={profile} />

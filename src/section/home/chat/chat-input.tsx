@@ -3,23 +3,29 @@ import TextBox from "@/components/forms/text-box";
 import { messageSchema, messageTyep } from "@/schema/message";
 import { socket } from "@/socket";
 import { MessageType } from "@/store/chat/type";
+import { ProfileType } from "@/types/profile";
 import { fetchInstance } from "@/utils/fetch-instance";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Paperclip, SendHorizontal, Smile } from "lucide-react";
 import React from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { v4 as uuidv4 } from "uuid";
 
 type ChatInputProps = {
   receiverId: string;
   senderId: string;
+  profile: ProfileType;
   addMessage: (message: MessageType) => void;
+  editMessageId: (tempId: string, message: MessageType) => void;
 };
 
 export default function ChatInput({
   receiverId,
   senderId,
+  profile,
   addMessage,
+  editMessageId,
 }: ChatInputProps) {
   const typingTimeoutRef = React.useRef<NodeJS.Timeout>(null);
 
@@ -35,21 +41,53 @@ export default function ChatInput({
     }, 1500);
   };
 
-  const { handleSubmit, setValue, register, reset } = useForm<messageTyep>({
+  const { handleSubmit, setValue, register } = useForm<messageTyep>({
     resolver: zodResolver(messageSchema),
+    defaultValues: {
+      receiverId,
+    },
   });
 
   const onSendMessage = async (data: messageTyep) => {
     try {
+      const now = new Date();
+      const time = now.toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+
+      const tempMsg: MessageType = {
+        message: data?.message,
+        receiverId,
+        senderId: {
+          firstName: profile?.firstName,
+          lastName: profile?.lastName,
+          _id: senderId,
+        },
+        time,
+        _id: uuidv4(),
+      };
+
+      addMessage(tempMsg);
+      socket.emit("sending-message", tempMsg);
       socket.emit("stop-typing", { receiverId });
-      reset({ message: " " });
+      setValue("message", "");
+
+      const finalData = {
+        ...data,
+        time,
+      };
+
       const response = await fetchInstance("api/v1/message", {
         method: "POST",
-        body: JSON.stringify(data),
+        body: JSON.stringify(finalData),
       });
       const result = await response?.json();
       if (response?.status === 200) {
-        addMessage(result?.data);
+        const tempId = tempMsg?._id;
+        const originalMessage = result?.data;
+        editMessageId(tempId, originalMessage);
+        socket.emit("sending-message-edit-id", { tempId, originalMessage });
       } else {
         toast.error(result?.message || "Failed to send Messgae");
       }
@@ -74,6 +112,7 @@ export default function ChatInput({
         placeholder="Type a message"
         endVariant="default"
         endSize="icon-sm"
+        addOnButtonType="submit"
         startAddon={[
           <Smile key="simle" size={18} />,
           <Paperclip key="clip" size={18} />,
@@ -81,12 +120,6 @@ export default function ChatInput({
         onChange={(e) => {
           handleTyping();
           setValue("message", e.target.value, { shouldValidate: true });
-        }}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            handleSubmit(onSendMessage)();
-            socket.emit("stop-typing", { receiverId });
-          }
         }}
         autoComplete="off"
         endAddon={<SendHorizontal size={18} className="text-white " />}
