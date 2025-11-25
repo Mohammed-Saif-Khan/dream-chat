@@ -13,16 +13,19 @@ export default function AllChat() {
     <div>
       <ChatBubble
         sender={false}
+        time="5:30"
         senderName="Edward Lietz"
         message="Hi there! I'm interested in your services."
       />
       <ChatBubble
         sender={false}
+        time="5:30"
         senderName="Edward Lietz"
         message="Can you tell me more about what you offer?, Can you explain it breifly..."
       />
       <ChatBubble
         sender={true}
+        time="5:30"
         message="Hello! Absolutely, we provide a range of services tailored to meet various business needs. Could you specify what you're looking for?"
       />
       <DateDivider date="Today, July 24" />
