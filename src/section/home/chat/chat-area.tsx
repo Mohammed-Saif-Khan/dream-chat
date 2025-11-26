@@ -35,6 +35,7 @@ export default function Chat({ chat, senderId, typing }: ChatProps) {
               senderName={getName(msg?.senderId, senderId)}
               message={msg?.message}
               time={msg?.time}
+              status={msg?.status}
             />
           ))}
         <div

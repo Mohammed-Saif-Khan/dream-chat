@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { CheckCheck, Dot } from "lucide-react";
+import { Check, CheckCheck, Clock, Dot } from "lucide-react";
 import ChatMenu from "./controls/chat-menu";
 
 type ChatBubblePorps = {
@@ -7,6 +7,7 @@ type ChatBubblePorps = {
   message: string;
   senderName?: string;
   time: string;
+  status: string;
 };
 
 export default function ChatBubble({
@@ -14,6 +15,7 @@ export default function ChatBubble({
   message,
   senderName,
   time,
+  status,
 }: ChatBubblePorps) {
   return (
     <div
@@ -29,10 +31,23 @@ export default function ChatBubble({
         <Dot size={30} />
         <p className="text-sm text-muted-foreground">{time}</p>
         {sender && (
-          <CheckCheck
-            size={14}
-            className={cn("text-online ml-2", sender && "mr-2")}
-          />
+          <>
+            {status === "pending" && (
+              <Clock size={14} className="mr-2 opacity-70" />
+            )}
+
+            {status === "sent" && (
+              <Check size={14} className="mr-2 text-gray-500" />
+            )}
+
+            {status === "delivered" && (
+              <CheckCheck size={14} className="mr-2" />
+            )}
+
+            {status === "read" && (
+              <CheckCheck size={14} className="mr-2 text-online" />
+            )}
+          </>
         )}
       </div>
       <div

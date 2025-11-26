@@ -55,5 +55,23 @@ export const useChatStore = create<ChatStore>()((set) => {
         },
       }));
     },
+
+    updateMessageStatus: (id, status) => {
+      set((prev) => ({
+        ...prev,
+        chat: {
+          ...prev.chat!,
+          message: [...(prev?.chat?.message || [])].map((msg) => {
+            if (msg?._id === id) {
+              return {
+                ...msg,
+                ...status,
+              };
+            }
+            return msg;
+          }),
+        },
+      }));
+    },
   };
 });

@@ -8,6 +8,14 @@ import React from "react";
 import { socket } from "@/socket";
 import { MessageType } from "@/store/chat/type";
 import { ProfileType } from "@/types/profile";
+import { fetchInstance } from "@/utils/fetch-instance";
+import { stopTypingHandler, typingHandler } from "@/socket/typing";
+import {
+  deliveredHandler,
+  readHandler,
+  readOldMessagesHandler,
+  receiveMessageHandler,
+} from "@/socket/message";
 
 type ChatLayoutProps = {
   selectedUser: ExploreUserList | undefined;
@@ -23,41 +31,39 @@ export default function ChatLayout({
   profile,
 }: ChatLayoutProps) {
   const [typing, setTyping] = React.useState<boolean>(false);
-  const { getChat, chat, addMessage, editMessageId } = useChatStore();
+  const { getChat, chat, addMessage, editMessageId, updateMessageStatus } =
+    useChatStore();
 
   React.useEffect(() => {
-    const handleTyping = ({ senderId }: { senderId: string }) => {
-      if (senderId === receiverId) setTyping(true);
-    };
-    const handleStopTyping = ({ senderId }: { senderId: string }) => {
-      if (senderId === receiverId) setTyping(false);
-    };
-    const handleReceiveMessage = (data: MessageType) => addMessage(data);
-    const handleReceiverMessageEditId = ({
-      tempId,
-      originalMessage,
-    }: {
-      tempId: string;
-      originalMessage: MessageType;
-    }) => editMessageId(tempId, originalMessage);
+    const handleTyping = typingHandler(receiverId, setTyping);
+    const handleStopTyping = stopTypingHandler(receiverId, setTyping);
+    const handleReceiveMessage = receiveMessageHandler(receiverId, addMessage);
+    const handleBulkDelivered = deliveredHandler(updateMessageStatus);
+    const handleReadMessage = readHandler(updateMessageStatus);
 
     socket.on("user-typing", handleTyping);
     socket.on("user-stop-typing", handleStopTyping);
     socket.on("receiver-message", handleReceiveMessage);
-    socket.on("receiver-message-edit-id", handleReceiverMessageEditId);
+    socket.on("message-delivered", handleBulkDelivered);
+    socket.on("message-read", handleReadMessage);
 
     return () => {
       socket.off("user-typing", handleTyping);
       socket.off("user-stop-typing", handleStopTyping);
       socket.off("receiver-message", handleReceiveMessage);
-      socket.off("receiver-message-edit-id", handleReceiverMessageEditId);
+      socket.off("message-delivered", handleBulkDelivered);
+      socket.off("message-read", handleReadMessage);
     };
-  }, []);
+  }, [receiverId]);
 
   React.useEffect(() => {
     if (!senderId) return;
     socket.emit("join-room", senderId);
   }, [senderId]);
+
+  React.useEffect(() => {
+    readOldMessagesHandler(receiverId);
+  }, [receiverId]);
 
   React.useEffect(() => {
     useChatStore.setState({ chat: null });

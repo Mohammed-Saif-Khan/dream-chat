@@ -65,12 +65,12 @@ export default function ChatInput({
           _id: senderId,
         },
         time,
+        status: "pending",
         _id: uuidv4(),
       };
 
-      addMessage(tempMsg);
-      socket.emit("sending-message", tempMsg);
       socket.emit("stop-typing", { receiverId });
+      addMessage(tempMsg);
       setValue("message", "");
 
       const finalData = {
@@ -87,7 +87,6 @@ export default function ChatInput({
         const tempId = tempMsg?._id;
         const originalMessage = result?.data;
         editMessageId(tempId, originalMessage);
-        socket.emit("sending-message-edit-id", { tempId, originalMessage });
       } else {
         toast.error(result?.message || "Failed to send Messgae");
       }
