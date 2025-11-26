@@ -11,7 +11,7 @@ import MissedAudioCall from "@/components/chat/missed-audio-call-chat";
 export default function AllChat() {
   return (
     <div>
-      <ChatBubble
+      {/* <ChatBubble
         sender={false}
         time="5:30"
         senderName="Edward Lietz"
@@ -27,7 +27,7 @@ export default function AllChat() {
         sender={true}
         time="5:30"
         message="Hello! Absolutely, we provide a range of services tailored to meet various business needs. Could you specify what you're looking for?"
-      />
+      /> */}
       <DateDivider date="Today, July 24" />
       <ChatImage sender={false} senderName="Edward Lietz" imgSrc={GALLAERY_1} />
       <VoiceChat sender={true} audioSrc="horse.org" />
