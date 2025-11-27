@@ -28,7 +28,7 @@ export default function ChatBubble({
         )}
       >
         <p className="text-sm text-foreground">{senderName}</p>
-        <Dot size={30} />
+        {/* <Dot size={30} /> */}
         <p className="text-sm text-muted-foreground">{time}</p>
         {sender && (
           <>
