@@ -1,21 +1,19 @@
 "use client";
-import { ExploreUserList } from "@/types/contact";
-import Chat from "./chat-area";
-import ChatHeader from "./chat-header";
-import ChatInput from "./chat-input";
-import { useChatStore } from "@/store/chat";
-import React from "react";
 import { socket } from "@/socket";
-import { MessageType } from "@/store/chat/type";
-import { ProfileType } from "@/types/profile";
-import { fetchInstance } from "@/utils/fetch-instance";
-import { stopTypingHandler, typingHandler } from "@/socket/typing";
 import {
   deliveredHandler,
   readHandler,
   readOldMessagesHandler,
   receiveMessageHandler,
 } from "@/socket/message";
+import { stopTypingHandler, typingHandler } from "@/socket/typing";
+import { useChatStore } from "@/store/chat";
+import { ExploreUserList } from "@/types/contact";
+import { ProfileType } from "@/types/profile";
+import React from "react";
+import Chat from "./chat-area";
+import ChatHeader from "./chat-header";
+import ChatInput from "./chat-input";
 
 type ChatLayoutProps = {
   selectedUser: ExploreUserList | undefined;

@@ -4,7 +4,7 @@ import TypingIndicator from "@/components/chat/typing-indicator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { ChatType } from "@/store/chat/type";
-import getName from "@/utils/getName";
+// import getName from "@/utils/getName";
 import React from "react";
 
 type ChatProps = {
@@ -32,7 +32,7 @@ export default function Chat({ chat, senderId, typing }: ChatProps) {
             <ChatBubble
               key={`CHAT-MESSAGE-${index}`}
               sender={msg?.senderId?._id === senderId}
-              senderName={getName(msg?.senderId, senderId)}
+              // senderName={getName(msg?.senderId, senderId)}
               message={msg?.message}
               time={msg?.time}
               status={msg?.status}
