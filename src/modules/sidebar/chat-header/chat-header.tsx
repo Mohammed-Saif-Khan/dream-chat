@@ -42,7 +42,7 @@ export default function ChatHeader({ heading }: { heading?: string }) {
             </Button>
 
             <DropdownMenu>
-              <DropdownMenuTrigger asChild>
+              <DropdownMenuTrigger id="menu-trigger-1" asChild>
                 <EllipsisVertical
                   width={20}
                   height={20}

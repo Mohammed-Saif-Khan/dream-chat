@@ -2,6 +2,7 @@
 import TextBox from "@/components/forms/text-box";
 import { messageSchema, messageTyep } from "@/schema/message";
 import { socket } from "@/socket";
+import { useChatlistStore } from "@/store/chat-list";
 import { MessageType } from "@/store/chat/type";
 import { ProfileType } from "@/types/profile";
 import { fetchInstance } from "@/utils/fetch-instance";
@@ -27,6 +28,7 @@ export default function ChatInput({
   addMessage,
   editMessageId,
 }: ChatInputProps) {
+  const { updateChatlist } = useChatlistStore();
   const typingTimeoutRef = React.useRef<NodeJS.Timeout>(null);
 
   const handleTyping = () => {
@@ -87,6 +89,7 @@ export default function ChatInput({
         const tempId = tempMsg?._id;
         const originalMessage = result?.data;
         editMessageId(tempId, originalMessage);
+        updateChatlist(originalMessage?.receiverId, originalMessage, false);
       } else {
         toast.error(result?.message || "Failed to send Messgae");
       }

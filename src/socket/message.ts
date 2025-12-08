@@ -1,18 +1,21 @@
-import { MessageType } from "@/store/chat/type";
 import { socket } from "@/socket";
+import { useChatlistStore } from "@/store/chat-list";
+import { MessageType } from "@/store/chat/type";
 import { fetchInstance } from "@/utils/fetch-instance";
 
 export const receiveMessageHandler =
   (receiverId: string, addMessage: (message: MessageType) => void) =>
   (data: MessageType) => {
-    addMessage(data);
+    const { resetReadCount } = useChatlistStore.getState();
 
     // If the message is from the person we are chatting with → mark as read
     if (data.senderId._id === receiverId) {
+      addMessage(data);
       socket.emit("message-read", {
         senderId: data.senderId._id,
         messageId: data._id,
       });
+      resetReadCount(data?.senderId?._id);
     }
   };
 
@@ -36,10 +39,15 @@ export const readOldMessagesHandler = async (receiverId: string) => {
   if (!receiverId) return;
 
   try {
-    await fetchInstance("api/v1/message-read", {
+    const response = await fetchInstance("api/v1/message-read", {
       method: "POST",
       body: JSON.stringify({ senderId: receiverId }),
     });
+    if (response?.status === 200) {
+      const { resetReadCount } = useChatlistStore.getState();
+      resetReadCount(receiverId);
+    }
+    console.log(response, "responseresponse");
   } catch (error) {
     console.error("Failed to mark messages as read:", error);
   }

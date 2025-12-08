@@ -6,7 +6,6 @@ import ProfileSidebar from "@/section/profile";
 import SettingSidebar from "@/section/settings";
 import { ExploreUserList } from "@/types/contact";
 import { ProfileType } from "@/types/profile";
-import React from "react";
 
 type SidebarProps = {
   pathname?: string;

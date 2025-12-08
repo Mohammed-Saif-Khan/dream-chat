@@ -14,7 +14,6 @@ type ChatProps = {
 };
 
 export default function Chat({ chat, senderId, typing }: ChatProps) {
-  console.log(typing, "typingtyping");
   const scrollRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {

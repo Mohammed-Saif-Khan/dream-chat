@@ -5,6 +5,7 @@ export type MessageType = {
   time: string;
   status: "pending" | "sent" | "delivered" | "read" | string;
   _id: string;
+  createdAt?: string;
 };
 
 export type ChatType = {
