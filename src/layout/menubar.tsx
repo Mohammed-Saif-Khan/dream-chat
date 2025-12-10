@@ -5,22 +5,25 @@ import ModeToogleButton from "@/components/button/mode-toogle";
 import { Toggle } from "@/components/ui/toggle";
 import { useNavigate } from "@/hooks/use-navigate";
 import { cn } from "@/lib/utils";
+import { useProfileStore } from "@/store/profile";
 import { ProfileType } from "@/types/profile";
 import { menubarHideURL, navbar } from "@/utils/constant";
 import { getFallbackName } from "@/utils/getFallbackName";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import React, { use } from "react";
 
-export default function Menubar({
-  profile,
-}: {
-  profile: ProfileType | undefined;
-}) {
+export default function Menubar() {
+  const { profile, getProfile } = useProfileStore();
   const { push } = useNavigate();
   const pathname = usePathname();
   const menubarShow = menubarHideURL.includes(pathname);
   const fallbackName = getFallbackName(profile?.firstName, profile?.lastName);
+
+  React.useEffect(() => {
+    getProfile();
+  }, []);
 
   return (
     !menubarShow && (

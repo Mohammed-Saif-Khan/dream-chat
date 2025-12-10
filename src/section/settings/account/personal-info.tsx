@@ -14,6 +14,7 @@ import {
   UseFormSetValue,
 } from "react-hook-form";
 import AvatarUpload from "./avatar-upload";
+import React from "react";
 
 interface PersonalInfoProps<T extends FieldValues> {
   control: Control<T>;

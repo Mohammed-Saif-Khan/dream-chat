@@ -1,18 +1,15 @@
+"use client";
 import AvatarDP from "@/components/avatar";
 import { Separator } from "@/components/ui/separator";
-import { ProfileType } from "@/types/profile";
+import { useProfileStore } from "@/store/profile";
 import { getFallbackName } from "@/utils/getFallbackName";
+import Deactivate from "./deactivate";
+import Logout from "./logout";
 import ProfielInfo from "./profile-info";
 import SocialMedia from "./social-media";
-import Logout from "./logout";
-import Deactivate from "./deactivate";
 
-export default function ProfileSidebar({
-  profile,
-}: {
-  profile?: ProfileType | undefined;
-}) {
-  console.log(profile, "profileprofile");
+export default function ProfileSidebar() {
+  const { profile } = useProfileStore();
 
   return (
     <div>

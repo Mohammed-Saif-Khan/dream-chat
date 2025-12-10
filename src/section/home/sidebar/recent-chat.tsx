@@ -54,7 +54,7 @@ export default function RecentChat() {
         className="mySwiper"
       >
         {RecentChatData?.map((item, index) => (
-          <SwiperSlide key={index} className="!w-auto">
+          <SwiperSlide key={index} className="w-auto!">
             <div className="flex items-center flex-col gap-1">
               <AvatarDP
                 src={item?.img}

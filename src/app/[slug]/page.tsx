@@ -26,12 +26,7 @@ export default async function Page({
       enableSystem
       disableTransitionOnChange
     >
-      <WebLayout
-        pathname={slug}
-        profile={profile}
-        query={query}
-        userList={userList}
-      >
+      <WebLayout pathname={slug} query={query} userList={userList}>
         <Suspense fallback={<p>Loding...</p>}>
           <Home profile={profile} userList={userList} />
         </Suspense>

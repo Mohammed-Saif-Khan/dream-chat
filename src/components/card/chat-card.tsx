@@ -11,6 +11,7 @@ import { EllipsisVertical } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import AvatarDP from "../avatar";
 import { Badge } from "../ui/badge";
+import { useProfileStore } from "@/store/profile";
 
 type ChatCard = {
   src?: string | null;
@@ -22,6 +23,7 @@ type ChatCard = {
   unreadCount: number;
   id?: string;
   onClick?: () => void;
+  senderId: string | undefined;
 };
 
 export default function ChatCard({
@@ -33,12 +35,12 @@ export default function ChatCard({
   time,
   unreadCount,
   id,
+  senderId,
   onClick,
 }: ChatCard) {
+  const { profile } = useProfileStore();
   const searchParams = useSearchParams();
   const receiverId = searchParams.get("receiver");
-
-  console.log(unreadCount, "unreadCountunreadCount");
 
   return (
     <div
@@ -72,11 +74,13 @@ export default function ChatCard({
           {time}
         </p>
         <div className="flex items-center justify-end gap-2">
-          {unreadCount !== undefined && unreadCount > 0 && (
-            <Badge className="h-5 min-w-5 rounded-full font-semibold tabular-nums bg-chart-5 py-0.5 px-1 pt-1 text-white">
-              {unreadCount}
-            </Badge>
-          )}
+          {unreadCount !== undefined &&
+            unreadCount > 0 &&
+            senderId !== profile?._id && (
+              <Badge className="h-5 min-w-5 rounded-full font-semibold tabular-nums bg-chart-5 py-0.5 px-1 pt-1 text-white">
+                {unreadCount}
+              </Badge>
+            )}
           <DropdownMenu>
             <DropdownMenuTrigger>
               <EllipsisVertical

@@ -130,6 +130,10 @@ export default function AvatarUpload({ bind }: { bind: string }) {
     }
   };
 
+  React.useEffect(() => {
+    setAvatarImage(bind);
+  }, [bind]);
+
   return (
     <div className="relative border-3 border-dashed border-primary rounded-full p-1 cursor-pointer">
       <Avatar onClick={handleAvatarClick} className="size-18">

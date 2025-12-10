@@ -1,6 +1,5 @@
 import { Card } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
-import React from "react";
 
 export default function Deactivate() {
   return (

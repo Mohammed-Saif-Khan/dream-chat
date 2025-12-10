@@ -37,11 +37,13 @@ export default function AllChat() {
         <div className="flex items-center gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <Funnel
-                width={16}
-                height={16}
-                className="text-muted-foreground cursor-pointer"
-              />
+              <span>
+                <Funnel
+                  width={16}
+                  height={16}
+                  className="text-muted-foreground cursor-pointer"
+                />
+              </span>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="bg-background">
               <DropdownMenuLabel>Filter</DropdownMenuLabel>
@@ -70,6 +72,7 @@ export default function AllChat() {
             time={item?.lastMessage?.time}
             unreadCount={item?.unreadCount}
             message={item?.lastMessage?.message}
+            senderId={item?.lastMessage?.senderId}
           />
         </Link>
       ))}

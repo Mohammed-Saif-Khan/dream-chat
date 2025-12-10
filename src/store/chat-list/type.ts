@@ -13,14 +13,15 @@ export interface LastMessage {
   time: string;
   status: "sent" | "delivered" | "read" | string;
   createdAt?: string;
+  senderId?: string;
 }
 
 export interface ChatItem {
-  _id: string;
+  _id?: string; // chatId
   participants: Participant;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
+  createdAt?: string;
+  updatedAt?: string;
+  __v?: number;
   unreadCount: number;
   lastMessage: LastMessage | null;
 }
@@ -28,14 +29,14 @@ export interface ChatItem {
 export type StateType = {
   isLoading: boolean;
   hasError: Error | null;
-  chatlist: ChatItem[] | [];
+  chatlist: ChatItem[];
 };
 
 export type ChatlistStore = StateType & {
   getChatlist: () => Promise<void>;
   updateChatlist: (
     receiverId: string,
-    lastMessage: LastMessage,
+    message: MessageType,
     inComming: boolean
   ) => void;
   resetReadCount: (userId: string) => void;

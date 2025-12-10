@@ -7,7 +7,6 @@ export const receiveMessageHandler =
   (receiverId: string, addMessage: (message: MessageType) => void) =>
   (data: MessageType) => {
     const { resetReadCount } = useChatlistStore.getState();
-
     // If the message is from the person we are chatting with → mark as read
     if (data.senderId._id === receiverId) {
       addMessage(data);

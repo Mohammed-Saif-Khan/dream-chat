@@ -115,10 +115,12 @@ export default function ChatHeader({ data }: ChatHeaderProps) {
 
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <EllipsisVertical
-              size={14}
-              className="text-muted-foreground cursor-pointer"
-            />
+            <span>
+              <EllipsisVertical
+                size={14}
+                className="text-muted-foreground cursor-pointer"
+              />
+            </span>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Chat Setting</DropdownMenuLabel>

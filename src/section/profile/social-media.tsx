@@ -7,7 +7,7 @@ import React from "react";
 export default function SocialMedia({
   profile,
 }: {
-  profile?: ProfileType | undefined;
+  profile?: ProfileType | null;
 }) {
   return (
     <div className="py-6">

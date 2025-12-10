@@ -19,8 +19,8 @@ export default function ProfielInfo({
   data,
   profile,
 }: {
-  profile?: ProfileType | undefined;
-  data?: ExploreUserList | undefined;
+  profile?: ProfileType | null;
+  data?: ExploreUserList | null;
 }) {
   const pathname = usePathname();
   const isShow = pathname === "/explore" ? false : true;

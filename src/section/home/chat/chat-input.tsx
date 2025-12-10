@@ -90,6 +90,10 @@ export default function ChatInput({
         const originalMessage = result?.data;
         editMessageId(tempId, originalMessage);
         updateChatlist(originalMessage?.receiverId, originalMessage, false);
+        socket.emit("new-conversation-chatlist", {
+          receiverId: originalMessage?.receiverId,
+          message: originalMessage,
+        });
       } else {
         toast.error(result?.message || "Failed to send Messgae");
       }

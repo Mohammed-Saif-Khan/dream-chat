@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/accordion";
 import { personalSchema, personalType } from "@/schema/personal-info";
 import { useLogoutStore } from "@/store/logout";
-import { ProfileType } from "@/types/profile";
+import { useProfileStore } from "@/store/profile";
 import { fetchInstance } from "@/utils/fetch-instance";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -36,7 +36,8 @@ export type muteBlockType = {
   type: string | null;
 };
 
-export default function SettingSidebar({ profile }: { profile: ProfileType }) {
+export default function SettingSidebar() {
+  const { profile } = useProfileStore();
   const [muteblockDialog, setMuteBlockDialog] = React.useState<muteBlockType>({
     open: false,
     type: null,
@@ -113,7 +114,7 @@ export default function SettingSidebar({ profile }: { profile: ProfileType }) {
                   setValue={profileForm.setValue}
                   errors={profileForm.formState.errors}
                   isSubmitting={profileForm.formState.isSubmitting}
-                  avatarBind={profile?.avatar}
+                  avatarBind={profile?.avatar!}
                 />
               </form>
             </AccordionContent>

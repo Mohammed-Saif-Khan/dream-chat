@@ -5,27 +5,21 @@ import ChatSidebar from "@/section/home/sidebar";
 import ProfileSidebar from "@/section/profile";
 import SettingSidebar from "@/section/settings";
 import { ExploreUserList } from "@/types/contact";
-import { ProfileType } from "@/types/profile";
 
 type SidebarProps = {
   pathname?: string;
-  profile: ProfileType;
   userList: ExploreUserList[];
 };
 
-export default function Sidebar({ pathname, profile, userList }: SidebarProps) {
-  const renderSidebar = (
-    pathname: string,
-    profile: ProfileType,
-    userList: ExploreUserList[]
-  ) => {
+export default function Sidebar({ pathname, userList }: SidebarProps) {
+  const renderSidebar = (pathname: string, userList: ExploreUserList[]) => {
     switch (pathname) {
       case "chat":
         return <ChatSidebar />;
       case "settings":
-        return <SettingSidebar profile={profile} />;
+        return <SettingSidebar />;
       case "profile":
-        return <ProfileSidebar profile={profile} />;
+        return <ProfileSidebar />;
       case "explore":
         return <Explore userList={userList} />;
       default:
@@ -40,7 +34,7 @@ export default function Sidebar({ pathname, profile, userList }: SidebarProps) {
       <div className="flex flex-col overflow-hidden">
         <ScrollArea className="overflow-y-auto chat-scrollarea">
           <div className="flex-1 overflow-y-auto pt-5 px-4">
-            {renderSidebar(pathname || "", profile, userList)}
+            {renderSidebar(pathname || "", userList)}
             <div className="xl:h-4" />
           </div>
         </ScrollArea>
