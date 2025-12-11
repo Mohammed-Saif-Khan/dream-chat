@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { Check, CheckCheck, Clock, Dot } from "lucide-react";
+import { Ban, Check, CheckCheck, Clock, Dot } from "lucide-react";
 import ChatMenu from "./controls/chat-menu";
 
 type ChatBubblePorps = {
@@ -8,6 +8,8 @@ type ChatBubblePorps = {
   senderName?: string;
   time: string;
   status: string;
+  isDelete: boolean | undefined;
+  messageId: string;
 };
 
 export default function ChatBubble({
@@ -16,6 +18,8 @@ export default function ChatBubble({
   senderName,
   time,
   status,
+  isDelete,
+  messageId,
 }: ChatBubblePorps) {
   return (
     <div
@@ -30,7 +34,7 @@ export default function ChatBubble({
         <p className="text-sm text-foreground">{senderName}</p>
         {/* <Dot size={30} /> */}
         <p className="text-sm text-muted-foreground">{time}</p>
-        {sender && (
+        {sender && !isDelete && (
           <>
             {status === "pending" && (
               <Clock size={14} className="mr-2 opacity-70" />
@@ -61,9 +65,16 @@ export default function ChatBubble({
               : "rounded-r-xl bg-gray-200 dark:bg-muted"
           )}
         >
-          {message}
+          {isDelete ? (
+            <p className="flex items-center gap-2">
+              <Ban size={15} />
+              This message is Deleted
+            </p>
+          ) : (
+            message
+          )}
         </div>
-        <ChatMenu sender={sender} />
+        <ChatMenu sender={sender} messageId={messageId} />
       </div>
     </div>
   );

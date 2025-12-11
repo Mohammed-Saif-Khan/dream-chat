@@ -29,8 +29,10 @@ export default function Chat({ chat, senderId, typing }: ChatProps) {
           chat?.message?.length > 0 &&
           chat?.message?.map((msg, index) => (
             <ChatBubble
+              messageId={msg?._id}
               key={`CHAT-MESSAGE-${index}`}
               sender={msg?.senderId?._id === senderId}
+              isDelete={msg?.isDeleted}
               // senderName={getName(msg?.senderId, senderId)}
               message={msg?.message}
               time={msg?.time}

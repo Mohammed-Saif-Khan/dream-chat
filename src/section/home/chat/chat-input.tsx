@@ -1,4 +1,5 @@
 "use client";
+import ChatInputBox from "@/components/forms/chat-input-box";
 import TextBox from "@/components/forms/text-box";
 import { messageSchema, messageTyep } from "@/schema/message";
 import { socket } from "@/socket";
@@ -18,7 +19,7 @@ type ChatInputProps = {
   senderId: string;
   profile: ProfileType;
   addMessage: (message: MessageType) => void;
-  editMessageId: (tempId: string, message: MessageType) => void;
+  editMessage: (tempId: string, message: MessageType) => void;
 };
 
 export default function ChatInput({
@@ -26,7 +27,7 @@ export default function ChatInput({
   senderId,
   profile,
   addMessage,
-  editMessageId,
+  editMessage,
 }: ChatInputProps) {
   const { updateChatlist } = useChatlistStore();
   const typingTimeoutRef = React.useRef<NodeJS.Timeout>(null);
@@ -60,6 +61,8 @@ export default function ChatInput({
 
       const tempMsg: MessageType = {
         message: data?.message,
+        isDeleted: false,
+        deletedAt: null,
         receiverId,
         senderId: {
           firstName: profile?.firstName,
@@ -88,12 +91,8 @@ export default function ChatInput({
       if (response?.status === 200) {
         const tempId = tempMsg?._id;
         const originalMessage = result?.data;
-        editMessageId(tempId, originalMessage);
+        editMessage(tempId, originalMessage);
         updateChatlist(originalMessage?.receiverId, originalMessage, false);
-        socket.emit("new-conversation-chatlist", {
-          receiverId: originalMessage?.receiverId,
-          message: originalMessage,
-        });
       } else {
         toast.error(result?.message || "Failed to send Messgae");
       }
@@ -110,33 +109,22 @@ export default function ChatInput({
   return (
     <form
       onSubmit={handleSubmit(onSendMessage)}
-      className="py-4 px-4 bg-background border-t shadow-xs"
+      className="py-4 pb-0 px-4 bg-background border-t shadow-xs"
     >
-      <TextBox
+      <ChatInputBox
         name="message"
         register={register}
-        placeholder="Type a message"
-        endVariant="default"
-        endSize="icon-sm"
-        addOnButtonType="submit"
-        startAddon={[
-          <Smile key="simle" size={18} />,
-          <Paperclip key="clip" size={18} />,
-        ]}
+        placeholder="Type a message..."
         onChange={(e) => {
           handleTyping();
           setValue("message", e.target.value, { shouldValidate: true });
         }}
-        autoComplete="off"
-        endAddon={<SendHorizontal size={18} className="text-white " />}
-        className={{
-          input: "bg-gray-200 dark:bg-muted h-12",
-          startAddon: "bg-gray-200 dark:bg-muted h-12 rounded-l-sm",
-          endAddon: "bg-gray-200 dark:bg-muted h-12 rounded-r-sm",
-          fieldSet: "mb-0",
-          inputGroup:
-            "has-[[data-slot=input-group-control]:focus-visible]:border-none has-[[data-slot=input-group-control]:focus-visible]:ring-ring has-[[data-slot=input-group-control]:focus-visible]:ring-0 shadow-none border-none",
-        }}
+        startAddon={[
+          <Smile key="simle" size={20} />,
+          <Paperclip key="clip" size={20} />,
+        ]}
+        endAddon={<SendHorizontal size={20} />}
+        addOnButtonType="submit"
       />
     </form>
   );

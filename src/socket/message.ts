@@ -46,7 +46,6 @@ export const readOldMessagesHandler = async (receiverId: string) => {
       const { resetReadCount } = useChatlistStore.getState();
       resetReadCount(receiverId);
     }
-    console.log(response, "responseresponse");
   } catch (error) {
     console.error("Failed to mark messages as read:", error);
   }

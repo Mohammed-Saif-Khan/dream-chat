@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { siderBarMenu } from "@/utils/constant";
-import { EllipsisVertical } from "lucide-react";
+import { Ban, EllipsisVertical } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import AvatarDP from "../avatar";
 import { Badge } from "../ui/badge";
@@ -24,6 +24,7 @@ type ChatCard = {
   id?: string;
   onClick?: () => void;
   senderId: string | undefined;
+  isDelete: boolean | undefined;
 };
 
 export default function ChatCard({
@@ -37,6 +38,7 @@ export default function ChatCard({
   id,
   senderId,
   onClick,
+  isDelete,
 }: ChatCard) {
   const { profile } = useProfileStore();
   const searchParams = useSearchParams();
@@ -63,9 +65,19 @@ export default function ChatCard({
             {name}
           </p>
           <div className={cn("flex items-center gap-2")}>
-            <p className={cn("text-sm text-muted-foreground line-clamp-1")}>
-              {message}
-            </p>
+            {isDelete ? (
+              <p
+                className={cn(
+                  "text-sm text-muted-foreground line-clamp-1 flex items-center gap-1"
+                )}
+              >
+                <Ban size={14} /> This message is Deleted
+              </p>
+            ) : (
+              <p className={cn("text-sm text-muted-foreground line-clamp-1")}>
+                {message}
+              </p>
+            )}
           </div>
         </div>
       </div>

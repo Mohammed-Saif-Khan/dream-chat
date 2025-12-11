@@ -21,7 +21,7 @@ export default function ChatLayout({
   profile,
   typing,
 }: ChatLayoutProps) {
-  const { chat, addMessage, editMessageId } = useChatStore();
+  const { chat, addMessage, editMessage } = useChatStore();
 
   return (
     <div className="flex flex-col h-svh w-full">
@@ -32,7 +32,7 @@ export default function ChatLayout({
         senderId={senderId}
         receiverId={receiverId}
         addMessage={addMessage}
-        editMessageId={editMessageId}
+        editMessage={editMessage}
       />
     </div>
   );

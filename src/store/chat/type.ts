@@ -8,6 +8,8 @@ export type MessageType = {
   status: "pending" | "sent" | "delivered" | "read" | string;
   _id: string;
   createdAt?: string;
+  isDeleted: boolean;
+  deletedAt: string | null;
 };
 
 export type ChatType = {
@@ -25,6 +27,6 @@ export type StateType = {
 export type ChatStore = StateType & {
   getChat: (id: string) => Promise<void>;
   addMessage: (message: MessageType) => void;
-  editMessageId: (tempId: string, updateMsg: MessageType) => void;
+  editMessage: (tempId: string, updateMsg: MessageType) => void;
   updateMessageStatus: (id: string, status: Partial<MessageType>) => void;
 };

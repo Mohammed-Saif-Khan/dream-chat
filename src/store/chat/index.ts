@@ -38,7 +38,7 @@ export const useChatStore = create<ChatStore>()((set) => {
       }));
     },
 
-    editMessageId: (tempId, updateMsg) => {
+    editMessage: (tempId, updateMsg) => {
       set((state) => ({
         ...state,
         chat: {

@@ -22,7 +22,7 @@ export default function RecentChat() {
         <h1 className="text-lg font-semibold text-foreground">Recent Chats</h1>
         <div className="flex items-center gap-2">
           <DropdownMenu>
-            <DropdownMenuTrigger>
+            <DropdownMenuTrigger asChild>
               <span>
                 <EllipsisVertical
                   width={16}
@@ -33,10 +33,14 @@ export default function RecentChat() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="bg-background">
               <DropdownMenuItem className="cursor-pointer focus:text-primary">
-                <EyeOff className="focus:text-primary" /> Hide Recent
+                <span>
+                  <EyeOff className="focus:text-primary" /> Hide Recent
+                </span>
               </DropdownMenuItem>
               <DropdownMenuItem className="cursor-pointer focus:text-primary">
-                <UserRound className="focus:text-primary" /> Active Contacts
+                <span>
+                  <UserRound className="focus:text-primary" /> Active Contacts
+                </span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

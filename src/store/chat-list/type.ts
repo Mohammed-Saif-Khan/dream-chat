@@ -14,6 +14,8 @@ export interface LastMessage {
   status: "sent" | "delivered" | "read" | string;
   createdAt?: string;
   senderId?: string;
+  isDeleted?: boolean;
+  deletedAt?: string | null;
 }
 
 export interface ChatItem {

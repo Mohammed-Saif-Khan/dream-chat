@@ -33,12 +33,14 @@ export const useChatlistStore = create<ChatlistStore>()((set) => {
     },
 
     updateChatlist: (receiverId, message, inComming = false) => {
-      const lastMessage: LastMessage = {
+      const lastMessage = {
         _id: message._id,
         message: message.message,
         time: message.time,
         status: message.status,
         createdAt: message.createdAt,
+        isDeleted: message?.isDeleted,
+        deletedAt: message?.deletedAt,
       };
 
       set((prev) => {

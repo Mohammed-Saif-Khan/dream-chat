@@ -7,12 +7,35 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { EllipsisVertical } from "lucide-react";
 import { messageMenu } from "@/utils/constant";
+import { fetchInstance } from "@/utils/fetch-instance";
+import toast from "react-hot-toast";
 
 type ChatMenuProps = {
   sender: boolean;
+  messageId?: string;
 };
 
-export default function ChatMenu({ sender }: ChatMenuProps) {
+export default function ChatMenu({ sender, messageId }: ChatMenuProps) {
+  const onDelete = async () => {
+    try {
+      const response = await fetchInstance(`api/v1/message/${messageId}`, {
+        method: "DELETE",
+      });
+      if (!response?.ok) {
+        toast.error("Failed to Delete Message");
+      }
+    } catch (error) {
+      console.error("Something went wrong to delete message", error);
+      toast.error("Something went wrong");
+    }
+  };
+
+  const handleDelete = (label: string) => {
+    if (label === "Delete") {
+      onDelete();
+    }
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="cursor-pointer">
@@ -31,6 +54,7 @@ export default function ChatMenu({ sender }: ChatMenuProps) {
               <DropdownMenuItem
                 variant={item?.label === "Delete" ? "destructive" : "default"}
                 key={index}
+                onClick={() => handleDelete(item?.label)}
                 className="focus:text-primary"
               >
                 <Icon className="focus:text-primary mr-2" />

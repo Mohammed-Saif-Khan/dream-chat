@@ -74,10 +74,12 @@ export default function ChatHeader({ data }: ChatHeaderProps) {
       <div className="flex items-center gap-3 md:gap-6">
         <Tooltip>
           <TooltipTrigger asChild>
-            <Search
-              size={14}
-              className="text-muted-foreground cursor-pointer"
-            />
+            <span>
+              <Search
+                size={14}
+                className="text-muted-foreground cursor-pointer"
+              />
+            </span>
           </TooltipTrigger>
           <TooltipContent>
             <p>Search</p>
@@ -86,7 +88,12 @@ export default function ChatHeader({ data }: ChatHeaderProps) {
 
         <Tooltip>
           <TooltipTrigger asChild className="hidden md:flex">
-            <Video size={14} className="text-muted-foreground cursor-pointer" />
+            <span>
+              <Video
+                size={14}
+                className="text-muted-foreground cursor-pointer"
+              />
+            </span>
           </TooltipTrigger>
           <TooltipContent>
             <p>Video Call</p>
@@ -94,7 +101,12 @@ export default function ChatHeader({ data }: ChatHeaderProps) {
         </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild className="hidden md:flex">
-            <Phone size={14} className="text-muted-foreground cursor-pointer" />
+            <span>
+              <Phone
+                size={14}
+                className="text-muted-foreground cursor-pointer"
+              />
+            </span>
           </TooltipTrigger>
           <TooltipContent>
             <p>Voice Call</p>
@@ -106,7 +118,12 @@ export default function ChatHeader({ data }: ChatHeaderProps) {
             className="hidden md:flex"
             onClick={() => setOpen(true)}
           >
-            <Info size={14} className="text-muted-foreground cursor-pointer" />
+            <span>
+              <Info
+                size={14}
+                className="text-muted-foreground cursor-pointer"
+              />
+            </span>
           </TooltipTrigger>
           <TooltipContent>
             <p>Contact Info</p>

@@ -10,6 +10,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { socket } from "@/socket";
 import { handleChatlistSort } from "@/socket/chatlist";
+import { deliveredHandler } from "@/socket/message";
+import { useChatStore } from "@/store/chat";
 import { useChatlistStore } from "@/store/chat-list";
 import { Funnel } from "lucide-react";
 import Link from "next/link";
@@ -17,12 +19,15 @@ import React from "react";
 
 export default function AllChat() {
   const { chatlist, getChatlist } = useChatlistStore();
+  const { updateMessageStatus } = useChatStore();
 
   React.useEffect(() => {
     socket.on("receiver-message", handleChatlistSort);
+    const handleBulkDelivered = deliveredHandler(updateMessageStatus);
 
     return () => {
       socket.off("receiver-message", handleChatlistSort);
+      socket.off("message-delivered", handleBulkDelivered);
     };
   }, []);
 
@@ -69,6 +74,7 @@ export default function AllChat() {
             src={item?.participants?.avatar}
             fallback="M"
             status={true}
+            isDelete={item?.lastMessage?.isDeleted}
             time={item?.lastMessage?.time}
             unreadCount={item?.unreadCount}
             message={item?.lastMessage?.message}
