@@ -9,20 +9,42 @@ import { EllipsisVertical } from "lucide-react";
 import { messageMenu } from "@/utils/constant";
 import { fetchInstance } from "@/utils/fetch-instance";
 import toast from "react-hot-toast";
+import { useChatStore } from "@/store/chat";
+import { useChatlistStore } from "@/store/chat-list";
 
 type ChatMenuProps = {
   sender: boolean;
   messageId?: string;
+  receiverId?: string;
 };
 
-export default function ChatMenu({ sender, messageId }: ChatMenuProps) {
+export default function ChatMenu({
+  sender,
+  messageId,
+  receiverId,
+}: ChatMenuProps) {
   const onDelete = async () => {
     try {
       const response = await fetchInstance(`api/v1/message/${messageId}`, {
         method: "DELETE",
       });
-      if (!response?.ok) {
-        toast.error("Failed to Delete Message");
+      if (response?.status === 200) {
+        const result = await response.json();
+        console.log(result, "resultresult");
+        const { editMessage } = useChatStore.getState();
+        const { updateChatlist } = useChatlistStore.getState();
+        editMessage(result?.deletedIds?.[0], {
+          message: "This Message is Deleted",
+          isDeleted: true,
+        });
+        updateChatlist(
+          receiverId!,
+          {
+            message: "This Message is Deleted",
+            isDeleted: true,
+          },
+          false
+        );
       }
     } catch (error) {
       console.error("Something went wrong to delete message", error);

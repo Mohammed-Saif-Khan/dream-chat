@@ -1,7 +1,7 @@
 import { fetchInstance } from "@/utils/fetch-instance";
 import toast from "react-hot-toast";
 import { create } from "zustand";
-import { ChatStore, MessageType } from "./type";
+import { ChatStore } from "./type";
 
 export const useChatStore = create<ChatStore>()((set) => {
   return {
@@ -28,7 +28,7 @@ export const useChatStore = create<ChatStore>()((set) => {
       }
     },
 
-    addMessage: (message: MessageType) => {
+    addMessage: (message: any) => {
       set((prev) => ({
         ...prev,
         chat: {

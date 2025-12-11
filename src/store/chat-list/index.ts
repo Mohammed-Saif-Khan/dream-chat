@@ -1,7 +1,7 @@
 import { fetchInstance } from "@/utils/fetch";
 import toast from "react-hot-toast";
 import { create } from "zustand";
-import { ChatItem, ChatlistStore, LastMessage } from "./type";
+import { ChatItem, ChatlistStore } from "./type";
 
 export const useChatlistStore = create<ChatlistStore>()((set) => {
   return {
@@ -64,14 +64,23 @@ export const useChatlistStore = create<ChatlistStore>()((set) => {
           return { chatlist: [updatedChat, ...chatlist] };
         }
 
+        const participantData = inComming
+          ? {
+              _id: message.senderId._id,
+              firstName: message.senderId.firstName,
+              lastName: message.senderId.lastName,
+              avatar: message.avatar ?? null,
+            }
+          : {
+              _id: message.receiverId?._id,
+              firstName: message.receiverId?.firstName,
+              lastName: message.receiverId?.lastName,
+              avatar: message.receiverAvtar ?? null,
+            };
+
         const newChat: ChatItem = {
           _id: message.chatId,
-          participants: {
-            _id: message.senderId._id,
-            firstName: message.senderId.firstName,
-            lastName: message.senderId.lastName,
-            avatar: message.avatar ?? null,
-          },
+          participants: participantData,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
           unreadCount: inComming ? 1 : 0,

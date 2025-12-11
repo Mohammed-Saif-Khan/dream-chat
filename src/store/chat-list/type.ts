@@ -38,7 +38,7 @@ export type ChatlistStore = StateType & {
   getChatlist: () => Promise<void>;
   updateChatlist: (
     receiverId: string,
-    message: MessageType,
+    message: any,
     inComming: boolean
   ) => void;
   resetReadCount: (userId: string) => void;

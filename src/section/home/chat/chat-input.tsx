@@ -1,6 +1,5 @@
 "use client";
 import ChatInputBox from "@/components/forms/chat-input-box";
-import TextBox from "@/components/forms/text-box";
 import { messageSchema, messageTyep } from "@/schema/message";
 import { socket } from "@/socket";
 import { useChatlistStore } from "@/store/chat-list";
@@ -59,7 +58,7 @@ export default function ChatInput({
         minute: "2-digit",
       });
 
-      const tempMsg: MessageType = {
+      const tempMsg: any = {
         message: data?.message,
         isDeleted: false,
         deletedAt: null,
@@ -92,7 +91,11 @@ export default function ChatInput({
         const tempId = tempMsg?._id;
         const originalMessage = result?.data;
         editMessage(tempId, originalMessage);
-        updateChatlist(originalMessage?.receiverId, originalMessage, false);
+        updateChatlist(
+          originalMessage?.receiverId?._id,
+          originalMessage,
+          false
+        );
       } else {
         toast.error(result?.message || "Failed to send Messgae");
       }

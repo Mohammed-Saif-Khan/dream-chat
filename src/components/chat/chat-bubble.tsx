@@ -10,6 +10,7 @@ type ChatBubblePorps = {
   status: string;
   isDelete: boolean | undefined;
   messageId: string;
+  receiverId: string;
 };
 
 export default function ChatBubble({
@@ -20,6 +21,7 @@ export default function ChatBubble({
   status,
   isDelete,
   messageId,
+  receiverId,
 }: ChatBubblePorps) {
   return (
     <div
@@ -74,7 +76,11 @@ export default function ChatBubble({
             message
           )}
         </div>
-        <ChatMenu sender={sender} messageId={messageId} />
+        <ChatMenu
+          sender={sender}
+          messageId={messageId}
+          receiverId={receiverId}
+        />
       </div>
     </div>
   );
