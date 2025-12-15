@@ -22,8 +22,10 @@ export default function AllChat() {
   const { updateMessageStatus } = useChatStore();
 
   React.useEffect(() => {
-    socket.on("receiver-message", handleChatlistSort);
     const handleBulkDelivered = deliveredHandler(updateMessageStatus);
+
+    socket.on("receiver-message", handleChatlistSort);
+    socket.on("message-delivered", handleBulkDelivered);
 
     return () => {
       socket.off("receiver-message", handleChatlistSort);

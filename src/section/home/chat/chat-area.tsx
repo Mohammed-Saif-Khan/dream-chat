@@ -36,13 +36,14 @@ export default function Chat({
           ?.map((msg, index) => (
             <ChatBubble
               messageId={msg?._id}
-              key={`CHAT-MESSAGE-${index}`}
+              key={`CHAT-MESSAGE-${msg?._id}`}
               sender={msg?.senderId?._id === senderId}
               receiverId={receiverId}
               isDelete={msg?.isDeleted}
               message={msg?.message}
               time={msg?.time}
               status={msg?.status}
+              deletedAt={msg?.deletedAt}
               // senderName={getName(msg?.senderId, senderId)}
             />
           ))}

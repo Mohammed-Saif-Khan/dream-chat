@@ -11,6 +11,7 @@ type ChatBubblePorps = {
   isDelete: boolean | undefined;
   messageId: string;
   receiverId: string;
+  deletedAt: string | null;
 };
 
 export default function ChatBubble({
@@ -22,10 +23,15 @@ export default function ChatBubble({
   isDelete,
   messageId,
   receiverId,
+  deletedAt,
 }: ChatBubblePorps) {
   return (
     <div
-      className={cn("flex flex-col items-start mb-4", sender && "items-end")}
+      className={cn(
+        "flex flex-col items-start mb-4",
+        sender && "items-end",
+        deletedAt && "hidden"
+      )}
     >
       <div
         className={cn(

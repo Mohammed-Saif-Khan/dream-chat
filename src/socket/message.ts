@@ -1,6 +1,11 @@
 import { socket } from "@/socket";
+import { useChatStore } from "@/store/chat";
 import { useChatlistStore } from "@/store/chat-list";
 import { MessageType } from "@/store/chat/type";
+import {
+  handleDeleteFinalType,
+  handleDeleteType,
+} from "@/types/socket/message";
 import { fetchInstance } from "@/utils/fetch-instance";
 
 export const receiveMessageHandler =

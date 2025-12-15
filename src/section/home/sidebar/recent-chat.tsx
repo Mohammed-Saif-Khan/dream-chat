@@ -23,13 +23,13 @@ export default function RecentChat() {
         <div className="flex items-center gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <span>
+              <div>
                 <EllipsisVertical
                   width={16}
                   height={16}
                   className="text-muted-foreground cursor-pointer"
                 />
-              </span>
+              </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="bg-background">
               <DropdownMenuItem className="cursor-pointer focus:text-primary">
