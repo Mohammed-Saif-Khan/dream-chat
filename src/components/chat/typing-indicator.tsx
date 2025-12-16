@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function TypingIndicator() {
   return (
     <div className="p-3.5 dark:bg-muted bg-gray-300 w-fit rounded-xl rounded-bl-none">

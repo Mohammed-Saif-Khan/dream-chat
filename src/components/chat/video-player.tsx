@@ -16,7 +16,6 @@ import "@vidstack/react/player/styles/base.css";
 import "@vidstack/react/player/styles/default/layouts/video.css";
 import "@vidstack/react/player/styles/default/theme.css";
 import { CheckCheck, Dot } from "lucide-react";
-import ChatMenu from "./controls/chat-menu";
 
 type VdieoPlayerProps = {
   sender: boolean;
@@ -78,7 +77,7 @@ export default function VideoPlayer({
             <DefaultVideoLayout icons={defaultLayoutIcons} />
           </MediaPlayer>
         </div>
-        <ChatMenu sender={sender} />
+        {/* <ChatMenu sender={sender} /> */}
       </div>
     </div>
   );

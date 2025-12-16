@@ -1,5 +1,3 @@
-import React from "react";
-import ChatMenu from "./controls/chat-menu";
 import { cn } from "@/lib/utils";
 import { CheckCheck, Dot } from "lucide-react";
 
@@ -52,7 +50,7 @@ export default function VoiceChat({
               <source src={audioSrc} type="audio/mpeg" />
             </audio>
           </div>
-          <ChatMenu sender={sender} />
+          {/* <ChatMenu sender={sender} /> */}
         </div>
       </div>
     </div>

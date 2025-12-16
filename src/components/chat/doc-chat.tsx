@@ -1,7 +1,5 @@
 import { cn } from "@/lib/utils";
 import { CheckCheck, Dot, Download, Files } from "lucide-react";
-import React from "react";
-import ChatMenu from "./controls/chat-menu";
 
 type DocuChatProps = {
   sender: boolean;
@@ -58,7 +56,7 @@ export default function DocuChat({ sender, senderName }: DocuChatProps) {
             />
           </div>
         </div>
-        <ChatMenu sender={sender} />
+        {/* <ChatMenu sender={sender} /> */}
       </div>
     </div>
   );

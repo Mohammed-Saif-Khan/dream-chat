@@ -1,7 +1,5 @@
 import { cn } from "@/lib/utils";
 import { CheckCheck, Dot } from "lucide-react";
-import React from "react";
-import ChatMenu from "./controls/chat-menu";
 import Image, { StaticImageData } from "next/image";
 
 type ChatImageProps = {
@@ -54,7 +52,7 @@ export default function ChatImage({
             className="rounded-md max-w-[300px] h-auto"
           />
         </div>
-        <ChatMenu sender={sender} />
+        {/* <ChatMenu sender={sender} /> */}
       </div>
     </div>
   );
