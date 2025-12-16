@@ -1,6 +1,5 @@
 import { cn } from "@/lib/utils";
 import { CheckCheck, Dot, PhoneCall } from "lucide-react";
-import ChatMenu from "./controls/chat-menu";
 
 type MissedAudioCallProps = {
   sender: boolean;
@@ -53,7 +52,7 @@ export default function MissedAudioCall({
             </div>
           </div>
         </div>
-        <ChatMenu sender={sender} />
+        {/* <ChatMenu sender={sender} /> */}
       </div>
     </div>
   );

@@ -14,23 +14,45 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useChatStore } from "@/store/chat";
+import { useChatlistStore } from "@/store/chat-list";
 import { messageMenu } from "@/utils/constant";
+import { fetchInstance } from "@/utils/fetch-instance";
 import { EllipsisVertical } from "lucide-react";
 import React from "react";
 
 type ChatMenuProps = {
   sender: boolean;
-  messageId?: string;
-  receiverId?: string;
+  messageId: string;
+  receiverId: string;
 };
 
-export default function ChatMenu({ sender }: ChatMenuProps) {
+export default function ChatMenu({
+  sender,
+  receiverId,
+  messageId,
+}: ChatMenuProps) {
   const [open, setOpen] = React.useState<boolean>(false);
+
+  const onDelete = async (messageId: string) => {
+    const response = await fetchInstance(`api/v1/message/${messageId}`, {
+      method: "DELETE",
+    });
+    const result = await response.json();
+    if (response?.status === 200) {
+      const type = result?.delete;
+      const prevMessage = result?.lastMessage?.message;
+      const { deleteMessage } = useChatStore.getState();
+      const { deleteChatlistMessage } = useChatlistStore.getState();
+      deleteMessage(messageId, type);
+      deleteChatlistMessage(receiverId, type, prevMessage);
+    }
+  };
 
   return (
     <div>
       <DropdownMenu>
-        <DropdownMenuTrigger className="cursor-pointer">
+        <DropdownMenuTrigger asChild className="cursor-pointer">
           <span>
             <EllipsisVertical size={16} className="cursor-pointer" />
           </span>
@@ -48,6 +70,7 @@ export default function ChatMenu({ sender }: ChatMenuProps) {
                 <DropdownMenuItem
                   variant={item?.label === "Delete" ? "destructive" : "default"}
                   key={index}
+                  onClick={() => item?.label === "Delete" && setOpen(true)}
                   className="focus:text-primary"
                 >
                   <Icon className="focus:text-primary mr-2" />
@@ -68,7 +91,10 @@ export default function ChatMenu({ sender }: ChatMenuProps) {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction className="text-foreground bg-red-500 hover:bg-red-600">
+            <AlertDialogAction
+              onClick={() => onDelete(messageId)}
+              className="text-foreground bg-red-500 hover:bg-red-600"
+            >
               Delete
             </AlertDialogAction>
           </AlertDialogFooter>

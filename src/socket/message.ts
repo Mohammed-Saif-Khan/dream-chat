@@ -2,24 +2,21 @@ import { socket } from "@/socket";
 import { useChatStore } from "@/store/chat";
 import { useChatlistStore } from "@/store/chat-list";
 import { MessageType } from "@/store/chat/type";
-import {
-  handleDeleteFinalType,
-  handleDeleteType,
-} from "@/types/socket/message";
+import { deleteMessageType } from "@/types/message";
 import { fetchInstance } from "@/utils/fetch-instance";
 
 export const receiveMessageHandler =
   (receiverId: string, addMessage: (message: MessageType) => void) =>
   (data: MessageType) => {
     const { resetReadCount } = useChatlistStore.getState();
-    // If the message is from the person we are chatting with → mark as read
+
     if (data.senderId._id === receiverId) {
       addMessage(data);
       socket.emit("message-read", {
         senderId: data.senderId._id,
         messageId: data._id,
       });
-      resetReadCount(data?.senderId?._id);
+      resetReadCount(data.senderId._id!);
     }
   };
 
@@ -39,15 +36,24 @@ export const readHandler =
     });
   };
 
+export const handleMessageDelete = (data: deleteMessageType) => {
+  const type = data?.delete;
+  const prevMessage = data?.lastMessage?.message;
+  const { deleteMessage } = useChatStore.getState();
+  const { deleteChatlistMessage } = useChatlistStore.getState();
+  deleteMessage(data?.messageId, type);
+  deleteChatlistMessage(data?.senderId, type, prevMessage);
+};
+
 export const readOldMessagesHandler = async (receiverId: string) => {
   if (!receiverId) return;
 
   try {
-    const response = await fetchInstance("api/v1/message-read", {
+    const resposne = await fetchInstance("api/v1/message-read", {
       method: "POST",
       body: JSON.stringify({ senderId: receiverId }),
     });
-    if (response?.status === 200) {
+    if (resposne?.status === 200) {
       const { resetReadCount } = useChatlistStore.getState();
       resetReadCount(receiverId);
     }

@@ -28,7 +28,7 @@ export default function ChatInput({
   addMessage,
   editMessage,
 }: ChatInputProps) {
-  const { updateChatlist } = useChatlistStore();
+  const { upsertChat } = useChatlistStore();
   const typingTimeoutRef = React.useRef<NodeJS.Timeout>(null);
 
   const handleTyping = () => {
@@ -91,11 +91,7 @@ export default function ChatInput({
         const tempId = tempMsg?._id;
         const originalMessage = result?.data;
         editMessage(tempId, originalMessage);
-        updateChatlist(
-          originalMessage?.receiverId?._id,
-          originalMessage,
-          false
-        );
+        upsertChat(originalMessage);
       } else {
         toast.error(result?.message || "Failed to send Messgae");
       }
