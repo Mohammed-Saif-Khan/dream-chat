@@ -1,7 +1,7 @@
 import { useChatlistStore } from "@/store/chat-list";
-import { MessageType } from "@/store/chat/type";
+import { ChatMessagePayload } from "@/types/chat";
 
-export const handleChatlistSort = (data: MessageType) => {
-  const { updateChatlist } = useChatlistStore.getState();
-  updateChatlist(data.senderId._id, data, true);
+export const handleChatlistSort = (data: ChatMessagePayload) => {
+  const { upsertChat } = useChatlistStore.getState();
+  upsertChat(data, true);
 };

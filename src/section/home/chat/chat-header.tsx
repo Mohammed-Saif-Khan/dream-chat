@@ -131,13 +131,11 @@ export default function ChatHeader({ data }: ChatHeaderProps) {
         </Tooltip>
 
         <DropdownMenu>
-          <DropdownMenuTrigger>
-            <span>
-              <EllipsisVertical
-                size={14}
-                className="text-muted-foreground cursor-pointer"
-              />
-            </span>
+          <DropdownMenuTrigger asChild>
+            <EllipsisVertical
+              size={14}
+              className="text-muted-foreground cursor-pointer"
+            />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Chat Setting</DropdownMenuLabel>

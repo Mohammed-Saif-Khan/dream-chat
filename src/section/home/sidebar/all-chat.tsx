@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { socket } from "@/socket";
 import { handleChatlistSort } from "@/socket/chatlist";
-import { deliveredHandler } from "@/socket/message";
+import { deliveredHandler, handleMessageDelete } from "@/socket/message";
 import { useChatStore } from "@/store/chat";
 import { useChatlistStore } from "@/store/chat-list";
 import { Funnel } from "lucide-react";
@@ -26,10 +26,12 @@ export default function AllChat() {
 
     socket.on("receiver-message", handleChatlistSort);
     socket.on("message-delivered", handleBulkDelivered);
+    socket.on("message-delete", handleMessageDelete);
 
     return () => {
-      socket.off("receiver-message", handleChatlistSort);
+      socket.off("receive-message", handleChatlistSort);
       socket.off("message-delivered", handleBulkDelivered);
+      socket.off("message-delete", handleMessageDelete);
     };
   }, []);
 
@@ -43,7 +45,7 @@ export default function AllChat() {
         <h1 className="text-lg font-semibold text-foreground">All Chats</h1>
         <div className="flex items-center gap-2">
           <DropdownMenu>
-            <DropdownMenuTrigger>
+            <DropdownMenuTrigger asChild>
               <span>
                 <Funnel
                   width={16}
@@ -77,6 +79,7 @@ export default function AllChat() {
             fallback="M"
             status={true}
             isDelete={item?.lastMessage?.isDeleted}
+            deleteAt={item?.lastMessage?.deletedAt}
             time={item?.lastMessage?.time}
             unreadCount={item?.unreadCount}
             message={item?.lastMessage?.message}

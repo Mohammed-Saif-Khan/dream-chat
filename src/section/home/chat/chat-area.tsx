@@ -33,7 +33,7 @@ export default function Chat({
       <div className="p-5 px-4 block">
         {chat?.message
           ?.filter((f) => f?.deletedAt === null)
-          ?.map((msg, index) => (
+          ?.map((msg) => (
             <ChatBubble
               messageId={msg?._id}
               key={`CHAT-MESSAGE-${msg?._id}`}

@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { create } from "zustand";
 import { ChatStore } from "./type";
 
-export const useChatStore = create<ChatStore>()((set) => {
+export const useChatStore = create<ChatStore>()((set, get) => {
   return {
     isLoading: false,
     hasError: null,
@@ -72,6 +72,29 @@ export const useChatStore = create<ChatStore>()((set) => {
           }),
         },
       }));
+    },
+
+    deleteMessage: (messageId, type) => {
+      set((prev) => {
+        if (!prev.chat) return prev;
+
+        return {
+          ...prev,
+          chat: {
+            ...prev.chat,
+            message: prev.chat.message.map((msg) =>
+              msg._id === messageId
+                ? {
+                    ...msg,
+                    ...(type === "soft"
+                      ? { isDeleted: true }
+                      : { deletedAt: new Date().toISOString() }),
+                  }
+                : msg
+            ),
+          },
+        };
+      });
     },
   };
 });

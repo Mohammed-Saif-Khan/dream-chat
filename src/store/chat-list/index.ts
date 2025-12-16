@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { create } from "zustand";
 import { ChatItem, ChatlistStore } from "./type";
 
-export const useChatlistStore = create<ChatlistStore>()((set) => {
+export const useChatlistStore = create<ChatlistStore>()((set, get) => {
   return {
     isLoading: false,
     hasError: null,
@@ -32,54 +32,49 @@ export const useChatlistStore = create<ChatlistStore>()((set) => {
       }
     },
 
-    updateChatlist: (receiverId, message, inComming = false) => {
-      const lastMessage = {
-        _id: message._id,
-        message: message.message,
-        time: message.time,
-        status: message.status,
-        createdAt: message.createdAt,
-        isDeleted: message?.isDeleted,
-        deletedAt: message?.deletedAt,
-      };
+    upsertChat: (chatlistData, inComming = false) => {
+      const { chatlist, createChat, updateExistingChat } =
+        useChatlistStore.getState();
 
+      const exists = chatlist.some((c) => c?._id === chatlistData.chatId);
+
+      if (exists) {
+        updateExistingChat(chatlistData, inComming);
+      } else {
+        createChat(chatlistData, inComming);
+      }
+    },
+
+    createChat: (chatlistData, inComming = false) => {
       set((prev) => {
         const chatlist = [...prev.chatlist];
 
-        const index = chatlist.findIndex(
-          (f) => f.participants._id === receiverId
-        );
-
-        if (index !== -1) {
-          const updatedChat: ChatItem = {
-            ...chatlist[index],
-            lastMessage,
-            unreadCount: inComming
-              ? (chatlist[index].unreadCount || 0) + 1
-              : chatlist[index].unreadCount,
-            updatedAt: new Date().toISOString(),
-          };
-
-          chatlist.splice(index, 1);
-          return { chatlist: [updatedChat, ...chatlist] };
-        }
+        const lastMessage = {
+          _id: chatlistData._id,
+          message: chatlistData.message,
+          time: chatlistData.time,
+          status: chatlistData.status,
+          createdAt: chatlistData.createdAt,
+          isDeleted: chatlistData.isDeleted,
+          deletedAt: chatlistData.deletedAt,
+        };
 
         const participantData = inComming
           ? {
-              _id: message.senderId._id,
-              firstName: message.senderId.firstName,
-              lastName: message.senderId.lastName,
-              avatar: message.avatar ?? null,
+              _id: chatlistData.senderId._id,
+              firstName: chatlistData.senderId.firstName,
+              lastName: chatlistData.senderId.lastName,
+              avatar: chatlistData.avatar ?? null,
             }
           : {
-              _id: message.receiverId?._id,
-              firstName: message.receiverId?.firstName,
-              lastName: message.receiverId?.lastName,
-              avatar: message.receiverAvtar ?? null,
+              _id: chatlistData.receiverId._id,
+              firstName: chatlistData.receiverId.firstName,
+              lastName: chatlistData.receiverId.lastName,
+              avatar: chatlistData.receiverAvtar ?? null,
             };
 
         const newChat: ChatItem = {
-          _id: message.chatId,
+          _id: chatlistData.chatId,
           participants: participantData,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
@@ -91,9 +86,42 @@ export const useChatlistStore = create<ChatlistStore>()((set) => {
       });
     },
 
-    resetReadCount: (userId: string) => {
+    updateExistingChat: (chatlistData, inComming = false) => {
       set((prev) => {
         const chatlist = [...prev.chatlist];
+
+        const index = chatlist.findIndex((c) => c._id === chatlistData.chatId);
+
+        if (index === -1) return prev;
+
+        const lastMessage = {
+          _id: chatlistData._id,
+          message: chatlistData.message,
+          time: chatlistData.time,
+          status: chatlistData.status,
+          createdAt: chatlistData.createdAt,
+          isDeleted: chatlistData.isDeleted,
+          deletedAt: chatlistData.deletedAt,
+        };
+
+        const updatedChat: ChatItem = {
+          ...chatlist[index],
+          lastMessage,
+          unreadCount: inComming
+            ? (chatlist[index]?.unreadCount || 0) + 1
+            : chatlist[index]?.unreadCount,
+          updatedAt: new Date().toISOString(),
+        };
+
+        chatlist.splice(index, 1);
+
+        return { chatlist: [updatedChat, ...chatlist] };
+      });
+    },
+
+    resetReadCount: (userId) => {
+      set((prev) => {
+        const chatlist = [...prev?.chatlist];
 
         const index = chatlist.findIndex((f) => f.participants._id === userId);
 
@@ -105,6 +133,39 @@ export const useChatlistStore = create<ChatlistStore>()((set) => {
         };
 
         return { chatlist };
+      });
+    },
+
+    deleteChatlistMessage: (userId, type, prevMessage) => {
+      set((prev) => {
+        if (!prev.chatlist) return prev;
+        console.log(prev, "prprprp");
+        return {
+          ...prev,
+          chatlist: prev.chatlist.map((c) => {
+            if (c.participants._id !== userId) return c;
+            if (!c.lastMessage) return c;
+            return {
+              ...c,
+              unreadCount:
+                type === "soft"
+                  ? c?.unreadCount
+                  : Math.max((c?.unreadCount ?? 0) - 1, 0),
+              lastMessage:
+                type === "soft"
+                  ? {
+                      ...c.lastMessage,
+                      isDeleted: true,
+                    }
+                  : {
+                      ...c.lastMessage,
+                      isDeleted: true,
+                      deletedAt: new Date().toISOString(),
+                      message: prevMessage,
+                    },
+            };
+          }),
+        };
       });
     },
   };

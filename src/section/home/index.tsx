@@ -2,6 +2,7 @@
 import { socket } from "@/socket";
 import {
   deliveredHandler,
+  handleMessageDelete,
   readHandler,
   readOldMessagesHandler,
   receiveMessageHandler,
@@ -42,6 +43,7 @@ export default function Home({ profile, userList }: HomeProps) {
     socket.on("receiver-message", handleReceiveMessage);
     socket.on("message-delivered", handleBulkDelivered);
     socket.on("message-read", handleReadMessage);
+    socket.on("message-delete", handleMessageDelete);
 
     return () => {
       socket.off("user-typing", handleTyping);
@@ -49,6 +51,7 @@ export default function Home({ profile, userList }: HomeProps) {
       socket.off("receiver-message", handleReceiveMessage);
       socket.off("message-delivered", handleBulkDelivered);
       socket.off("message-read", handleReadMessage);
+      socket.off("message-delete", handleMessageDelete);
     };
   }, [receiverId]);
 

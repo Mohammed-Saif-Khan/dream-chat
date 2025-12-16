@@ -30,4 +30,5 @@ export type ChatStore = StateType & {
   addMessage: (message: MessageType) => void;
   editMessage: (tempId: string, updateMsg: any) => void;
   updateMessageStatus: (id: string, status: Partial<MessageType>) => void;
+  deleteMessage: (messageId: string, type: string) => void;
 };

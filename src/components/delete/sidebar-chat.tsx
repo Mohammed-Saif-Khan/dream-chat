@@ -99,7 +99,7 @@ export default function SidebarChatDelete() {
                 </Badge>
               )}
               <DropdownMenu>
-                <DropdownMenuTrigger>
+                <DropdownMenuTrigger asChild>
                   <EllipsisVertical
                     width={16}
                     height={16}
