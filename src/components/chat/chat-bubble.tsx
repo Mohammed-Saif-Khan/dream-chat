@@ -12,6 +12,7 @@ type ChatBubblePorps = {
   messageId: string;
   receiverId: string;
   deletedAt: string | null;
+  createdAt: string | undefined;
 };
 
 export default function ChatBubble({
@@ -24,13 +25,14 @@ export default function ChatBubble({
   messageId,
   receiverId,
   deletedAt,
+  createdAt,
 }: ChatBubblePorps) {
   return (
     <div
       className={cn(
         "flex flex-col items-start mb-4",
         sender && "items-end",
-        deletedAt && "hidden"
+        sender && deletedAt && "hidden"
       )}
     >
       <div
@@ -86,6 +88,7 @@ export default function ChatBubble({
           sender={sender}
           messageId={messageId}
           receiverId={receiverId}
+          createdAt={createdAt}
         />
       </div>
     </div>
