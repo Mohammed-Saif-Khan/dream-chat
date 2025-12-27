@@ -1,7 +1,7 @@
-import { fetchInstance } from "@/utils/fetch";
 import toast from "react-hot-toast";
 import { create } from "zustand";
 import { ChatItem, ChatlistStore } from "./type";
+import { fetchInstance } from "@/utils/fetch-instance";
 
 export const useChatlistStore = create<ChatlistStore>()((set, get) => {
   return {
@@ -12,10 +12,7 @@ export const useChatlistStore = create<ChatlistStore>()((set, get) => {
     getChatlist: async () => {
       try {
         set({ isLoading: true, hasError: null });
-        const response = await fetchInstance("api/v1/chat/all-chats", {
-          auth: true,
-          csr: true,
-        });
+        const response = await fetchInstance("api/v1/chat/all-chats");
         const result = await response.json();
 
         if (response?.status === 200) {

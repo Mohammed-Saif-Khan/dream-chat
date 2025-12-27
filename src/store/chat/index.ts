@@ -96,5 +96,23 @@ export const useChatStore = create<ChatStore>()((set, get) => {
         };
       });
     },
+
+    toggleFavouriteMessage: (messageId: string) => {
+      set((state) => {
+        if (!state.chat) return state;
+
+        return {
+          ...state,
+          chat: {
+            ...state.chat,
+            message: state.chat.message.map((msg) =>
+              msg._id === messageId
+                ? { ...msg, isFavorite: !msg.isFavorite }
+                : msg
+            ),
+          },
+        };
+      });
+    },
   };
 });

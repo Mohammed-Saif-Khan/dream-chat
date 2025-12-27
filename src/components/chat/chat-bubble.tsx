@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { Ban, Check, CheckCheck, Clock, Dot } from "lucide-react";
+import { Ban, Check, CheckCheck, Clock } from "lucide-react";
 import ChatMenu from "./controls/chat-menu";
 
 type ChatBubblePorps = {
@@ -13,6 +13,7 @@ type ChatBubblePorps = {
   receiverId: string;
   deletedAt: string | null;
   createdAt: string | undefined;
+  isFavorite: boolean;
 };
 
 export default function ChatBubble({
@@ -26,6 +27,7 @@ export default function ChatBubble({
   receiverId,
   deletedAt,
   createdAt,
+  isFavorite,
 }: ChatBubblePorps) {
   return (
     <div
@@ -65,7 +67,10 @@ export default function ChatBubble({
         )}
       </div>
       <div
-        className={cn("flex items-center gap-1", sender && "flex-row-reverse")}
+        className={cn(
+          "flex items-center gap-1 select-none",
+          sender && "flex-row-reverse"
+        )}
       >
         <div
           className={cn(
@@ -89,6 +94,9 @@ export default function ChatBubble({
           messageId={messageId}
           receiverId={receiverId}
           createdAt={createdAt}
+          message={message}
+          isDelete={isDelete}
+          isFavorite={isFavorite}
         />
       </div>
     </div>
