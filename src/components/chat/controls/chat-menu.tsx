@@ -14,27 +14,33 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useChatStore } from "@/store/chat";
-import { useChatlistStore } from "@/store/chat-list";
-import { messageMenu } from "@/utils/constant";
-import { fetchInstance } from "@/utils/fetch-instance";
 import {
   Check,
   Clipboard,
   EllipsisVertical,
   Forward,
-  Heart,
+  HeartIcon,
   Pin,
   Reply,
   Trash2,
 } from "lucide-react";
+
+import { cn } from "@/lib/utils";
+import { useChatStore } from "@/store/chat";
+import { useChatlistStore } from "@/store/chat-list";
+import { fetchInstance } from "@/utils/fetch-instance";
+import { Icon } from "@iconify/react";
 import React from "react";
+import toast from "react-hot-toast";
 
 type ChatMenuProps = {
   sender: boolean;
   messageId: string;
   receiverId: string;
   createdAt: string | undefined;
+  message: string;
+  isDelete: boolean | undefined;
+  isFavorite: boolean;
 };
 
 export default function ChatMenu({
@@ -42,6 +48,9 @@ export default function ChatMenu({
   receiverId,
   messageId,
   createdAt,
+  message,
+  isDelete,
+  isFavorite,
 }: ChatMenuProps) {
   const [open, setOpen] = React.useState<boolean>(false);
 
@@ -53,17 +62,58 @@ export default function ChatMenu({
   const canDelete = timeDiff <= HOURS_48;
 
   const onDelete = async (messageId: string) => {
-    const response = await fetchInstance(`api/v1/message/${messageId}`, {
-      method: "DELETE",
-    });
-    const result = await response.json();
-    if (response?.status === 200) {
-      const type = result?.delete;
-      const prevMessage = result?.lastMessage?.message;
-      const { deleteMessage } = useChatStore.getState();
-      const { deleteChatlistMessage } = useChatlistStore.getState();
-      deleteMessage(messageId, type);
-      deleteChatlistMessage(receiverId, type, prevMessage);
+    try {
+      const response = await fetchInstance(`api/v1/message/${messageId}`, {
+        method: "DELETE",
+      });
+      const result = await response.json();
+      if (response?.status === 200) {
+        const type = result?.delete;
+        const prevMessage = result?.lastMessage?.message;
+        const { deleteMessage } = useChatStore.getState();
+        const { deleteChatlistMessage } = useChatlistStore.getState();
+        deleteMessage(messageId, type);
+        deleteChatlistMessage(receiverId, type, prevMessage);
+      } else {
+        toast.error("Failed to delete message");
+      }
+    } catch (error) {
+      console.error((error as Error)?.message, "Failed to Delete message");
+    }
+  };
+
+  const onCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(message);
+      toast.success("Copied!", {
+        icon: (
+          <Icon
+            icon="streamline-flex-color:copy-2-flat"
+            width="14"
+            height="14"
+          />
+        ),
+      });
+    } catch (error) {
+      toast.success("Failed to copy!");
+    }
+  };
+
+  const onFavourites = async () => {
+    try {
+      const response = await fetchInstance(`api/v1/favourite/${messageId}`, {
+        method: "PUT",
+      });
+      const result = await response.json();
+      if (!response?.ok) {
+        toast.error(result?.message || "Failed");
+      }
+      if (response?.status === 200) {
+        const { toggleFavouriteMessage } = useChatStore.getState();
+        toggleFavouriteMessage(messageId);
+      }
+    } catch (error) {
+      console.error((error as Error)?.message, "Failed!");
     }
   };
 
@@ -87,16 +137,27 @@ export default function ChatMenu({
               Forward
             </DropdownMenuItem>
 
-            <DropdownMenuItem className="group focus:text-primary">
+            <DropdownMenuItem
+              onClick={onCopy}
+              className="group focus:text-primary"
+            >
               <Clipboard className="mr-2 text-muted-foreground group-hover:text-primary" />
               Copy
             </DropdownMenuItem>
-
-            <DropdownMenuItem className="group focus:text-primary">
-              <Heart className="mr-2 text-muted-foreground group-hover:text-primary" />
-              Mark as Favourite
-            </DropdownMenuItem>
-
+            {!isDelete && (
+              <DropdownMenuItem
+                onClick={onFavourites}
+                className="group focus:text-primary"
+              >
+                <HeartIcon
+                  className={cn(
+                    "mr-2 text-muted-foreground group-hover:text-primary",
+                    isFavorite && "fill-red-500 stroke-red-500"
+                  )}
+                />
+                {isFavorite ? "Remove as Favourite" : "Mark as Favourite"}
+              </DropdownMenuItem>
+            )}
             <DropdownMenuItem className="group focus:text-primary">
               <Pin className="mr-2 text-muted-foreground group-hover:text-primary" />
               Pin

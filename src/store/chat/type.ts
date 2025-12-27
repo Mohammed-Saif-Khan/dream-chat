@@ -11,6 +11,7 @@ export type MessageType = {
   isDeleted: boolean;
   deletedAt: string | null;
   receiverAvtar: string;
+  isFavorite: boolean;
 };
 
 export type ChatType = {
@@ -31,4 +32,5 @@ export type ChatStore = StateType & {
   editMessage: (tempId: string, updateMsg: any) => void;
   updateMessageStatus: (id: string, status: Partial<MessageType>) => void;
   deleteMessage: (messageId: string, type: string) => void;
+  toggleFavouriteMessage: (messageId: string) => void;
 };
