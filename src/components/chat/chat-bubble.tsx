@@ -14,6 +14,7 @@ type ChatBubblePorps = {
   deletedAt: string | null;
   createdAt: string | undefined;
   isFavorite: boolean;
+  chatId: string | undefined;
 };
 
 export default function ChatBubble({
@@ -28,6 +29,7 @@ export default function ChatBubble({
   deletedAt,
   createdAt,
   isFavorite,
+  chatId,
 }: ChatBubblePorps) {
   return (
     <div
@@ -90,6 +92,7 @@ export default function ChatBubble({
           )}
         </div>
         <ChatMenu
+          chatId={chatId}
           sender={sender}
           messageId={messageId}
           receiverId={receiverId}

@@ -12,10 +12,12 @@ type ChatProps = {
   senderId: string;
   typing: boolean;
   receiverId: string;
+  chatId: string | undefined;
 };
 
 export default function Chat({
   chat,
+  chatId,
   senderId,
   receiverId,
   typing,
@@ -31,27 +33,23 @@ export default function Chat({
   return (
     <ScrollArea className="flex-1 overflow-y-auto h-[calc(100dvh - 95px)] bg-[url(/home/dark-background.png)] chat-scrollarea">
       <div className="p-5 px-4 block">
-        {chat?.message?.map(
-          (msg) => (
-            console.log(msg, "masdfme"),
-            (
-              <ChatBubble
-                messageId={msg?._id}
-                key={`CHAT-MESSAGE-${msg?._id}`}
-                sender={msg?.senderId?._id === senderId}
-                receiverId={receiverId}
-                isDelete={msg?.isDeleted}
-                message={msg?.message}
-                time={msg?.time}
-                status={msg?.status}
-                deletedAt={msg?.deletedAt}
-                createdAt={msg?.createdAt}
-                isFavorite={msg?.isFavorite}
-                // senderName={getName(msg?.senderId, senderId)}
-              />
-            )
-          )
-        )}
+        {chat?.message?.map((msg) => (
+          <ChatBubble
+            chatId={chatId}
+            messageId={msg?._id}
+            key={`CHAT-MESSAGE-${msg?._id}`}
+            sender={msg?.senderId?._id === senderId}
+            receiverId={receiverId}
+            isDelete={msg?.isDeleted}
+            message={msg?.message}
+            time={msg?.time}
+            status={msg?.status}
+            deletedAt={msg?.deletedAt}
+            createdAt={msg?.createdAt}
+            isFavorite={msg?.isFavorite}
+            // senderName={getName(msg?.senderId, senderId)}
+          />
+        ))}
         <div
           className={cn(
             "transition-all duration-300 ease-in-out",

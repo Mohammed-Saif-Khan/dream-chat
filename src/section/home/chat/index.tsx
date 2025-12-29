@@ -25,9 +25,10 @@ export default function ChatLayout({
 
   return (
     <div className="flex flex-col h-svh w-full">
-      <ChatHeader data={selectedUser} />
+      <ChatHeader data={selectedUser} chatId={chat?._id} />
       <Chat
         chat={chat}
+        chatId={chat?._id}
         senderId={senderId}
         typing={typing}
         receiverId={receiverId}
