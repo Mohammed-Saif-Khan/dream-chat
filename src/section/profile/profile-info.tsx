@@ -44,20 +44,23 @@ export default function ProfielInfo({
               <CircleUserRound size={14} className="text-muted-foreground" />
             </div>
           </div>
-          <div className="flex items-center justify-between pb-4 mb-4 border-b">
-            <div>
-              <p className="text-sm font-semibold text-foreground mb-1">
-                Phone
-              </p>
-              <p className="text-base text-muted-foreground capitalize">
-                {profile?.phone || data?.user?.phone}
-              </p>
+          {profile?.phone && (
+            <div className="flex items-center justify-between pb-4 mb-4 border-b">
+              <div>
+                <p className="text-sm font-semibold text-foreground mb-1">
+                  Phone
+                </p>
+                <p className="text-base text-muted-foreground capitalize">
+                  {profile?.phone || data?.user?.phone}
+                </p>
+              </div>
+              <div>
+                <Phone size={14} className="text-muted-foreground" />
+              </div>
             </div>
-            <div>
-              <Phone size={14} className="text-muted-foreground" />
-            </div>
-          </div>
-          {isShow && (
+          )}
+
+          {isShow && profile?.gender && (
             <div className="flex items-center justify-between pb-4 mb-4 border-b">
               <div>
                 <p className="text-sm font-semibold text-foreground mb-1">
@@ -72,37 +75,43 @@ export default function ProfielInfo({
               </div>
             </div>
           )}
+          {(profile?.email || data?.user?.email) && (
+            <div className="flex items-center justify-between pb-4 mb-4 border-b">
+              <div>
+                <p className="text-sm font-semibold text-foreground mb-1">
+                  Email Address
+                </p>
+                <p className="text-base text-muted-foreground">
+                  {profile?.email || data?.user?.email}
+                </p>
+              </div>
+              <div>
+                <Mail size={14} className="text-muted-foreground" />
+              </div>
+            </div>
+          )}
+          {(profile?.about || data?.about) && (
+            <div
+              className={cn(
+                "flex items-center justify-between",
+                isShow ? "border-b pb-4 mb-4" : "border-none pb-0 mb-0"
+              )}
+            >
+              <div>
+                <p className="text-sm font-semibold text-foreground mb-1">
+                  Bio
+                </p>
+                <p className="text-base text-muted-foreground">
+                  {profile?.about || data?.about}
+                </p>
+              </div>
+              <div>
+                <Info size={14} className="text-muted-foreground" />
+              </div>
+            </div>
+          )}
 
-          <div className="flex items-center justify-between pb-4 mb-4 border-b">
-            <div>
-              <p className="text-sm font-semibold text-foreground mb-1">
-                Email Address
-              </p>
-              <p className="text-base text-muted-foreground">
-                {profile?.email || data?.user?.email}
-              </p>
-            </div>
-            <div>
-              <Mail size={14} className="text-muted-foreground" />
-            </div>
-          </div>
-          <div
-            className={cn(
-              "flex items-center justify-between",
-              isShow ? "border-b pb-4 mb-4" : "border-none pb-0 mb-0"
-            )}
-          >
-            <div>
-              <p className="text-sm font-semibold text-foreground mb-1">Bio</p>
-              <p className="text-base text-muted-foreground">
-                {profile?.about || data?.about}
-              </p>
-            </div>
-            <div>
-              <Info size={14} className="text-muted-foreground" />
-            </div>
-          </div>
-          {isShow && (
+          {isShow && profile?.country && (
             <div className="flex items-center justify-between pb-4 mb-4 border-b">
               <div>
                 <p className="text-sm font-semibold text-foreground mb-1">
@@ -117,7 +126,7 @@ export default function ProfielInfo({
               </div>
             </div>
           )}
-          {isShow && (
+          {isShow && profile?.createdAt && (
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-semibold text-foreground mb-1">

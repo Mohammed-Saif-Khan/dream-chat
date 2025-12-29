@@ -12,7 +12,8 @@ export function formatReadableDate(dateString?: string | Date): string {
   return date.toLocaleDateString("en-US", options);
 }
 
-export const formatDateDDMMYYYY = (date: string | Date) => {
+export const formatDateDDMMYYYY = (date: string | Date | undefined) => {
+  if (!date) return;
   const d = new Date(date);
 
   const day = String(d.getDate()).padStart(2, "0");

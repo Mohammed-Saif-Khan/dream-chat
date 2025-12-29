@@ -1,5 +1,5 @@
 "use client";
-import ChatInputBox from "@/components/forms/chat-input-box";
+import ChatInputBox from "@/components/chat/chat-input/chat-input-box";
 import { messageSchema, messageTyep } from "@/schema/message";
 import { socket } from "@/socket";
 import { useChatlistStore } from "@/store/chat-list";
@@ -119,8 +119,8 @@ export default function ChatInput({
           setValue("message", e.target.value, { shouldValidate: true });
         }}
         startAddon={[
-          <Smile key="simle" size={20} />,
-          <Paperclip key="clip" size={20} />,
+          <Smile key="simle" size={20} className="mb-2" />,
+          <Paperclip key="clip" size={20} className="mb-2" />,
         ]}
         endAddon={<SendHorizontal size={20} />}
         addOnButtonType="submit"
