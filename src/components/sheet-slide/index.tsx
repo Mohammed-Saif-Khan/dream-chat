@@ -45,7 +45,6 @@ export default function SheetSlide({
                 width="24"
                 height="24"
                 className="cursor-pointer"
-                style={{ color: "#fff" }}
               />
             )}
             {title}

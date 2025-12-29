@@ -41,6 +41,7 @@ type ChatMenuProps = {
   message: string;
   isDelete: boolean | undefined;
   isFavorite: boolean;
+  chatId: string | undefined;
 };
 
 export default function ChatMenu({
@@ -51,6 +52,7 @@ export default function ChatMenu({
   message,
   isDelete,
   isFavorite,
+  chatId,
 }: ChatMenuProps) {
   const [open, setOpen] = React.useState<boolean>(false);
 
@@ -103,6 +105,7 @@ export default function ChatMenu({
     try {
       const response = await fetchInstance(`api/v1/favourite/${messageId}`, {
         method: "PUT",
+        body: JSON.stringify({ chatId: chatId }),
       });
       const result = await response.json();
       if (!response?.ok) {

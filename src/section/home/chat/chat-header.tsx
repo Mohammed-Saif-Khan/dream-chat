@@ -29,9 +29,10 @@ import FavouriteSheet from "./sheets/favourite-sheet";
 
 type ChatHeaderProps = {
   data: ExploreUserList | undefined;
+  chatId: string | undefined;
 };
 
-export default function ChatHeader({ data }: ChatHeaderProps) {
+export default function ChatHeader({ data, chatId }: ChatHeaderProps) {
   const [open, setOpen] = React.useState<boolean>(false);
   const [favSheet, setFavSheet] = React.useState<boolean>(false);
 
@@ -148,7 +149,11 @@ export default function ChatHeader({ data }: ChatHeaderProps) {
         setOpen={setOpen}
         setFavSheet={setFavSheet}
       />
-      <FavouriteSheet favSheet={favSheet} setFavSheet={setFavSheet} />
+      <FavouriteSheet
+        chatId={chatId}
+        favSheet={favSheet}
+        setFavSheet={setFavSheet}
+      />
     </div>
   );
 }
