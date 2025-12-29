@@ -84,23 +84,6 @@ export default function ChatMenu({
     }
   };
 
-  const onCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(message);
-      toast.success("Copied!", {
-        icon: (
-          <Icon
-            icon="streamline-flex-color:copy-2-flat"
-            width="14"
-            height="14"
-          />
-        ),
-      });
-    } catch (error) {
-      toast.success("Failed to copy!");
-    }
-  };
-
   const onFavourites = async () => {
     try {
       const response = await fetchInstance(`api/v1/favourite/${messageId}`, {
@@ -117,6 +100,23 @@ export default function ChatMenu({
       }
     } catch (error) {
       console.error((error as Error)?.message, "Failed!");
+    }
+  };
+
+  const onCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(message);
+      toast.success("Copied!", {
+        icon: (
+          <Icon
+            icon="streamline-flex-color:copy-2-flat"
+            width="14"
+            height="14"
+          />
+        ),
+      });
+    } catch (error) {
+      toast.success("Failed to copy!");
     }
   };
 

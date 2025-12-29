@@ -33,7 +33,7 @@ export default function Chat({
   return (
     <ScrollArea className="flex-1 overflow-y-auto h-[calc(100dvh - 95px)] bg-[url(/home/dark-background.png)] chat-scrollarea">
       <div className="p-5 px-4 block">
-        {chat?.message?.map((msg) => (
+        {chat?.message?.map((msg, index) => (
           <ChatBubble
             chatId={chatId}
             messageId={msg?._id}
@@ -46,6 +46,7 @@ export default function Chat({
             status={msg?.status}
             deletedAt={msg?.deletedAt}
             createdAt={msg?.createdAt}
+            prevCreatedAt={chat?.message[index - 1]?.createdAt}
             isFavorite={msg?.isFavorite}
             // senderName={getName(msg?.senderId, senderId)}
           />
