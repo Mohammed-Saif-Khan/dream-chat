@@ -12,6 +12,7 @@ export type MessageType = {
   deletedAt: string | null;
   receiverAvtar: string;
   isFavorite: boolean;
+  replyTo: ReplyMessage | null;
 };
 
 export type ChatType = {
@@ -20,17 +21,28 @@ export type ChatType = {
   _id: string;
 };
 
+export type ReplyMessage = {
+  messageId: string;
+  message: string;
+  senderId: {
+    firstName: string | undefined;
+    lastName: string | undefined;
+  };
+};
+
 export type StateType = {
   isLoading: boolean;
   hasError: Error | null;
   chat: ChatType | null;
+  reply: ReplyMessage | null;
 };
 
 export type ChatStore = StateType & {
-  getChat: (id: string) => Promise<void>;
+  getMessages: (id: string) => Promise<void>;
   addMessage: (message: MessageType) => void;
   editMessage: (tempId: string, updateMsg: any) => void;
   updateMessageStatus: (id: string, status: Partial<MessageType>) => void;
   deleteMessage: (messageId: string, type: string) => void;
   toggleFavouriteMessage: (messageId: string) => void;
+  setReply: (reply: ReplyMessage | null) => void;
 };

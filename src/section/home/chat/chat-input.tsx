@@ -3,7 +3,8 @@ import ChatInputBox from "@/components/chat/chat-input/chat-input-box";
 import { messageSchema, messageTyep } from "@/schema/message";
 import { socket } from "@/socket";
 import { useChatlistStore } from "@/store/chat-list";
-import { MessageType } from "@/store/chat/type";
+import { useMessageStore } from "@/store/messages";
+import { MessageType } from "@/store/messages/type";
 import { ProfileType } from "@/types/profile";
 import { fetchInstance } from "@/utils/fetch-instance";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,6 +29,7 @@ export default function ChatInput({
   addMessage,
   editMessage,
 }: ChatInputProps) {
+  const { reply, setReply } = useMessageStore();
   const { upsertChat } = useChatlistStore();
   const typingTimeoutRef = React.useRef<NodeJS.Timeout>(null);
 
@@ -68,6 +70,13 @@ export default function ChatInput({
           lastName: profile?.lastName,
           _id: senderId,
         },
+        ...(reply && {
+          replyTo: {
+            message: reply.message,
+            senderId: reply.senderId,
+            messageId: reply.messageId,
+          },
+        }),
         time,
         status: "pending",
         _id: uuidv4(),
@@ -76,10 +85,12 @@ export default function ChatInput({
       socket.emit("stop-typing", { receiverId });
       addMessage(tempMsg);
       setValue("message", "");
+      setReply(null);
 
       const finalData = {
         ...data,
         time,
+        replyTo: reply?.messageId,
       };
 
       const response = await fetchInstance("api/v1/message", {
@@ -118,6 +129,7 @@ export default function ChatInput({
           handleTyping();
           setValue("message", e.target.value, { shouldValidate: true });
         }}
+        replyTo={reply}
         startAddon={[
           <Smile key="simle" size={20} className="mb-2" />,
           <Paperclip key="clip" size={20} className="mb-2" />,

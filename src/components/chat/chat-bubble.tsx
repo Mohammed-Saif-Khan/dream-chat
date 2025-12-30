@@ -1,7 +1,8 @@
 import { cn } from "@/lib/utils";
-import { Ban, Check, CheckCheck, Clock } from "lucide-react";
+import { Ban, Check, CheckCheck, Clock, Dot } from "lucide-react";
 import ChatMenu from "./controls/chat-menu";
 import ChatDivider from "./chat-divider";
+import { ReplyMessage } from "@/store/messages/type";
 
 type ChatBubblePorps = {
   sender: boolean;
@@ -16,13 +17,15 @@ type ChatBubblePorps = {
   createdAt: string | undefined;
   isFavorite: boolean;
   chatId: string | undefined;
-  prevCreatedAt?: string;
+  nextCreatedAt?: string;
+  firstName: string;
+  lastName: string;
+  replyTo: ReplyMessage | null;
 };
 
 export default function ChatBubble({
   sender,
   message,
-  senderName,
   time,
   status,
   isDelete,
@@ -32,7 +35,10 @@ export default function ChatBubble({
   createdAt,
   isFavorite,
   chatId,
-  prevCreatedAt,
+  nextCreatedAt,
+  firstName,
+  lastName,
+  replyTo,
 }: ChatBubblePorps) {
   const isSameDay = (d1?: string, d2?: string) => {
     if (!d1 || !d2) return false;
@@ -60,8 +66,8 @@ export default function ChatBubble({
             sender && "flex-row-reverse mr-4"
           )}
         >
-          <p className="text-sm text-foreground">{senderName}</p>
-          {/* <Dot size={30} /> */}
+          {/* <p className="text-sm text-foreground">{senderName}</p>
+          <Dot size={30} /> */}
           <p className="text-sm text-muted-foreground">{time}</p>
           {sender && !isDelete && (
             <>
@@ -97,6 +103,36 @@ export default function ChatBubble({
                 : "rounded-r-xl bg-gray-200 dark:bg-muted"
             )}
           >
+            {replyTo && (
+              <div
+                className={cn(
+                  "mb-2 px-2 py-1.5 rounded-md text-xs cursor-pointer",
+                  "border-l-2",
+                  sender
+                    ? "bg-white/15 border-gray-300 text-white"
+                    : "bg-gray-300/70 dark:bg-gray-700/70 border-primary text-foreground"
+                )}
+              >
+                {/* <p
+                  className={cn(
+                    "font-semibold leading-none mb-1",
+                    sender ? "text-white/90" : "text-primary"
+                  )}
+                >
+                  {replyTo.senderId?.firstName} {replyTo.senderId?.lastName}
+                </p> */}
+
+                <p
+                  className={cn(
+                    "truncate",
+                    sender ? "text-white/80" : "text-foreground/80"
+                  )}
+                >
+                  {replyTo.message}
+                </p>
+              </div>
+            )}
+
             {isDelete ? (
               <p className="flex items-center gap-2">
                 <Ban size={15} />
@@ -114,13 +150,15 @@ export default function ChatBubble({
             createdAt={createdAt}
             message={message}
             isDelete={isDelete}
+            firstName={firstName}
+            lastName={lastName}
             isFavorite={isFavorite}
           />
         </div>
       </div>
       {status !== "pending" &&
         !isToday(createdAt) &&
-        !isSameDay(createdAt, prevCreatedAt) && (
+        !isSameDay(createdAt, nextCreatedAt) && (
           <ChatDivider date={createdAt} />
         )}
     </div>

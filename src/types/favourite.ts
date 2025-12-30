@@ -1,4 +1,4 @@
-import { MessageType } from "@/store/chat/type";
+import { MessageType, ReplyMessage } from "@/store/messages/type";
 
 type FavMessage = {
   _id: string;
@@ -17,6 +17,7 @@ type FavMessage = {
     lastName: string;
     profile: { avatar: string };
   };
+  replyTo: ReplyMessage | null;
   time: string; // "09:10 PM"
   createdAt: string; // ISO string
   updatedAt: string; // ISO string};

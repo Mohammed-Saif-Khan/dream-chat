@@ -1,5 +1,5 @@
 "use client";
-import { useChatStore } from "@/store/chat";
+import { useMessageStore } from "@/store/messages";
 import { ExploreUserList } from "@/types/contact";
 import { ProfileType } from "@/types/profile";
 import Chat from "./chat-area";
@@ -21,7 +21,7 @@ export default function ChatLayout({
   profile,
   typing,
 }: ChatLayoutProps) {
-  const { chat, addMessage, editMessage } = useChatStore();
+  const { chat, addMessage, editMessage } = useMessageStore();
 
   return (
     <div className="flex flex-col h-svh w-full">

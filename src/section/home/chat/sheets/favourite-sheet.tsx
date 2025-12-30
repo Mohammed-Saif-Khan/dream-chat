@@ -152,13 +152,44 @@ export default function FavouriteSheet({
                   <div className="flex items-center gap-1 select-none">
                     <div
                       className={cn(
-                        "mt-1 p-3 bg-primary text-white rounded-t-xl rounded-r-xl text-sm max-w-2xs",
+                        "mt-1 p-3 rounded-t-xl rounded-r-xl text-sm max-w-2xs space-y-1",
                         isSenderMe
-                          ? "bg-primary"
-                          : "dark:bg-background bg-gray-300"
+                          ? "bg-primary text-white"
+                          : "bg-gray-300 dark:bg-background text-foreground"
                       )}
                     >
-                      {item?.message?.message}
+                      {item?.message?.replyTo && (
+                        <div
+                          className={cn(
+                            "px-2 py-1 rounded-md text-xs border-l-2",
+                            isSenderMe
+                              ? "bg-white/15 border-white/40 text-white"
+                              : "bg-black/10 dark:bg-white/10 border-primary text-foreground"
+                          )}
+                        >
+                          {/* <p
+                            className={cn(
+                              "font-semibold leading-none mb-0.5",
+                              isSenderMe ? "text-white/90" : "text-primary"
+                            )}
+                          >
+                            {item.message.replyTo.senderId?.firstName}{" "}
+                            {item.message.replyTo.senderId?.lastName}
+                          </p> */}
+
+                          <p
+                            className={cn(
+                              "truncate",
+                              isSenderMe
+                                ? "text-white/80"
+                                : "text-foreground/80"
+                            )}
+                          >
+                            {item.message.replyTo.message}
+                          </p>
+                        </div>
+                      )}
+                      <p>{item?.message?.message}</p>
                     </div>
                   </div>
                 </div>
