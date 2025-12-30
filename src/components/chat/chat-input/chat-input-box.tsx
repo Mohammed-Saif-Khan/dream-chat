@@ -16,6 +16,7 @@ import {
 } from "react-hook-form";
 import React from "react";
 import ReplyPreview from "./reply-preview";
+import { ReplyMessage } from "@/store/messages/type";
 
 interface ChatInputBoxProps<T extends FieldValues> {
   label?: string;
@@ -38,7 +39,7 @@ interface ChatInputBoxProps<T extends FieldValues> {
   startAddon?: React.ReactNode | React.ReactNode[];
   endAddon?: React.ReactNode | React.ReactNode[];
   addOnButtonType?: "submit" | "reset" | "button";
-  replyTo?: boolean;
+  replyTo?: ReplyMessage | null;
 }
 
 export default function ChatInputBox<T extends FieldValues>({
@@ -53,7 +54,7 @@ export default function ChatInputBox<T extends FieldValues>({
   className = {},
   startAddon,
   endAddon,
-  replyTo = true,
+  replyTo,
   addOnButtonType,
 }: ChatInputBoxProps<T>) {
   return (
@@ -66,12 +67,10 @@ export default function ChatInputBox<T extends FieldValues>({
         )}
         <div
           className={cn(
-            "border overflow-hidden transition-all",
-            true ? "rounded-sm" : "rounded-sm"
+            "border overflow-hidden ease-in-out transition-all rounded-sm"
           )}
         >
-          <ReplyPreview />
-
+          {replyTo && <ReplyPreview reply={replyTo} />}
           <InputGroup
             className={cn(
               className.inputGroup,

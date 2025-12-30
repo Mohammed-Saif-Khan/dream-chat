@@ -26,12 +26,12 @@ import {
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { useChatStore } from "@/store/chat";
 import { useChatlistStore } from "@/store/chat-list";
 import { fetchInstance } from "@/utils/fetch-instance";
 import { Icon } from "@iconify/react";
 import React from "react";
 import toast from "react-hot-toast";
+import { useMessageStore } from "@/store/messages";
 
 type ChatMenuProps = {
   sender: boolean;
@@ -42,6 +42,8 @@ type ChatMenuProps = {
   isDelete: boolean | undefined;
   isFavorite: boolean;
   chatId: string | undefined;
+  firstName?: string;
+  lastName?: string;
 };
 
 export default function ChatMenu({
@@ -53,8 +55,11 @@ export default function ChatMenu({
   isDelete,
   isFavorite,
   chatId,
+  firstName,
+  lastName,
 }: ChatMenuProps) {
   const [open, setOpen] = React.useState<boolean>(false);
+  const { setReply } = useMessageStore();
 
   if (!createdAt) return;
   const createdTime = new Date(createdAt).getTime();
@@ -72,7 +77,7 @@ export default function ChatMenu({
       if (response?.status === 200) {
         const type = result?.delete;
         const prevMessage = result?.lastMessage?.message;
-        const { deleteMessage } = useChatStore.getState();
+        const { deleteMessage } = useMessageStore.getState();
         const { deleteChatlistMessage } = useChatlistStore.getState();
         deleteMessage(messageId, type);
         deleteChatlistMessage(receiverId, type, prevMessage);
@@ -95,7 +100,7 @@ export default function ChatMenu({
         toast.error(result?.message || "Failed");
       }
       if (response?.status === 200) {
-        const { toggleFavouriteMessage } = useChatStore.getState();
+        const { toggleFavouriteMessage } = useMessageStore.getState();
         toggleFavouriteMessage(messageId);
       }
     } catch (error) {
@@ -120,6 +125,14 @@ export default function ChatMenu({
     }
   };
 
+  const onReply = () => {
+    setReply({
+      messageId: messageId,
+      message: message,
+      senderId: { firstName: firstName, lastName: lastName },
+    });
+  };
+
   return (
     <div>
       <DropdownMenu>
@@ -130,7 +143,10 @@ export default function ChatMenu({
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <div>
-            <DropdownMenuItem className="group focus:text-primary">
+            <DropdownMenuItem
+              onClick={onReply}
+              className="group focus:text-primary"
+            >
               <Reply className="mr-2 text-muted-foreground group-hover:text-primary" />
               Reply
             </DropdownMenuItem>

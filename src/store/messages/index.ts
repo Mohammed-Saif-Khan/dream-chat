@@ -3,13 +3,14 @@ import toast from "react-hot-toast";
 import { create } from "zustand";
 import { ChatStore } from "./type";
 
-export const useChatStore = create<ChatStore>()((set, get) => {
+export const useMessageStore = create<ChatStore>()((set) => {
   return {
     isLoading: false,
     hasError: null,
     chat: null,
+    reply: null,
 
-    getChat: async (id: string) => {
+    getMessages: async (id: string) => {
       try {
         set({ isLoading: true, hasError: null });
         const response = await fetchInstance(`api/v1/chat/${id}`);
@@ -114,5 +115,7 @@ export const useChatStore = create<ChatStore>()((set, get) => {
         };
       });
     },
+
+    setReply: (reply) => set({ reply }),
   };
 });

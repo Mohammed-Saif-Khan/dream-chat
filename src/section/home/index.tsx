@@ -8,7 +8,7 @@ import {
   receiveMessageHandler,
 } from "@/socket/message";
 import { stopTypingHandler, typingHandler } from "@/socket/typing";
-import { useChatStore } from "@/store/chat";
+import { useMessageStore } from "@/store/messages";
 import { ExploreUserList } from "@/types/contact";
 import { ProfileType } from "@/types/profile";
 import { useSearchParams } from "next/navigation";
@@ -28,7 +28,7 @@ export default function Home({ profile, userList }: HomeProps) {
   const senderId = profile?._id;
 
   const [typing, setTyping] = React.useState<boolean>(false);
-  const { getChat, addMessage, updateMessageStatus } = useChatStore();
+  const { getMessages, addMessage, updateMessageStatus } = useMessageStore();
 
   React.useEffect(() => {
     if (!receiverId) return;
@@ -66,8 +66,8 @@ export default function Home({ profile, userList }: HomeProps) {
   }, [receiverId]);
 
   React.useEffect(() => {
-    useChatStore.setState({ chat: null });
-    if (receiverId) getChat(receiverId);
+    useMessageStore.setState({ chat: null });
+    if (receiverId) getMessages(receiverId);
   }, [receiverId]);
 
   return (

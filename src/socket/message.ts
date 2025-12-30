@@ -1,7 +1,7 @@
 import { socket } from "@/socket";
-import { useChatStore } from "@/store/chat";
+import { useMessageStore } from "@/store/messages";
 import { useChatlistStore } from "@/store/chat-list";
-import { MessageType } from "@/store/chat/type";
+import { MessageType } from "@/store/messages/type";
 import { deleteMessageType } from "@/types/message";
 import { fetchInstance } from "@/utils/fetch-instance";
 
@@ -39,7 +39,7 @@ export const readHandler =
 export const handleMessageDelete = (data: deleteMessageType) => {
   const type = data?.delete;
   const prevMessage = data?.lastMessage?.message;
-  const { deleteMessage } = useChatStore.getState();
+  const { deleteMessage } = useMessageStore.getState();
   const { deleteChatlistMessage } = useChatlistStore.getState();
   deleteMessage(data?.messageId, type);
   deleteChatlistMessage(data?.senderId, type, prevMessage);

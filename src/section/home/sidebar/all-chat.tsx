@@ -11,7 +11,7 @@ import {
 import { socket } from "@/socket";
 import { handleChatlistSort } from "@/socket/chatlist";
 import { deliveredHandler, handleMessageDelete } from "@/socket/message";
-import { useChatStore } from "@/store/chat";
+import { useMessageStore } from "@/store/messages";
 import { useChatlistStore } from "@/store/chat-list";
 import { Funnel } from "lucide-react";
 import Link from "next/link";
@@ -19,7 +19,7 @@ import React from "react";
 
 export default function AllChat() {
   const { chatlist, getChatlist } = useChatlistStore();
-  const { updateMessageStatus } = useChatStore();
+  const { updateMessageStatus } = useMessageStore();
 
   React.useEffect(() => {
     const handleBulkDelivered = deliveredHandler(updateMessageStatus);
