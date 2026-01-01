@@ -22,6 +22,7 @@ export type ChatType = {
 };
 
 export type ReplyMessage = {
+  isDelete: boolean | undefined;
   messageId: string;
   message: string;
   senderId: {

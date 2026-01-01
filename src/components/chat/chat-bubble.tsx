@@ -17,7 +17,7 @@ type ChatBubblePorps = {
   createdAt: string | undefined;
   isFavorite: boolean;
   chatId: string | undefined;
-  nextCreatedAt?: string;
+  prevCreatedAt?: string;
   firstName: string;
   lastName: string;
   replyTo: ReplyMessage | null;
@@ -35,7 +35,7 @@ export default function ChatBubble({
   createdAt,
   isFavorite,
   chatId,
-  nextCreatedAt,
+  prevCreatedAt,
   firstName,
   lastName,
   replyTo,
@@ -45,14 +45,12 @@ export default function ChatBubble({
     return new Date(d1).toDateString() === new Date(d2).toDateString();
   };
 
-  const isToday = (date?: string) => {
-    if (!date) return false;
-    const today = new Date();
-    return new Date(date).toDateString() === today.toDateString();
-  };
+  const showDivider =
+    createdAt && (!prevCreatedAt || !isSameDay(createdAt, prevCreatedAt));
 
   return (
     <div>
+      {showDivider && <ChatDivider date={createdAt} />}
       <div
         className={cn(
           "flex flex-col items-start mb-4",
@@ -109,8 +107,8 @@ export default function ChatBubble({
                   "mb-2 px-2 py-1.5 rounded-md text-xs cursor-pointer",
                   "border-l-2",
                   sender
-                    ? "bg-white/15 border-gray-300 text-white"
-                    : "bg-gray-300/70 dark:bg-gray-700/70 border-primary text-foreground"
+                    ? "bg-white/15 border-gray-300 text-white cursor-pointer"
+                    : "bg-gray-300/70 dark:bg-gray-700/70 border-primary text-foreground cursor-pointer"
                 )}
               >
                 {/* <p
@@ -156,11 +154,6 @@ export default function ChatBubble({
           />
         </div>
       </div>
-      {status !== "pending" &&
-        !isToday(createdAt) &&
-        !isSameDay(createdAt, nextCreatedAt) && (
-          <ChatDivider date={createdAt} />
-        )}
     </div>
   );
 }

@@ -127,6 +127,7 @@ export default function ChatMenu({
 
   const onReply = () => {
     setReply({
+      isDelete: isDelete,
       messageId: messageId,
       message: message,
       senderId: { firstName: firstName, lastName: lastName },

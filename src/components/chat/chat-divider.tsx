@@ -15,11 +15,11 @@ export default function ChatDivider({ date }: ChatDividerProps) {
 
     // </div>
     <div className="relative my-4 flex items-center justify-center overflow-hidden">
-      <Separator />
+      {/* <Separator /> */}
       <div className="py-1 px-2 border rounded-full text-center bg-muted text-xs mx-1">
         {formatDateDDMMYYYY(date)}
       </div>
-      <Separator />
+      {/* <Separator /> */}
     </div>
   );
 }
