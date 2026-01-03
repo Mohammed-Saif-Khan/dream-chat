@@ -17,8 +17,8 @@ export default function ReplyPreview({ reply }: { reply: ReplyMessage }) {
       )}
     >
       <div className="w-1 bg-primary shrink-0" />
-      <div className="flex-1 px-3 py-3 min-w-0">
-        <p className="text-sm text-reply-message truncate">
+      <div className="flex-1 px-3 py-3 w-0">
+        <p className="text-sm truncate whitespace-nowrap">
           {reply?.isDelete ? "This message is Deleted" : reply?.message}
         </p>
       </div>
