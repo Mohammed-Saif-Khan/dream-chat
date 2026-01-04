@@ -1,5 +1,6 @@
 import { formatDateDDMMYYYY } from "@/utils/formatDate";
 import { Separator } from "../ui/separator";
+import { Badge } from "../ui/badge";
 
 type ChatDividerProps = {
   date: string | undefined;

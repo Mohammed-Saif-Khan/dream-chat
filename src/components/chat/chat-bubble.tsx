@@ -1,13 +1,12 @@
 import { cn } from "@/lib/utils";
-import { Ban, Check, CheckCheck, Clock, Dot } from "lucide-react";
-import ChatMenu from "./controls/chat-menu";
-import ChatDivider from "./chat-divider";
 import { ReplyMessage } from "@/store/messages/type";
+import { Ban, Check, CheckCheck, Clock } from "lucide-react";
+import ChatDivider from "./chat-divider";
+import ChatMenu from "./controls/chat-menu";
 
 type ChatBubblePorps = {
   sender: boolean;
   message: string;
-  senderName?: string;
   time: string;
   status: string;
   isDelete: boolean | undefined;
@@ -21,6 +20,8 @@ type ChatBubblePorps = {
   firstName: string;
   lastName: string;
   replyTo: ReplyMessage | null;
+  highlight: string | null;
+  setHighlight: (id: string | null) => void;
 };
 
 export default function ChatBubble({
@@ -39,6 +40,8 @@ export default function ChatBubble({
   firstName,
   lastName,
   replyTo,
+  highlight,
+  setHighlight,
 }: ChatBubblePorps) {
   const isSameDay = (d1?: string, d2?: string) => {
     if (!d1 || !d2) return false;
@@ -48,9 +51,24 @@ export default function ChatBubble({
   const showDivider =
     createdAt && (!prevCreatedAt || !isSameDay(createdAt, prevCreatedAt));
 
+  const handleScroll = (id: string) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+    setHighlight(id);
+
+    setTimeout(() => {
+      setHighlight(null);
+    }, 1200);
+  };
+
   return (
-    <div>
+    <>
       {showDivider && <ChatDivider date={createdAt} />}
+
       <div
         className={cn(
           "flex flex-col items-start mb-4",
@@ -60,27 +78,23 @@ export default function ChatBubble({
       >
         <div
           className={cn(
-            "flex items-center h-5",
+            "flex items-center h-5 px-4",
             sender && "flex-row-reverse mr-4"
           )}
         >
-          {/* <p className="text-sm text-foreground">{senderName}</p>
-          <Dot size={30} /> */}
           <p className="text-sm text-muted-foreground">{time}</p>
+
           {sender && !isDelete && (
             <>
               {status === "pending" && (
                 <Clock size={14} className="mr-2 opacity-70" />
               )}
-
               {status === "sent" && (
                 <Check size={14} className="mr-2 text-gray-500" />
               )}
-
               {status === "delivered" && (
                 <CheckCheck size={14} className="mr-2" />
               )}
-
               {status === "read" && (
                 <CheckCheck size={14} className="mr-2 text-online" />
               )}
@@ -89,13 +103,15 @@ export default function ChatBubble({
         </div>
         <div
           className={cn(
-            "flex items-center gap-1 select-none",
-            sender && "flex-row-reverse"
+            "flex items-center gap-1 select-none px-4 pb-1",
+            sender && "flex-row-reverse",
+            highlight === messageId && "bg-primary/10 w-full pb-1"
           )}
         >
           <div
+            id={messageId}
             className={cn(
-              "mt-1 p-3 bg-muted md:max-w-[419px] md:w-fit max-w-2xs w-fit rounded-t-xl text-sm tracking-wide",
+              "mt-1 p-3 md:max-w-104.75 md:w-fit max-w-2xs w-fit rounded-t-xl text-sm tracking-wide transition-colors",
               sender
                 ? "rounded-l-xl bg-primary text-white"
                 : "rounded-r-xl bg-gray-200 dark:bg-muted"
@@ -103,23 +119,14 @@ export default function ChatBubble({
           >
             {replyTo && (
               <div
+                onClick={() => handleScroll(replyTo._id)}
                 className={cn(
-                  "mb-2 px-2 py-1.5 rounded-md text-xs cursor-pointer",
-                  "border-l-2",
+                  "mb-2 px-2 py-1.5 rounded-md text-xs cursor-pointer border-l-2",
                   sender
-                    ? "bg-white/15 border-gray-300 text-white cursor-pointer"
-                    : "bg-gray-300/70 dark:bg-gray-700/70 border-primary text-foreground cursor-pointer"
+                    ? "bg-white/15 border-gray-300 text-white"
+                    : "bg-gray-300/70 dark:bg-gray-700/70 border-primary text-foreground"
                 )}
               >
-                {/* <p
-                  className={cn(
-                    "font-semibold leading-none mb-1",
-                    sender ? "text-white/90" : "text-primary"
-                  )}
-                >
-                  {replyTo.senderId?.firstName} {replyTo.senderId?.lastName}
-                </p> */}
-
                 <p
                   className={cn(
                     "truncate",
@@ -130,7 +137,6 @@ export default function ChatBubble({
                 </p>
               </div>
             )}
-
             {isDelete ? (
               <p className="flex items-center gap-2">
                 <Ban size={15} />
@@ -140,6 +146,7 @@ export default function ChatBubble({
               message
             )}
           </div>
+
           <ChatMenu
             chatId={chatId}
             sender={sender}
@@ -154,6 +161,6 @@ export default function ChatBubble({
           />
         </div>
       </div>
-    </div>
+    </>
   );
 }

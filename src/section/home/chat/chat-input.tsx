@@ -74,7 +74,7 @@ export default function ChatInput({
           replyTo: {
             message: reply.message,
             senderId: reply.senderId,
-            messageId: reply.messageId,
+            messageId: reply._id,
           },
         }),
         time,
@@ -90,7 +90,7 @@ export default function ChatInput({
       const finalData = {
         ...data,
         time,
-        replyTo: reply?.messageId,
+        replyTo: reply?._id,
       };
 
       const response = await fetchInstance("api/v1/message", {
