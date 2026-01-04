@@ -24,6 +24,7 @@ export default function Chat({
   receiverId,
   typing,
 }: ChatProps) {
+  const [highlight, setHighlight] = React.useState<string | null>(null);
   const scrollRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
@@ -34,14 +35,16 @@ export default function Chat({
 
   return (
     <ScrollArea className="flex-1 overflow-y-auto h-[calc(100dvh - 95px)] bg-[url(/home/dark-background.png)] chat-scrollarea">
-      <div className="p-5 px-4 block">
+      <div className="block">
         {chat?.message?.map((msg, index) => (
           <ChatBubble
+            key={`CHAT-MESSAGE-${msg?._id}`}
             chatId={chatId}
             messageId={msg?._id}
+            highlight={highlight}
+            setHighlight={setHighlight}
             firstName={msg?.senderId?.firstName}
             lastName={msg?.senderId?.lastName}
-            key={`CHAT-MESSAGE-${msg?._id}`}
             sender={msg?.senderId?._id === senderId}
             receiverId={receiverId}
             isDelete={msg?.isDeleted}
