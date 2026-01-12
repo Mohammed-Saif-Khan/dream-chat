@@ -31,7 +31,7 @@ const NewChatDialog = ({ open, onClose }: NewChatDialogProps) => {
           <DialogTitle className="text-start">New Chat</DialogTitle>
           <DialogDescription
             asChild
-            className="mt-5 w-full flex-grow overflow-y-auto"
+            className="mt-5 w-full grow overflow-y-auto"
           >
             <div className="w-full">
               <ButtonGroup className="w-full mb-4">
@@ -40,44 +40,43 @@ const NewChatDialog = ({ open, onClose }: NewChatDialogProps) => {
                   <SearchIcon />
                 </Button>
               </ButtonGroup>
-              <div>
-                <p className="text-base text-start font-medium text-foreground mb-3">
-                  Contacts
-                </p>
-                <ScrollArea className="pr-2">
-                  {newChatData?.map((item, index) => (
-                    <Label
-                      key={`NEW-CHAT-${index}`}
-                      className="hover:bg-accent/50 flex items-center justify-between gap-3 rounded-md p-3 has-[[aria-checked=true]]:border-blue-600 has-[[aria-checked=true]]:bg-blue-50 dark:has-[[aria-checked=true]]:border-blue-900 dark:has-[[aria-checked=true]]:bg-blue-950 my-4"
-                    >
-                      <div className="flex items-center gap-2 font-normal">
-                        <AvatarDP
-                          src={item?.img}
-                          alt="recent-chat"
-                          fallback="recent-chat"
-                          avatarSize="w-12 h-12"
-                        />
-                        <div>
-                          <p className="text-base font-semibold text-accent-foreground">
-                            {item?.name}
-                          </p>
-                          <p className="text-muted-foreground text-sm">
-                            {item?.work}
-                          </p>
-                        </div>
-                      </div>
-                      <Checkbox
-                        id="toggle-2"
-                        className="data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600 data-[state=checked]:text-white dark:data-[state=checked]:border-blue-700 dark:data-[state=checked]:bg-blue-700"
-                      />
-                    </Label>
-                  ))}
-                </ScrollArea>
-              </div>
             </div>
           </DialogDescription>
         </DialogHeader>
-
+        <div>
+          <p className="text-base text-start font-medium text-foreground">
+            Contacts
+          </p>
+          <ScrollArea className="pr-2 h-90">
+            {newChatData?.map((item, index) => (
+              <Label
+                key={`NEW-CHAT-${index}`}
+                className="hover:bg-accent/50 flex items-center justify-between gap-3 rounded-md p-3 has-[[aria-checked=true]]:border-blue-600 has-[[aria-checked=true]]:bg-blue-50 dark:has-[[aria-checked=true]]:border-blue-900 dark:has-[[aria-checked=true]]:bg-blue-950 my-4"
+              >
+                <div className="flex items-center gap-2 font-normal">
+                  <AvatarDP
+                    src={item?.img}
+                    alt="recent-chat"
+                    fallback="recent-chat"
+                    avatarSize="w-12 h-12"
+                  />
+                  <div>
+                    <p className="text-base font-semibold text-accent-foreground">
+                      {item?.name}
+                    </p>
+                    <p className="text-muted-foreground text-sm">
+                      {item?.work}
+                    </p>
+                  </div>
+                </div>
+                <Checkbox
+                  id="toggle-2"
+                  className="data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600 data-[state=checked]:text-white dark:data-[state=checked]:border-blue-700 dark:data-[state=checked]:bg-blue-700"
+                />
+              </Label>
+            ))}
+          </ScrollArea>
+        </div>
         <DialogFooter className="flex flex-wrap w-full">
           <DialogClose asChild>
             <Button size="lg" variant="outline">

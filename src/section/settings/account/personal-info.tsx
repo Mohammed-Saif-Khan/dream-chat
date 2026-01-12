@@ -10,11 +10,12 @@ import {
   FieldErrors,
   FieldValues,
   Path,
+  UseFormClearErrors,
   UseFormRegister,
+  UseFormSetError,
   UseFormSetValue,
 } from "react-hook-form";
 import AvatarUpload from "./avatar-upload";
-import React from "react";
 
 interface PersonalInfoProps<T extends FieldValues> {
   control: Control<T>;
@@ -23,6 +24,8 @@ interface PersonalInfoProps<T extends FieldValues> {
   errors?: FieldErrors<T>;
   isSubmitting?: boolean;
   avatarBind: string;
+  setError: UseFormSetError<T>;
+  clearErrors: UseFormClearErrors<T>;
 }
 
 export default function PersonalInfo<T extends FieldValues>({
@@ -32,11 +35,19 @@ export default function PersonalInfo<T extends FieldValues>({
   errors,
   isSubmitting,
   avatarBind,
+  setError,
+  clearErrors,
 }: PersonalInfoProps<T>) {
   return (
     <div>
       <div className="flex items-center justify-center mb-4">
-        <AvatarUpload bind={avatarBind} />
+        <AvatarUpload
+          name="avatar"
+          bind={avatarBind}
+          errors={errors}
+          setError={setError}
+          clearErrors={clearErrors}
+        />
       </div>
       <TextBox
         name={"firstName" as Path<T>}

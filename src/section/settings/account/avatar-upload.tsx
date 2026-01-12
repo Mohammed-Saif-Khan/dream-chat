@@ -12,6 +12,13 @@ import { fetchInstance } from "@/utils/fetch-instance";
 import { Plus } from "lucide-react";
 import React from "react";
 import Cropper from "react-easy-crop";
+import {
+  FieldErrors,
+  FieldValues,
+  Path,
+  UseFormClearErrors,
+  UseFormSetError,
+} from "react-hook-form";
 import toast from "react-hot-toast";
 
 type CroppedArea = {
@@ -21,7 +28,23 @@ type CroppedArea = {
   y: number;
 };
 
-export default function AvatarUpload({ bind }: { bind: string }) {
+type AvatarUploadPropType<T extends FieldValues> = {
+  name: keyof T;
+  bind: string;
+  errors: FieldErrors<T> | undefined;
+  setError: UseFormSetError<T>;
+  clearErrors: UseFormClearErrors<T>;
+};
+
+const MAX_FILE_SIZE = 5 * 1024 * 1024; //max 5mb
+
+export default function AvatarUpload<T extends FieldValues>({
+  name,
+  bind,
+  errors,
+  setError,
+  clearErrors,
+}: AvatarUploadPropType<T>) {
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const [avatarImage, setAvatarImage] = React.useState<string>(bind);
   const [imageSrc, setImageSrc] = React.useState<string>("");
@@ -39,6 +62,26 @@ export default function AvatarUpload({ bind }: { bind: string }) {
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target?.files?.[0];
+    e.target.value = "";
+    const validImageFiles =
+      file && typeof file.type === "string" && file.type.startsWith("image/");
+    const overSize = file && file?.size > MAX_FILE_SIZE;
+
+    if (!validImageFiles) {
+      setError(name as Path<T>, {
+        type: "manual",
+        message: "Please upload only image files",
+      });
+    } else if (overSize) {
+      setError(name as Path<T>, {
+        type: "manual",
+        message: "Image must be less than 5MB",
+      });
+    } else {
+      clearErrors(name as Path<T>);
+    }
+
+    console.log(file, "lkasfjee");
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
@@ -134,6 +177,8 @@ export default function AvatarUpload({ bind }: { bind: string }) {
     setAvatarImage(bind);
   }, [bind]);
 
+  console.log(errors, "EEEEE");
+
   return (
     <div className="relative border-3 border-dashed border-primary rounded-full p-1 cursor-pointer">
       <Avatar onClick={handleAvatarClick} className="size-18">
@@ -150,7 +195,7 @@ export default function AvatarUpload({ bind }: { bind: string }) {
       >
         <Button
           size="icon-sm"
-          className="bg-primary rounded-full size-3 flex items-center justify-center p-1 [&_svg]:!size-3"
+          className="bg-primary rounded-full size-3 flex items-center justify-center p-1 [&_svg]:size-3!"
         >
           <Plus className="text-white font-bold" />
         </Button>
@@ -163,10 +208,14 @@ export default function AvatarUpload({ bind }: { bind: string }) {
         className="hidden"
         onChange={handleAvatarChange}
       />
-
+      {errors?.[name] && (
+        <p className="text-xs text-red-500">
+          {String(errors?.[name]?.message)}
+        </p>
+      )}
       {/* Crop Dialog */}
       <Dialog open={openCrop} onOpenChange={setOpenCrop}>
-        <DialogContent className="sm:max-w-[400px] h-[400px] flex flex-col">
+        <DialogContent className="sm:max-w-100 h-100 flex flex-col">
           <DialogTitle></DialogTitle>
           <div className="relative flex-1 bg-black">
             <Cropper
