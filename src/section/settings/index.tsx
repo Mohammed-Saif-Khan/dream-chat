@@ -114,6 +114,8 @@ export default function SettingSidebar() {
                   setValue={profileForm.setValue}
                   errors={profileForm.formState.errors}
                   isSubmitting={profileForm.formState.isSubmitting}
+                  setError={profileForm?.setError}
+                  clearErrors={profileForm?.clearErrors}
                   avatarBind={profile?.avatar!}
                 />
               </form>
