@@ -14,6 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useChatlistStore } from "@/store/chat-list";
 import { newChatData } from "@/utils/constant";
 import { SearchIcon } from "lucide-react";
 import React from "react";
@@ -21,14 +22,21 @@ import React from "react";
 type NewChatDialogProps = {
   open: boolean;
   onClose: (open: boolean) => void;
+  title?: string;
+  buttonTitle?: string;
 };
 
-const NewChatDialog = ({ open, onClose }: NewChatDialogProps) => {
+const NewChatDialog = ({
+  open,
+  onClose,
+  title = "New Chat",
+  buttonTitle = "Start Chat",
+}: NewChatDialogProps) => {
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="flex flex-col dialog-full-width">
         <DialogHeader>
-          <DialogTitle className="text-start">New Chat</DialogTitle>
+          <DialogTitle className="text-start">{title}</DialogTitle>
           <DialogDescription
             asChild
             className="mt-5 w-full grow overflow-y-auto"
@@ -51,7 +59,7 @@ const NewChatDialog = ({ open, onClose }: NewChatDialogProps) => {
             {newChatData?.map((item, index) => (
               <Label
                 key={`NEW-CHAT-${index}`}
-                className="hover:bg-accent/50 flex items-center justify-between gap-3 rounded-md p-3 has-[[aria-checked=true]]:border-blue-600 has-[[aria-checked=true]]:bg-blue-50 dark:has-[[aria-checked=true]]:border-blue-900 dark:has-[[aria-checked=true]]:bg-blue-950 my-4"
+                className="hover:bg-accent/50 flex items-center justify-between gap-3 rounded-md p-3 has-aria-checked:border-blue-600 has-aria-checked:bg-blue-50 dark:has-aria-checked:border-blue-900 dark:has-aria-checked:bg-blue-950 my-4"
               >
                 <div className="flex items-center gap-2 font-normal">
                   <AvatarDP
@@ -84,7 +92,7 @@ const NewChatDialog = ({ open, onClose }: NewChatDialogProps) => {
             </Button>
           </DialogClose>
           <Button size="lg" type="submit" className="text-white rounded-sm">
-            Start Chat
+            {buttonTitle}
           </Button>
         </DialogFooter>
       </DialogContent>

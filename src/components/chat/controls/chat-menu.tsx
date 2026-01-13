@@ -26,12 +26,13 @@ import {
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import NewChatDialog from "@/modules/sidebar/chat-header/new-chat-dialog";
 import { useChatlistStore } from "@/store/chat-list";
+import { useMessageStore } from "@/store/messages";
 import { fetchInstance } from "@/utils/fetch-instance";
 import { Icon } from "@iconify/react";
 import React from "react";
 import toast from "react-hot-toast";
-import { useMessageStore } from "@/store/messages";
 
 type ChatMenuProps = {
   sender: boolean;
@@ -59,6 +60,7 @@ export default function ChatMenu({
   lastName,
 }: ChatMenuProps) {
   const [open, setOpen] = React.useState<boolean>(false);
+  const [forwardOpen, setForwardOpen] = React.useState<boolean>(false);
   const { setReply, toggleFavouriteMessage } = useMessageStore();
 
   if (!createdAt) return;
@@ -153,7 +155,10 @@ export default function ChatMenu({
               Reply
             </DropdownMenuItem>
 
-            <DropdownMenuItem className="group focus:text-primary">
+            <DropdownMenuItem
+              onClick={() => setForwardOpen(true)}
+              className="group focus:text-primary"
+            >
               <Forward className="mr-2 text-muted-foreground group-hover:text-primary" />
               Forward
             </DropdownMenuItem>
@@ -204,6 +209,7 @@ export default function ChatMenu({
           </div>
         </DropdownMenuContent>
       </DropdownMenu>
+
       <AlertDialog open={open} onOpenChange={setOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -224,6 +230,12 @@ export default function ChatMenu({
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+      <NewChatDialog
+        title="Forward"
+        buttonTitle="Send"
+        open={forwardOpen}
+        onClose={setForwardOpen}
+      />
     </div>
   );
 }

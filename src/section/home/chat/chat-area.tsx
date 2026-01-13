@@ -5,6 +5,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { ChatType } from "@/store/messages/type";
 import getName from "@/utils/getName";
+import { EllipsisVertical } from "lucide-react";
 
 // import getName from "@/utils/getName";
 import React from "react";
@@ -26,8 +27,6 @@ export default function Chat({
 }: ChatProps) {
   const [highlight, setHighlight] = React.useState<string | null>(null);
   const scrollRef = React.useRef<HTMLDivElement>(null);
-
-  console.log(chat, "joijoiji");
 
   React.useEffect(() => {
     if (scrollRef?.current) {

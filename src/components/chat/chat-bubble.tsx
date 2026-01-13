@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { ReplyMessage } from "@/store/messages/type";
-import { Ban, Check, CheckCheck, Clock } from "lucide-react";
+import { Ban, Check, CheckCheck, Clock, EllipsisVertical } from "lucide-react";
 import ChatDivider from "./chat-divider";
 import ChatMenu from "./controls/chat-menu";
 
@@ -146,7 +146,6 @@ export default function ChatBubble({
               message
             )}
           </div>
-
           <ChatMenu
             chatId={chatId}
             sender={sender}
