@@ -19,6 +19,7 @@ import { useAuthStore } from "@/store/auth";
 
 export default function OtpForm() {
   const { push } = useNavigate();
+  const OTP_EXPIRY_TIME = 9 * 60 + 59;
   const { otpVerify } = useAuthStore();
   const [timeLeft, setTimeLeft] = React.useState(9 * 60 + 59);
 
@@ -38,6 +39,25 @@ export default function OtpForm() {
   const onSubmit = async (data: otpType) => {
     await otpVerify(data, push);
   };
+
+  React.useEffect(() => {
+    const savedExpiry = localStorage.getItem("otp_expiry_time");
+
+    if (savedExpiry) {
+      const remaining = Math.floor((Number(savedExpiry) - Date.now()) / 1000);
+
+      if (remaining > 0) {
+        setTimeLeft(remaining);
+      } else {
+        setTimeLeft(0);
+        localStorage.removeItem("otp_expiry_time");
+      }
+    } else {
+      const expiryTime = Date.now() + OTP_EXPIRY_TIME * 1000;
+      localStorage.setItem("otp_expiry_time", expiryTime.toString());
+      setTimeLeft(OTP_EXPIRY_TIME);
+    }
+  }, []);
 
   React.useEffect(() => {
     const resetToken = localStorage?.getItem("resetPassword");
@@ -130,7 +150,7 @@ export default function OtpForm() {
         <p className="md:mt-10 mt-5 text-sm text-center">
           Dont receive an email?{" "}
           <span
-            onClick={() => push("/auth/sign-up")}
+            onClick={() => push("/auth/forgot-password")}
             className="text-primary hover:underline font-medium cursor-pointer"
           >
             click to resend

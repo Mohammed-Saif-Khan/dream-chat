@@ -27,11 +27,13 @@ export default function Chat({
   const [highlight, setHighlight] = React.useState<string | null>(null);
   const scrollRef = React.useRef<HTMLDivElement>(null);
 
+  console.log(chat, "joijoiji");
+
   React.useEffect(() => {
     if (scrollRef?.current) {
       scrollRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [chat, typing]);
+  }, [chat?.message?.length, typing]);
 
   return (
     <ScrollArea className="flex-1 overflow-y-auto h-[calc(100dvh - 95px)] bg-[url(/home/dark-background.png)] chat-scrollarea">

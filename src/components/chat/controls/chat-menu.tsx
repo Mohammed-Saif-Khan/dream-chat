@@ -59,7 +59,7 @@ export default function ChatMenu({
   lastName,
 }: ChatMenuProps) {
   const [open, setOpen] = React.useState<boolean>(false);
-  const { setReply } = useMessageStore();
+  const { setReply, toggleFavouriteMessage } = useMessageStore();
 
   if (!createdAt) return;
   const createdTime = new Date(createdAt).getTime();
@@ -91,6 +91,7 @@ export default function ChatMenu({
 
   const onFavourites = async () => {
     try {
+      toggleFavouriteMessage(messageId);
       const response = await fetchInstance(`api/v1/favourite/${messageId}`, {
         method: "PUT",
         body: JSON.stringify({ chatId: chatId }),
@@ -100,11 +101,11 @@ export default function ChatMenu({
         toast.error(result?.message || "Failed");
       }
       if (response?.status === 200) {
-        const { toggleFavouriteMessage } = useMessageStore.getState();
-        toggleFavouriteMessage(messageId);
       }
     } catch (error) {
-      console.error((error as Error)?.message, "Failed!");
+      toggleFavouriteMessage(messageId);
+      console.error((error as Error)?.message);
+      toast.error("Something went wrong");
     }
   };
 
