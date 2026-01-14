@@ -146,6 +146,7 @@ export default function ChatBubble({
               message
             )}
           </div>
+
           <ChatMenu
             chatId={chatId}
             sender={sender}

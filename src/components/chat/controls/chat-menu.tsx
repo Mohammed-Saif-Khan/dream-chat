@@ -230,12 +230,17 @@ export default function ChatMenu({
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-      <NewChatDialog
-        title="Forward"
-        buttonTitle="Send"
-        open={forwardOpen}
-        onClose={setForwardOpen}
-      />
+
+      {forwardOpen && (
+        <NewChatDialog
+          title="Forward"
+          buttonTitle="Send"
+          open={forwardOpen}
+          onClose={setForwardOpen}
+          messageId={messageId}
+          receiverId={receiverId}
+        />
+      )}
     </div>
   );
 }
