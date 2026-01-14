@@ -8,7 +8,7 @@ import { MessageType } from "@/store/messages/type";
 import { ProfileType } from "@/types/profile";
 import { fetchInstance } from "@/utils/fetch-instance";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Paperclip, SendHorizontal, Smile } from "lucide-react";
+import { Paperclip, SendHorizontal, Smile, SmilePlus } from "lucide-react";
 import React from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -131,8 +131,8 @@ export default function ChatInput({
         }}
         replyTo={reply}
         startAddon={[
-          <Smile key="simle" size={20} className="mb-2" />,
           <Paperclip key="clip" size={20} className="mb-2" />,
+          <SmilePlus key="simle" size={20} className="mb-2" />,
         ]}
         endAddon={<SendHorizontal size={20} />}
         addOnButtonType="submit"

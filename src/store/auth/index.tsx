@@ -1,8 +1,9 @@
 import { fetchInstance } from "@/utils/fetch-instance";
+import { nextCookies } from "@/utils/next-cookies";
 import toast from "react-hot-toast";
 import { create } from "zustand";
+import { useProfileStore } from "../profile";
 import { AuthStore } from "./type";
-import { nextCookies } from "@/utils/next-cookies";
 
 export const useAuthStore = create<AuthStore>()((set) => {
   return {
@@ -47,6 +48,8 @@ export const useAuthStore = create<AuthStore>()((set) => {
           } else {
             push("/settings");
           }
+          const { getProfile } = useProfileStore.getState();
+          await getProfile();
         } else {
           toast.error(result?.message || "Login Failed");
         }

@@ -15,10 +15,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tabs, TabsContent, TabsTrigger } from "@/components/ui/tabs";
 import { useChatlistStore } from "@/store/chat-list";
 import { useMessageStore } from "@/store/messages";
 import { fetchInstance } from "@/utils/fetch-instance";
 import { getTime } from "@/utils/getTime";
+import { TabsList } from "@radix-ui/react-tabs";
 import { SearchIcon } from "lucide-react";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -99,59 +101,81 @@ const NewChatDialog = ({
         </DialogHeader>
         <form onSubmit={handleSubmit(onForward)}>
           <div>
-            <p className="text-base text-start font-medium text-foreground">
-              Contacts
-            </p>
-            <ScrollArea className="pr-2 h-90">
-              {chatlist?.map((item, index) => (
-                <Controller
-                  key={index}
-                  control={control}
-                  name="receiverIds"
-                  render={({ field }) => (
-                    <Label
-                      key={`NEW-CHAT-${index}`}
-                      className="hover:bg-accent/50 flex items-center justify-between gap-3 rounded-md p-3 has-aria-checked:border-blue-600 has-aria-checked:bg-blue-50 dark:has-aria-checked:border-blue-900 dark:has-aria-checked:bg-blue-950 my-4"
-                    >
-                      <div className="flex items-center gap-2 font-normal">
-                        <AvatarDP
-                          src={item?.participants?.avatar}
-                          alt="recent-chat"
-                          fallback="recent-chat"
-                          avatarSize="w-12 h-12"
-                        />
-                        <div>
-                          <p className="text-base font-semibold text-accent-foreground">
-                            {item?.participants?.firstName}{" "}
-                            {item?.participants?.lastName}
-                          </p>
-                        </div>
-                      </div>
-                      <Checkbox
-                        id="toggle-2"
-                        checked={field.value?.includes(item.participants._id)}
-                        onCheckedChange={(checked) => {
-                          if (checked) {
-                            setValue("receiverIds", [
-                              ...(field.value || []),
-                              item.participants._id,
-                            ]);
-                          } else {
-                            setValue(
-                              "receiverIds",
-                              field.value.filter(
-                                (id: string) => id !== item.participants._id
-                              )
-                            );
-                          }
-                        }}
-                        className="data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600 data-[state=checked]:text-white dark:data-[state=checked]:border-blue-700 dark:data-[state=checked]:bg-blue-700"
-                      />
-                    </Label>
-                  )}
-                />
-              ))}
-            </ScrollArea>
+            <Tabs defaultValue="contact" className="gap-4">
+              <TabsList className="bg-background rounded-none border-b p-0">
+                <TabsTrigger
+                  value="contact"
+                  className="bg-background data-[state=active]:border-primary dark:data-[state=active]:border-primary h-full rounded-none border-0 border-b-2 border-transparent data-[state=active]:shadow-none"
+                >
+                  Contact
+                </TabsTrigger>
+                <TabsTrigger
+                  value="near_me"
+                  className="bg-background data-[state=active]:border-primary dark:data-[state=active]:border-primary h-full rounded-none border-0 border-b-2 border-transparent data-[state=active]:shadow-none"
+                >
+                  Near Me
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent value="contact">
+                <ScrollArea className="pr-2 md:h-90 sm:h-[calc(100dvh-250px)] h-[calc(100dvh-300px)]">
+                  {chatlist?.map((item, index) => (
+                    <Controller
+                      key={index}
+                      control={control}
+                      name="receiverIds"
+                      render={({ field }) => (
+                        <Label
+                          key={`NEW-CHAT-${index}`}
+                          className="hover:bg-accent/50 flex items-center justify-between gap-3 rounded-md p-3 has-aria-checked:border-blue-600 has-aria-checked:bg-blue-50 dark:has-aria-checked:border-blue-900 dark:has-aria-checked:bg-blue-950 my-4"
+                        >
+                          <div className="flex items-center gap-2 font-normal">
+                            <AvatarDP
+                              src={item?.participants?.avatar}
+                              alt="recent-chat"
+                              fallback="recent-chat"
+                              avatarSize="w-12 h-12"
+                            />
+                            <div>
+                              <p className="text-base font-semibold text-accent-foreground">
+                                {item?.participants?.firstName}{" "}
+                                {item?.participants?.lastName}
+                              </p>
+                            </div>
+                          </div>
+                          <Checkbox
+                            id="toggle-2"
+                            checked={field.value?.includes(
+                              item.participants._id
+                            )}
+                            onCheckedChange={(checked) => {
+                              if (checked) {
+                                setValue("receiverIds", [
+                                  ...(field.value || []),
+                                  item.participants._id,
+                                ]);
+                              } else {
+                                setValue(
+                                  "receiverIds",
+                                  field.value.filter(
+                                    (id: string) => id !== item.participants._id
+                                  )
+                                );
+                              }
+                            }}
+                            className="data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600 data-[state=checked]:text-white dark:data-[state=checked]:border-blue-700 dark:data-[state=checked]:bg-blue-700"
+                          />
+                        </Label>
+                      )}
+                    />
+                  ))}
+                </ScrollArea>
+              </TabsContent>
+              <TabsContent value="near_me">
+                <ScrollArea className="pr-2 md:h-90 sm:h-[calc(100dvh-250px)] h-[calc(100dvh-300px)]">
+                  asdf
+                </ScrollArea>
+              </TabsContent>
+            </Tabs>
           </div>
           <DialogFooter className="flex flex-wrap w-full">
             <DialogClose asChild>
@@ -163,7 +187,7 @@ const NewChatDialog = ({
               isSubmitting={isSubmitting}
               size="lg"
               type="submit"
-              className="text-white rounded-sm"
+              className="text-white rounded-sm w-full"
             >
               {buttonTitle}
             </SubmitButton>

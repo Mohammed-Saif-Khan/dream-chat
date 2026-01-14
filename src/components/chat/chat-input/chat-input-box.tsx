@@ -82,7 +82,11 @@ export default function ChatInputBox<T extends FieldValues>({
             {startAddon && (
               <InputGroupAddon className={className.startAddon}>
                 {React.Children.toArray(startAddon).map((addon, i) => (
-                  <InputGroupButton key={i} type={addOnButtonType}>
+                  <InputGroupButton
+                    key={i}
+                    type={addOnButtonType}
+                    className="[&_svg]:size-4.5!"
+                  >
                     {addon}
                   </InputGroupButton>
                 ))}
