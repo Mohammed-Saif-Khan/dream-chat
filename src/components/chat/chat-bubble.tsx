@@ -175,8 +175,16 @@ export default function ChatBubble({
               )}
             </div>
             {reactions[messageId] && (
-              <div className={cn("absolute rounded-full", sender && "right-0")}>
-                <Badge variant="outline" className="h-5 min-w-5 px-1">
+              <div
+                className={cn(
+                  "absolute rounded-full -bottom-2.5",
+                  sender && "right-0",
+                )}
+              >
+                <Badge
+                  variant="outline"
+                  className="p-0 bg-background rounded-full"
+                >
                   {reactions[messageId]}
                 </Badge>
               </div>
@@ -238,10 +246,20 @@ export default function ChatBubble({
                 emojiStyle={EmojiStyle.GOOGLE}
                 previewConfig={{ showPreview: false }}
                 onEmojiClick={(value) => {
-                  setReactions((prev) => ({
-                    ...prev,
-                    [messageId]: value?.emoji,
-                  }));
+                  setReactions((prev) => {
+                    const currentReaction = prev[messageId];
+                    const newEmoji = value?.emoji;
+                    // remove on double click
+                    if (currentReaction === newEmoji) {
+                      const { [messageId]: _, ...rest } = prev;
+                      return rest;
+                    }
+                    return {
+                      ...prev,
+                      [messageId]: newEmoji,
+                    };
+                  });
+
                   setEmojiOpen(false);
                 }}
                 className="emoji-small"
