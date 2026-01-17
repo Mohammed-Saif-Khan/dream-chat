@@ -49,7 +49,7 @@ export default function ChatCard({
         onClick={onClick}
         className={cn(
           "flex items-start justify-between lg:max-w-md bg-background p-5 rounded-md group ring-0 hover:ring-2 ring-primary transition-all duration-300 ease-in-out my-2 cursor-pointer",
-          id === receiverId && "ring-2"
+          id === receiverId && "ring-2",
         )}
       >
         <div className="flex items-center gap-2">
@@ -68,7 +68,7 @@ export default function ChatCard({
               {isDelete && !deleteAt ? (
                 <p
                   className={cn(
-                    "text-sm text-muted-foreground line-clamp-1 flex items-center gap-1"
+                    "text-sm text-muted-foreground line-clamp-1 flex items-center gap-1",
                   )}
                 >
                   <Ban size={14} /> This message is Deleted
@@ -93,11 +93,13 @@ export default function ChatCard({
             )}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <EllipsisVertical
-                  width={16}
-                  height={16}
-                  className="text-muted-foreground cursor-pointer"
-                />
+                <span>
+                  <EllipsisVertical
+                    width={16}
+                    height={16}
+                    className="text-muted-foreground cursor-pointer"
+                  />
+                </span>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="bg-background">
                 {siderBarMenu?.map((item, index) => {

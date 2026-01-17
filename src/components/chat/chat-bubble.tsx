@@ -130,7 +130,7 @@ export default function ChatBubble({
         </div>
         <div
           className={cn(
-            "flex items-center gap-1.5 select-none px-4 pb-1 group",
+            "flex items-center gap-1.5 select-none md:px-4 pb-1 group",
             sender && "flex-row-reverse",
             highlight === messageId && "bg-primary/10 w-full pb-1",
           )}
