@@ -177,16 +177,18 @@ export default function ChatBubble({
             {reactions[messageId] && (
               <div
                 className={cn(
-                  "absolute rounded-full -bottom-2.5",
-                  sender && "right-0",
+                  "absolute -bottom-2.5",
+                  sender ? "right-0" : "left-0",
                 )}
               >
-                <Badge
-                  variant="outline"
-                  className="p-0 bg-background rounded-full"
-                >
-                  {reactions[messageId]}
-                </Badge>
+                <div className="flex items-center gap-0.5 px-1.5 py-0.5 rounded-full border bg-background shadow-sm">
+                  <span className="text-sm leading-none">
+                    {reactions[messageId]}
+                  </span>
+                  {/* <span className="text-[10px] leading-none text-muted-foreground font-bold">
+                    1
+                  </span> */}
+                </div>
               </div>
             )}
           </div>

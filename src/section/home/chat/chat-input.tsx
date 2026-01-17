@@ -137,6 +137,7 @@ export default function ChatInput({
             <PopoverContent className="w-fit p-0 bg-transparent border-0 mx-2 shadow-none">
               <EmojiPicker
                 theme={emojiTheme}
+                autoFocusSearch={false}
                 emojiStyle={EmojiStyle.GOOGLE}
                 previewConfig={{ showPreview: false }}
                 onEmojiClick={(value) => {
