@@ -6,8 +6,9 @@ import {
 import { cn } from "@/lib/utils";
 import NewChatDialog from "@/modules/sidebar/chat-header/new-chat-dialog";
 import { ReplyMessage } from "@/store/messages/type";
-import { iconAnimation } from "@/utils/emoji-icon";
-import EmojiPicker, { EmojiStyle, Theme } from "emoji-picker-react";
+import { iconAnimation, useEmojiTheme } from "@/utils/emoji-icon";
+import { renderEmojiText } from "@/utils/render-emoji-text";
+import EmojiPicker, { EmojiStyle } from "emoji-picker-react";
 import {
   Ban,
   Check,
@@ -18,10 +19,9 @@ import {
   Undo2,
 } from "lucide-react";
 import React, { SetStateAction } from "react";
+import { Badge } from "../ui/badge";
 import ChatDivider from "./chat-divider";
 import ChatMenu from "./controls/chat-menu";
-import { Badge } from "../ui/badge";
-import { renderEmojiText } from "@/utils/render-emoji-text";
 
 type ChatBubblePorps = {
   sender: boolean;
@@ -66,8 +66,7 @@ export default function ChatBubble({
   setReactions,
   reactions,
 }: ChatBubblePorps) {
-  console.log(message, "mememem");
-
+  const emojiTheme = useEmojiTheme();
   const [forwardOpen, setForwardOpen] = React.useState<boolean>(false);
   const [emojiOpen, setEmojiOpen] = React.useState<boolean>(false);
 
@@ -235,7 +234,7 @@ export default function ChatBubble({
             >
               <EmojiPicker
                 reactionsDefaultOpen={true}
-                theme={Theme.AUTO}
+                theme={emojiTheme}
                 emojiStyle={EmojiStyle.GOOGLE}
                 previewConfig={{ showPreview: false }}
                 onEmojiClick={(value) => {

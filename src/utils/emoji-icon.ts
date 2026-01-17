@@ -1,9 +1,16 @@
 import { cn } from "@/lib/utils";
+import { Theme } from "emoji-picker-react";
+import { useTheme } from "next-themes";
 
 export const iconAnimation = (active: boolean) =>
   cn(
     "transition-all duration-200 ease-out",
     active
       ? "opacity-100 scale-100 pointer-events-auto"
-      : "opacity-0 scale-90 pointer-events-none"
+      : "opacity-0 scale-90 pointer-events-none",
   );
+
+export const useEmojiTheme = () => {
+  const { resolvedTheme } = useTheme();
+  return resolvedTheme === "dark" ? Theme.DARK : Theme.LIGHT;
+};

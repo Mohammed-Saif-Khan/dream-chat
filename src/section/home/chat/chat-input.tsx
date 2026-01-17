@@ -1,5 +1,10 @@
 "use client";
 import ChatInputBox from "@/components/chat/chat-input/chat-input-box";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { messageSchema, messageTyep } from "@/schema/message";
 import { socket } from "@/socket";
 import { useChatlistStore } from "@/store/chat-list";
@@ -8,19 +13,14 @@ import { MessageType } from "@/store/messages/type";
 import { ProfileType } from "@/types/profile";
 import { fetchInstance } from "@/utils/fetch-instance";
 import { zodResolver } from "@hookform/resolvers/zod";
+import EmojiPicker, { EmojiStyle, Theme } from "emoji-picker-react";
 import { Paperclip, SendHorizontal, SmilePlus } from "lucide-react";
 import React from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { v4 as uuidv4 } from "uuid";
 import { getArrangeData } from "./constant";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import EmojiPicker, { EmojiStyle, Theme } from "emoji-picker-react";
-import { cn } from "@/lib/utils";
+import { useTheme } from "next-themes";
+import { useEmojiTheme } from "@/utils/emoji-icon";
 
 type ChatInputProps = {
   receiverId: string;
@@ -37,6 +37,7 @@ export default function ChatInput({
   addMessage,
   editMessage,
 }: ChatInputProps) {
+  const emojiTheme = useEmojiTheme();
   const { reply, setReply } = useMessageStore();
   const { upsertChat } = useChatlistStore();
   const typingTimeoutRef = React.useRef<NodeJS.Timeout>(null);
@@ -135,8 +136,7 @@ export default function ChatInput({
             </PopoverTrigger>
             <PopoverContent className="w-fit p-0 bg-transparent border-0 mx-2">
               <EmojiPicker
-                reactionsDefaultOpen={true}
-                theme={Theme.AUTO}
+                theme={emojiTheme}
                 emojiStyle={EmojiStyle.GOOGLE}
                 previewConfig={{ showPreview: false }}
                 onEmojiClick={(value) => {
