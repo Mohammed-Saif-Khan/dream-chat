@@ -8,11 +8,19 @@ import { MessageType } from "@/store/messages/type";
 import { ProfileType } from "@/types/profile";
 import { fetchInstance } from "@/utils/fetch-instance";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Paperclip, SendHorizontal, Smile, SmilePlus } from "lucide-react";
+import { Paperclip, SendHorizontal, SmilePlus } from "lucide-react";
 import React from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { v4 as uuidv4 } from "uuid";
+import { getArrangeData } from "./constant";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import EmojiPicker, { EmojiStyle, Theme } from "emoji-picker-react";
+import { cn } from "@/lib/utils";
 
 type ChatInputProps = {
   receiverId: string;
@@ -45,7 +53,7 @@ export default function ChatInput({
     }, 1500);
   };
 
-  const { handleSubmit, setValue, register } = useForm<messageTyep>({
+  const { handleSubmit, setValue, register, watch } = useForm<messageTyep>({
     resolver: zodResolver(messageSchema),
     defaultValues: {
       receiverId,
@@ -60,27 +68,14 @@ export default function ChatInput({
         minute: "2-digit",
       });
 
-      const tempMsg: any = {
-        message: data?.message,
-        isDeleted: false,
-        deletedAt: null,
+      const tempMsg = getArrangeData(
+        data,
+        profile,
+        senderId,
         receiverId,
-        senderId: {
-          firstName: profile?.firstName,
-          lastName: profile?.lastName,
-          _id: senderId,
-        },
-        ...(reply && {
-          replyTo: {
-            message: reply.message,
-            senderId: reply.senderId,
-            messageId: reply._id,
-          },
-        }),
         time,
-        status: "pending",
-        _id: uuidv4(),
-      };
+        reply,
+      );
 
       socket.emit("stop-typing", { receiverId });
       addMessage(tempMsg);
@@ -132,7 +127,25 @@ export default function ChatInput({
         replyTo={reply}
         startAddon={[
           <Paperclip key="clip" size={20} className="mb-2" />,
-          <SmilePlus key="simle" size={20} className="mb-2" />,
+          <Popover>
+            <PopoverTrigger asChild>
+              <span>
+                <SmilePlus key="simle" size={20} className="mb-2" />
+              </span>
+            </PopoverTrigger>
+            <PopoverContent className="w-fit p-0 bg-transparent border-0 mx-2">
+              <EmojiPicker
+                reactionsDefaultOpen={true}
+                theme={Theme.AUTO}
+                emojiStyle={EmojiStyle.GOOGLE}
+                previewConfig={{ showPreview: false }}
+                onEmojiClick={(value) => {
+                  setValue("message", watch("message") + value?.emoji);
+                }}
+                className="emoji-small"
+              />
+            </PopoverContent>
+          </Popover>,
         ]}
         endAddon={<SendHorizontal size={20} />}
         addOnButtonType="submit"

@@ -277,3 +277,23 @@ body {
 .animate-reply-slide-in {
   animation: replySlideIn 0.3s ease-out;
 }
+
+/* Firefox */
+.emoji-small .epr-body {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+}
+
+/* Chrome, Edge, Safari */
+.emoji-small .epr-body::-webkit-scrollbar {
+  width: 4px;
+}
+
+.emoji-small .epr-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.emoji-small .epr-body::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}

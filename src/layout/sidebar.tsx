@@ -1,4 +1,5 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { cn } from "@/lib/utils";
 import ChatHeader from "@/modules/sidebar/chat-header/chat-header";
 import Explore from "@/section/explore";
 import ChatSidebar from "@/section/home/sidebar";
@@ -33,7 +34,12 @@ export default function Sidebar({ pathname, userList }: SidebarProps) {
       <ChatHeader heading={pathname} />
       <div className="flex flex-col overflow-hidden">
         <ScrollArea className="overflow-y-auto chat-scrollarea">
-          <div className="flex-1 overflow-y-auto pt-5 px-4">
+          <div
+            className={cn(
+              "flex-1 overflow-y-auto",
+              pathname === "chat" ? "pt-0 px-4" : "pt-5 px-4"
+            )}
+          >
             {renderSidebar(pathname || "", userList)}
             <div className="xl:h-4" />
           </div>

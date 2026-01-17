@@ -67,7 +67,7 @@ export default function ChatInputBox<T extends FieldValues>({
         )}
         <div
           className={cn(
-            "border overflow-hidden ease-in-out transition-all rounded-sm"
+            "border overflow-hidden ease-in-out transition-all rounded-sm",
           )}
         >
           {replyTo && <ReplyPreview reply={replyTo} />}
@@ -75,7 +75,7 @@ export default function ChatInputBox<T extends FieldValues>({
             className={cn(
               className.inputGroup,
               "items-end border-0 rounded-none",
-              replyTo && "rounded-t-none"
+              replyTo && "rounded-t-none",
             )}
           >
             {/* Start Addons */}
@@ -84,7 +84,7 @@ export default function ChatInputBox<T extends FieldValues>({
                 {React.Children.toArray(startAddon).map((addon, i) => (
                   <InputGroupButton
                     key={i}
-                    type={addOnButtonType}
+                    type="button"
                     className="[&_svg]:size-4.5!"
                   >
                     {addon}

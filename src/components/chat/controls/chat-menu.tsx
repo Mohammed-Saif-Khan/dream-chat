@@ -45,6 +45,7 @@ type ChatMenuProps = {
   chatId: string | undefined;
   firstName?: string;
   lastName?: string;
+  setForwardOpen: (open: boolean) => void;
 };
 
 export default function ChatMenu({
@@ -58,9 +59,9 @@ export default function ChatMenu({
   chatId,
   firstName,
   lastName,
+  setForwardOpen,
 }: ChatMenuProps) {
   const [open, setOpen] = React.useState<boolean>(false);
-  const [forwardOpen, setForwardOpen] = React.useState<boolean>(false);
   const { setReply, toggleFavouriteMessage } = useMessageStore();
 
   if (!createdAt) return;
@@ -230,17 +231,6 @@ export default function ChatMenu({
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-
-      {forwardOpen && (
-        <NewChatDialog
-          title="Forward"
-          buttonTitle="Send"
-          open={forwardOpen}
-          onClose={setForwardOpen}
-          messageId={messageId}
-          receiverId={receiverId}
-        />
-      )}
     </div>
   );
 }
