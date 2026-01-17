@@ -95,6 +95,7 @@ export default function ChatInputBox<T extends FieldValues>({
 
             {/* Textarea */}
             <InputGroupTextarea
+              autoFocus={false}
               {...(register ? register(name, { required }) : {})}
               onChange={(e) => onChange?.(e)}
               value={value}

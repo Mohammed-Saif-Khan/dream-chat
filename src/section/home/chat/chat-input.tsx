@@ -134,7 +134,7 @@ export default function ChatInput({
                 <SmilePlus key="simle" size={20} className="mb-2" />
               </span>
             </PopoverTrigger>
-            <PopoverContent className="w-fit p-0 bg-transparent border-0 mx-2">
+            <PopoverContent className="w-fit p-0 bg-transparent border-0 mx-2 shadow-none">
               <EmojiPicker
                 theme={emojiTheme}
                 emojiStyle={EmojiStyle.GOOGLE}

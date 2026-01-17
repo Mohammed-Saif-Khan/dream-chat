@@ -230,7 +230,7 @@ export default function ChatBubble({
             <PopoverContent
               side="right"
               align="center"
-              className="w-fit p-0 bg-transparent border-0 mx-2"
+              className="w-fit p-0 bg-transparent border-0 mx-2 shadow-none"
             >
               <EmojiPicker
                 reactionsDefaultOpen={true}
