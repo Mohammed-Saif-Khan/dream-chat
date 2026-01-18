@@ -19,9 +19,11 @@ import {
   Undo2,
 } from "lucide-react";
 import React, { SetStateAction } from "react";
-import { Badge } from "../ui/badge";
 import ChatDivider from "./chat-divider";
 import ChatMenu from "./controls/chat-menu";
+import { useLongPress } from "@/hooks/use-long-press";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { Badge } from "../ui/badge";
 
 type ChatBubblePorps = {
   sender: boolean;
@@ -66,9 +68,18 @@ export default function ChatBubble({
   setReactions,
   reactions,
 }: ChatBubblePorps) {
+  const isSmall = useIsMobile();
   const emojiTheme = useEmojiTheme();
-  const [forwardOpen, setForwardOpen] = React.useState<boolean>(false);
   const [emojiOpen, setEmojiOpen] = React.useState<boolean>(false);
+  const [forwardOpen, setForwardOpen] = React.useState<boolean>(false);
+  const [pressHighlight, setPressHighlight] = React.useState<boolean>(false);
+
+  const longPressHandlers = useLongPress({
+    onLongPress: () => {
+      setPressHighlight(true);
+      setEmojiOpen(true);
+    },
+  });
 
   const isSameDay = (d1?: string, d2?: string) => {
     if (!d1 || !d2) return false;
@@ -132,12 +143,14 @@ export default function ChatBubble({
           className={cn(
             "flex items-center gap-1.5 select-none md:px-4 pb-1 group",
             sender && "flex-row-reverse",
-            highlight === messageId && "bg-primary/10 w-full pb-1",
+            (highlight === messageId || pressHighlight) &&
+              "bg-primary/10 w-full pb-1",
           )}
         >
           <div className="relative">
             <div
               id={messageId}
+              {...longPressHandlers}
               className={cn(
                 "mt-1 p-3 md:max-w-104.75 md:w-fit max-w-2xs w-fit rounded-t-xl text-sm tracking-wide transition-colors",
                 sender
@@ -181,13 +194,8 @@ export default function ChatBubble({
                   sender ? "right-0" : "left-0",
                 )}
               >
-                <div className="flex items-center gap-0.5 px-1.5 py-0.5 rounded-full border bg-background shadow-sm">
-                  <span className="text-sm leading-none">
-                    {reactions[messageId]}
-                  </span>
-                  {/* <span className="text-[10px] leading-none text-muted-foreground font-bold">
-                    1
-                  </span> */}
+                <div className="h-6 w-6 flex items-center justify-center rounded-full border bg-background shadow-sm text-sm leading-none">
+                  {reactions[messageId]}
                 </div>
               </div>
             )}
@@ -223,13 +231,22 @@ export default function ChatBubble({
             )}
           </div>
 
-          <Popover open={emojiOpen} onOpenChange={setEmojiOpen}>
+          <Popover
+            open={emojiOpen}
+            onOpenChange={(open) => {
+              console.log(open, "lkdoe");
+              setEmojiOpen(open);
+              if (!open) {
+                setPressHighlight(false);
+              }
+            }}
+          >
             <PopoverTrigger>
               <Smile
                 size={16}
                 onClick={() => setEmojiOpen(true)}
                 className={cn(
-                  "cursor-pointer mx-1",
+                  "cursor-pointer mx-1 hidden md:flex",
                   "opacity-0 scale-90",
                   "group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto",
                   iconAnimation(emojiOpen),
@@ -238,9 +255,12 @@ export default function ChatBubble({
               />
             </PopoverTrigger>
             <PopoverContent
-              side="right"
+              side={isSmall ? "top" : "right"}
               align="center"
-              className="w-fit p-0 bg-transparent border-0 mx-2 shadow-none"
+              className={cn(
+                "w-fit p-0 bg-transparent border-0 mx-2 shadow-none",
+                isSmall && "mb-6",
+              )}
             >
               <EmojiPicker
                 reactionsDefaultOpen={true}
@@ -261,8 +281,8 @@ export default function ChatBubble({
                       [messageId]: newEmoji,
                     };
                   });
-
                   setEmojiOpen(false);
+                  setPressHighlight(false);
                 }}
                 className="emoji-small"
               />

@@ -1,5 +1,7 @@
-import AllChat from "./all-chat";
-import RecentChat from "./recent-chat";
+"use client";
+import dynamic from "next/dynamic";
+
+const AllChat = dynamic(() => import("./all-chat"), { ssr: false });
 
 export default function ChatSidebar() {
   return (
