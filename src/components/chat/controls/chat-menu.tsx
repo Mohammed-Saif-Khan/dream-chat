@@ -131,6 +131,7 @@ export default function ChatMenu({
 
   const onReply = () => {
     setReply({
+      isDeleted: isDelete,
       isDelete: isDelete,
       _id: messageId,
       message: message,
@@ -179,7 +180,7 @@ export default function ChatMenu({
                 <HeartIcon
                   className={cn(
                     "mr-2 text-muted-foreground group-hover:text-primary",
-                    isFavorite && "fill-red-500 stroke-red-500"
+                    isFavorite && "fill-red-500 stroke-red-500",
                   )}
                 />
                 {isFavorite ? "Remove as Favourite" : "Mark as Favourite"}
