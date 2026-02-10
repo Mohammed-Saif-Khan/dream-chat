@@ -103,6 +103,8 @@ export default function ChatBubble({
     }, 1200);
   };
 
+  console.log(isDelete, "isDelete");
+
   return (
     <>
       {showDivider && <ChatDivider date={createdAt} />}
@@ -168,14 +170,21 @@ export default function ChatBubble({
                       : "bg-gray-300/70 dark:bg-gray-700/70 border-primary text-foreground",
                   )}
                 >
-                  <p
-                    className={cn(
-                      "truncate",
-                      sender ? "text-white/80" : "text-foreground/80",
-                    )}
-                  >
-                    {replyTo.message}
-                  </p>
+                  {replyTo?.isDeleted ? (
+                    <p className="flex items-center gap-2">
+                      <Ban size={15} />
+                      This message is Deleted
+                    </p>
+                  ) : (
+                    <p
+                      className={cn(
+                        "truncate",
+                        sender ? "text-white/80" : "text-foreground/80",
+                      )}
+                    >
+                      {replyTo.message}
+                    </p>
+                  )}
                 </div>
               )}
               {isDelete ? (

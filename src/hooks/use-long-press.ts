@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import { useCallback, useRef } from "react";
 
 type UseLongPressOptions = {
   delay?: number;
@@ -9,13 +9,18 @@ export function useLongPress({
   onLongPress,
   delay = 500,
 }: UseLongPressOptions) {
-  const timeRef = React.useRef<NodeJS.Timeout | null>(null);
+  const timeRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const start = useCallback(() => {
-    timeRef.current = setTimeout(() => {
-      onLongPress();
-    }, delay);
-  }, [onLongPress, delay]);
+  const start = useCallback(
+    (e: React.TouchEvent | React.MouseEvent) => {
+      e.preventDefault();
+
+      timeRef.current = setTimeout(() => {
+        onLongPress();
+      }, delay);
+    },
+    [onLongPress, delay],
+  );
 
   const clear = useCallback(() => {
     if (timeRef.current) {
@@ -29,5 +34,9 @@ export function useLongPress({
     onTouchEnd: clear,
     onTouchMove: clear,
     onTouchCancel: clear,
+
+    onMouseDown: start,
+    onMouseUp: clear,
+    onMouseLeave: clear,
   };
 }

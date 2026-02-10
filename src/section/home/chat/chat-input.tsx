@@ -11,16 +11,15 @@ import { useChatlistStore } from "@/store/chat-list";
 import { useMessageStore } from "@/store/messages";
 import { MessageType } from "@/store/messages/type";
 import { ProfileType } from "@/types/profile";
+import { useEmojiTheme } from "@/utils/emoji-icon";
 import { fetchInstance } from "@/utils/fetch-instance";
 import { zodResolver } from "@hookform/resolvers/zod";
-import EmojiPicker, { EmojiStyle, Theme } from "emoji-picker-react";
+import EmojiPicker, { EmojiStyle } from "emoji-picker-react";
 import { Paperclip, SendHorizontal, SmilePlus } from "lucide-react";
 import React from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { getArrangeData } from "./constant";
-import { useTheme } from "next-themes";
-import { useEmojiTheme } from "@/utils/emoji-icon";
 
 type ChatInputProps = {
   receiverId: string;
