@@ -3,6 +3,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useLongPress } from "@/hooks/use-long-press";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import NewChatDialog from "@/modules/sidebar/chat-header/new-chat-dialog";
 import { ReplyMessage } from "@/store/messages/type";
@@ -21,9 +23,6 @@ import {
 import React, { SetStateAction } from "react";
 import ChatDivider from "./chat-divider";
 import ChatMenu from "./controls/chat-menu";
-import { useLongPress } from "@/hooks/use-long-press";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { Badge } from "../ui/badge";
 
 type ChatBubblePorps = {
   sender: boolean;

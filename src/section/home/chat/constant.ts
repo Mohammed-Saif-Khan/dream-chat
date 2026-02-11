@@ -1,5 +1,5 @@
-import { ReplyMessage } from "@/store/messages/type";
 import { ProfileType } from "@/types/profile";
+import { formatDateDDMMYYYY } from "@/utils/formatDate";
 import { v4 as uuidv4 } from "uuid";
 
 export const getArrangeData = (
@@ -14,6 +14,7 @@ export const getArrangeData = (
     message: data?.message,
     isDeleted: false,
     deletedAt: null,
+    createdAt: formatDateDDMMYYYY(new Date().toISOString()),
     receiverId,
     senderId: {
       firstName: profile?.firstName,

@@ -26,7 +26,6 @@ import {
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import NewChatDialog from "@/modules/sidebar/chat-header/new-chat-dialog";
 import { useChatlistStore } from "@/store/chat-list";
 import { useMessageStore } from "@/store/messages";
 import { fetchInstance } from "@/utils/fetch-instance";
@@ -149,13 +148,15 @@ export default function ChatMenu({
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <div>
-            <DropdownMenuItem
-              onClick={onReply}
-              className="group focus:text-primary"
-            >
-              <Reply className="mr-2 text-muted-foreground group-hover:text-primary" />
-              Reply
-            </DropdownMenuItem>
+            {!isDelete && (
+              <DropdownMenuItem
+                onClick={onReply}
+                className="group focus:text-primary"
+              >
+                <Reply className="mr-2 text-muted-foreground group-hover:text-primary" />
+                Reply
+              </DropdownMenuItem>
+            )}
 
             <DropdownMenuItem
               onClick={() => setForwardOpen(true)}
