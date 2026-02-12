@@ -102,8 +102,6 @@ export default function ChatBubble({
     }, 1200);
   };
 
-  console.log(isDelete, "isDelete");
-
   return (
     <>
       {showDivider && <ChatDivider date={createdAt} />}

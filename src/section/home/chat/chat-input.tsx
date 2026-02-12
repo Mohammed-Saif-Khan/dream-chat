@@ -15,11 +15,18 @@ import { useEmojiTheme } from "@/utils/emoji-icon";
 import { fetchInstance } from "@/utils/fetch-instance";
 import { zodResolver } from "@hookform/resolvers/zod";
 import EmojiPicker, { EmojiStyle } from "emoji-picker-react";
-import { Paperclip, SendHorizontal, SmilePlus } from "lucide-react";
+import {
+  AudioLines,
+  Image as ImageIcon,
+  PlusCircle,
+  SendHorizonal,
+  Smile,
+} from "lucide-react";
 import React from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { getArrangeData } from "./constant";
+import { Button } from "@/components/ui/button";
 
 type ChatInputProps = {
   receiverId: string;
@@ -59,6 +66,8 @@ export default function ChatInput({
       receiverId,
     },
   });
+
+  const isTyping = watch("message")?.length > 0;
 
   const onSendMessage = async (data: messageTyep) => {
     try {
@@ -114,7 +123,7 @@ export default function ChatInput({
   return (
     <form
       onSubmit={handleSubmit(onSendMessage)}
-      className="py-4 pb-0 px-4 bg-background border-t shadow-xs"
+      className="my-4 mb-0 mx-4 flex items-center justify-between gap-2"
     >
       <ChatInputBox
         name="message"
@@ -125,12 +134,12 @@ export default function ChatInput({
           setValue("message", e.target.value, { shouldValidate: true });
         }}
         replyTo={reply}
-        startAddon={[
-          <Paperclip key="clip" size={20} className="mb-2" />,
+        startAddon={[<PlusCircle key="clip" size={20} className="mb-2" />]}
+        endAddon={[
           <Popover>
             <PopoverTrigger asChild>
               <span>
-                <SmilePlus key="simle" size={20} className="mb-2" />
+                <Smile key="simle" size={20} className="mb-2" />
               </span>
             </PopoverTrigger>
             <PopoverContent className="w-fit p-0 bg-transparent border-0 mx-2 shadow-none">
@@ -146,10 +155,16 @@ export default function ChatInput({
               />
             </PopoverContent>
           </Popover>,
+          <ImageIcon key="imageUpload" size={20} className="mb-2" />,
         ]}
-        endAddon={<SendHorizontal size={20} />}
-        addOnButtonType="submit"
       />
+      <Button
+        size="icon-lg"
+        className="rounded-full mb-3"
+        variant={isTyping ? "default" : "outline"}
+      >
+        {isTyping ? <SendHorizonal className="text-white" /> : <AudioLines />}
+      </Button>
     </form>
   );
 }

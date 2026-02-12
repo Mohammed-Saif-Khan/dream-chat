@@ -58,7 +58,7 @@ export default function ChatInputBox<T extends FieldValues>({
   addOnButtonType,
 }: ChatInputBoxProps<T>) {
   return (
-    <FieldSet className={cn("mb-3", className.fieldSet)}>
+    <FieldSet className={cn("mb-3 w-full", className.fieldSet)}>
       <Field className="gap-1.5">
         {label && (
           <FieldLabel htmlFor={String(name)} className={className.label}>
@@ -67,20 +67,22 @@ export default function ChatInputBox<T extends FieldValues>({
         )}
         <div
           className={cn(
-            "border overflow-hidden ease-in-out transition-all rounded-sm",
+            "border overflow-hidden ease-in-out transition-all rounded-3xl w-full bg-background",
           )}
         >
           {replyTo && <ReplyPreview reply={replyTo} />}
           <InputGroup
             className={cn(
               className.inputGroup,
-              "items-end border-0 rounded-none",
+              "items-end border-0 rounded-none pr-1.5 w-full flex", // Added flex and w-full
               replyTo && "rounded-t-none",
             )}
           >
             {/* Start Addons */}
             {startAddon && (
-              <InputGroupAddon className={className.startAddon}>
+              <InputGroupAddon
+                className={cn("flex-none", className.startAddon)}
+              >
                 {React.Children.toArray(startAddon).map((addon, i) => (
                   <InputGroupButton
                     key={i}
@@ -100,7 +102,10 @@ export default function ChatInputBox<T extends FieldValues>({
               onChange={(e) => onChange?.(e)}
               value={value}
               placeholder={placeholder}
-              className={cn(className.input, "min-h-lh max-h-[5lh]")}
+              className={cn(
+                className.input,
+                "min-h-lh max-h-[10lh] resize-none break-all whitespace-pre-wrap", // Added break-all and flex-1
+              )}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
                   e.preventDefault();
@@ -113,13 +118,17 @@ export default function ChatInputBox<T extends FieldValues>({
             {endAddon && (
               <InputGroupAddon
                 align="inline-end"
-                className={className.endAddon}
+                className={cn(
+                  "flex items-center justify-center h-9! flex-none",
+                  className.endAddon,
+                )}
               >
                 {React.Children.toArray(endAddon).map((addon, i) => (
                   <InputGroupButton
+                    size="icon-sm"
                     key={i}
                     type={addOnButtonType}
-                    className="bg-primary text-white hover:bg-primary/90 h-full"
+                    className="[&_svg]:size-4.5!"
                   >
                     {addon}
                   </InputGroupButton>

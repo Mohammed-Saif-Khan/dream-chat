@@ -14,7 +14,7 @@ export const getArrangeData = (
     message: data?.message,
     isDeleted: false,
     deletedAt: null,
-    createdAt: formatDateDDMMYYYY(new Date().toISOString()),
+    createdAt: new Date().toISOString(),
     receiverId,
     senderId: {
       firstName: profile?.firstName,
