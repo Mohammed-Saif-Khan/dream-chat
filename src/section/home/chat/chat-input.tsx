@@ -1,5 +1,6 @@
 "use client";
 import ChatInputBox from "@/components/chat/chat-input/chat-input-box";
+import { Button } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
@@ -14,7 +15,7 @@ import { ProfileType } from "@/types/profile";
 import { useEmojiTheme } from "@/utils/emoji-icon";
 import { fetchInstance } from "@/utils/fetch-instance";
 import { zodResolver } from "@hookform/resolvers/zod";
-import EmojiPicker, { EmojiStyle } from "emoji-picker-react";
+import { EmojiStyle } from "emoji-picker-react";
 import {
   AudioLines,
   Image as ImageIcon,
@@ -26,7 +27,11 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { getArrangeData } from "./constant";
-import { Button } from "@/components/ui/button";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
+import dynamic from "next/dynamic";
+
+const EmojiPicker = dynamic(() => import("emoji-picker-react"), { ssr: false });
 
 type ChatInputProps = {
   receiverId: string;
@@ -43,10 +48,13 @@ export default function ChatInput({
   addMessage,
   editMessage,
 }: ChatInputProps) {
+  const isMobile = useIsMobile();
   const emojiTheme = useEmojiTheme();
-  const { reply, setReply } = useMessageStore();
   const { upsertChat } = useChatlistStore();
+  const { reply, setReply } = useMessageStore();
   const typingTimeoutRef = React.useRef<NodeJS.Timeout>(null);
+  const inputRef = React.useRef<HTMLInputElement | null>(null);
+  const [openEmojiPicker, setOpenEmojiPicker] = React.useState<boolean>(false);
 
   const handleTyping = () => {
     socket.emit("typing", { senderId, receiverId });
@@ -121,50 +129,74 @@ export default function ChatInput({
   }, [receiverId]);
 
   return (
-    <form
-      onSubmit={handleSubmit(onSendMessage)}
-      className="my-4 mb-0 mx-4 flex items-center justify-between gap-2"
-    >
-      <ChatInputBox
-        name="message"
-        register={register}
-        placeholder="Type a message..."
-        onChange={(e) => {
-          handleTyping();
-          setValue("message", e.target.value, { shouldValidate: true });
-        }}
-        replyTo={reply}
-        startAddon={[<PlusCircle key="clip" size={20} className="mb-2" />]}
-        endAddon={[
-          <Popover>
-            <PopoverTrigger asChild>
-              <span>
-                <Smile key="simle" size={20} className="mb-2" />
-              </span>
-            </PopoverTrigger>
-            <PopoverContent className="w-fit p-0 bg-transparent border-0 mx-2 shadow-none">
-              <EmojiPicker
-                theme={emojiTheme}
-                autoFocusSearch={false}
-                emojiStyle={EmojiStyle.GOOGLE}
-                previewConfig={{ showPreview: false }}
-                onEmojiClick={(value) => {
-                  setValue("message", watch("message") + value?.emoji);
-                }}
-                className="emoji-small"
-              />
-            </PopoverContent>
-          </Popover>,
-          <ImageIcon key="imageUpload" size={20} className="mb-2" />,
-        ]}
-      />
-      <Button
-        size="icon-lg"
-        className="rounded-full mb-3"
-        variant={isTyping ? "default" : "outline"}
-      >
-        {isTyping ? <SendHorizonal className="text-white" /> : <AudioLines />}
-      </Button>
+    <form onSubmit={handleSubmit(onSendMessage)} className="my-2 mb-0 mx-2">
+      <div className="flex items-center justify-between gap-2">
+        <ChatInputBox
+          name="message"
+          register={register}
+          placeholder="Type a message..."
+          onChange={(e) => {
+            handleTyping();
+            setValue("message", e.target.value, { shouldValidate: true });
+          }}
+          replyTo={reply}
+          startAddon={[<PlusCircle key="clip" size={20} className="mb-2" />]}
+          endAddon={[
+            <Popover open={isMobile ? false : undefined}>
+              <PopoverTrigger asChild>
+                <span
+                  onClick={() => {
+                    if (isMobile) {
+                      if (openEmojiPicker) {
+                        setOpenEmojiPicker(false);
+                      } else {
+                        inputRef.current?.blur();
+                        setTimeout(() => {
+                          setOpenEmojiPicker(true);
+                        }, 150);
+                      }
+                    }
+                  }}
+                >
+                  <Smile key="simle" size={20} className="mb-2" />
+                </span>
+              </PopoverTrigger>
+              <PopoverContent className="w-fit p-0 bg-transparent border-0 mx-2 shadow-none">
+                <EmojiPicker
+                  theme={emojiTheme}
+                  autoFocusSearch={false}
+                  emojiStyle={EmojiStyle.GOOGLE}
+                  previewConfig={{ showPreview: false }}
+                  onEmojiClick={(value) => {
+                    setValue("message", watch("message") + value?.emoji);
+                  }}
+                  className="emoji-small"
+                />
+              </PopoverContent>
+            </Popover>,
+            <ImageIcon key="imageUpload" size={20} className="mb-2" />,
+          ]}
+        />
+        <Button
+          size="icon-lg"
+          className="rounded-full mb-3"
+          variant={isTyping ? "default" : "outline"}
+        >
+          {isTyping ? <SendHorizonal className="text-white" /> : <AudioLines />}
+        </Button>
+      </div>
+      <div className={cn("w-full mb-2.5", !openEmojiPicker && "hidden")}>
+        <EmojiPicker
+          theme={emojiTheme}
+          autoFocusSearch={false}
+          emojiStyle={EmojiStyle.GOOGLE}
+          previewConfig={{ showPreview: false }}
+          onEmojiClick={(value) => {
+            setValue("message", watch("message") + value?.emoji);
+          }}
+          className="emoji-small w-full!"
+        />
+      </div>
     </form>
   );
 }

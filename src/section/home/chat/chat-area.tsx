@@ -64,7 +64,7 @@ export default function Chat({
         <div
           className={cn(
             "transition-all duration-300 ease-in-out p-4",
-            typing ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2",
+            typing ? "block translate-y-0" : "hidden",
           )}
         >
           <TypingIndicator />

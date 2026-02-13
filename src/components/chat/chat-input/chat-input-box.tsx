@@ -40,6 +40,7 @@ interface ChatInputBoxProps<T extends FieldValues> {
   endAddon?: React.ReactNode | React.ReactNode[];
   addOnButtonType?: "submit" | "reset" | "button";
   replyTo?: ReplyMessage | null;
+  ref?: React.Ref<HTMLTextAreaElement> | undefined | null;
 }
 
 export default function ChatInputBox<T extends FieldValues>({
@@ -56,6 +57,7 @@ export default function ChatInputBox<T extends FieldValues>({
   endAddon,
   replyTo,
   addOnButtonType,
+  ref,
 }: ChatInputBoxProps<T>) {
   return (
     <FieldSet className={cn("mb-3 w-full", className.fieldSet)}>
@@ -97,11 +99,14 @@ export default function ChatInputBox<T extends FieldValues>({
 
             {/* Textarea */}
             <InputGroupTextarea
-              autoFocus={false}
-              {...(register ? register(name, { required }) : {})}
-              onChange={(e) => onChange?.(e)}
               value={value}
+              autoFocus={false}
               placeholder={placeholder}
+              {...(register
+                ? { ...register(name, { required }), ref: undefined }
+                : {})}
+              // {...(register ? { ...register(name, { required }) } : {})}
+              onChange={(e) => onChange?.(e)}
               className={cn(
                 className.input,
                 "min-h-lh max-h-[10lh] resize-none break-all whitespace-pre-wrap", // Added break-all and flex-1
