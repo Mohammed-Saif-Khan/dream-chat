@@ -55,6 +55,16 @@ export default function ChatInput({
   const typingTimeoutRef = React.useRef<NodeJS.Timeout>(null);
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const [openEmojiPicker, setOpenEmojiPicker] = React.useState<boolean>(false);
+  const [keyboardHeight, setKeyboardHeight] = React.useState<number>(0);
+
+  const { handleSubmit, setValue, register, watch } = useForm<messageTyep>({
+    resolver: zodResolver(messageSchema),
+    defaultValues: {
+      receiverId,
+    },
+  });
+
+  const isTyping = watch("message")?.length > 0;
 
   const handleTyping = () => {
     socket.emit("typing", { senderId, receiverId });
@@ -67,15 +77,6 @@ export default function ChatInput({
       socket.emit("stop-typing", { senderId, receiverId });
     }, 1500);
   };
-
-  const { handleSubmit, setValue, register, watch } = useForm<messageTyep>({
-    resolver: zodResolver(messageSchema),
-    defaultValues: {
-      receiverId,
-    },
-  });
-
-  const isTyping = watch("message")?.length > 0;
 
   const onSendMessage = async (data: messageTyep) => {
     try {
@@ -125,6 +126,23 @@ export default function ChatInput({
   };
 
   React.useEffect(() => {
+    if (!isMobile) return;
+
+    const updateHeight = () => {
+      if (window?.visualViewport) {
+        const height = window.innerHeight - window.visualViewport.height;
+        setKeyboardHeight(height > 0 ? height : 0);
+      }
+    };
+
+    window.visualViewport?.addEventListener("resize", updateHeight);
+
+    return () => {
+      window.visualViewport?.removeEventListener("resize", updateHeight);
+    };
+  }, [isMobile]);
+
+  React.useEffect(() => {
     setValue("receiverId", receiverId);
   }, [receiverId]);
 
@@ -138,6 +156,11 @@ export default function ChatInput({
           onChange={(e) => {
             handleTyping();
             setValue("message", e.target.value, { shouldValidate: true });
+          }}
+          onFocus={() => {
+            if (isMobile && openEmojiPicker) {
+              setOpenEmojiPicker(false);
+            }
           }}
           replyTo={reply}
           startAddon={[<PlusCircle key="clip" size={20} className="mb-2" />]}
@@ -185,7 +208,12 @@ export default function ChatInput({
           {isTyping ? <SendHorizonal className="text-white" /> : <AudioLines />}
         </Button>
       </div>
-      <div className={cn("w-full mb-2.5", !openEmojiPicker && "hidden")}>
+      <div
+        className={cn("w-full mb-2.5", !openEmojiPicker && "hidden")}
+        style={{
+          height: keyboardHeight || "40vh",
+        }}
+      >
         <EmojiPicker
           theme={emojiTheme}
           autoFocusSearch={false}

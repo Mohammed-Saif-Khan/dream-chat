@@ -41,6 +41,7 @@ interface ChatInputBoxProps<T extends FieldValues> {
   addOnButtonType?: "submit" | "reset" | "button";
   replyTo?: ReplyMessage | null;
   ref?: React.Ref<HTMLTextAreaElement> | undefined | null;
+  [key: string]: unknown;
 }
 
 export default function ChatInputBox<T extends FieldValues>({
@@ -57,7 +58,7 @@ export default function ChatInputBox<T extends FieldValues>({
   endAddon,
   replyTo,
   addOnButtonType,
-  ref,
+  ...props
 }: ChatInputBoxProps<T>) {
   return (
     <FieldSet className={cn("mb-3 w-full", className.fieldSet)}>
@@ -102,10 +103,10 @@ export default function ChatInputBox<T extends FieldValues>({
               value={value}
               autoFocus={false}
               placeholder={placeholder}
-              {...(register
-                ? { ...register(name, { required }), ref: undefined }
-                : {})}
-              // {...(register ? { ...register(name, { required }) } : {})}
+              // {...(register
+              //   ? { ...register(name, { required }), ref: undefined }
+              //   : {})}
+              {...(register ? { ...register(name, { required }) } : {})}
               onChange={(e) => onChange?.(e)}
               className={cn(
                 className.input,
@@ -117,6 +118,7 @@ export default function ChatInputBox<T extends FieldValues>({
                   e.currentTarget.form?.requestSubmit();
                 }
               }}
+              {...props}
             />
 
             {/* End Addons */}
