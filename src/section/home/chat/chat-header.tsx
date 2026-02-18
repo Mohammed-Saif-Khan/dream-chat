@@ -1,4 +1,5 @@
 import AvatarDP from "@/components/avatar";
+import ProfileView from "@/components/profile-view";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,6 +13,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useProfilePreviewStore } from "@/store/useProfilePreviewStore";
 import { ExploreUserList } from "@/types/contact";
 import { chatHeaderSetting } from "@/utils/constant";
 import {
@@ -24,8 +26,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-import InfoSheet from "./sheets/info-sheet";
 import FavouriteSheet from "./sheets/favourite-sheet";
+import InfoSheet from "./sheets/info-sheet";
 
 type ChatHeaderProps = {
   data: ExploreUserList | undefined;
@@ -34,6 +36,7 @@ type ChatHeaderProps = {
 
 export default function ChatHeader({ data, chatId }: ChatHeaderProps) {
   const [open, setOpen] = React.useState<boolean>(false);
+  const { openPreview } = useProfilePreviewStore();
   const [favSheet, setFavSheet] = React.useState<boolean>(false);
 
   return (
@@ -42,16 +45,17 @@ export default function ChatHeader({ data, chatId }: ChatHeaderProps) {
         <Link href="/chat">
           <ArrowLeft size={16} className="flex md:hidden" />
         </Link>
-        <div onClick={() => setOpen(true)} className="flex items-center gap-3">
+        <div className="flex items-center gap-3">
           <AvatarDP
             src={data?.avatar}
-            alt="chat-user"
             fallback="A"
+            alt="chat-user"
+            statusbar={true}
             avatarSize="md:w-12 md:h-12 w-10 h-10"
             statusbarClass="md:size-3.5 size-3"
-            statusbar={true}
+            onClick={() => openPreview(data?.avatar || "")}
           />
-          <div>
+          <div onClick={() => setOpen(true)} className="cursor-pointer">
             <p className="md:text-base text-sm font-semibold text-accent-foreground capitalize">
               {data?.user?.firstName} {data?.user?.lastName}
             </p>
@@ -154,6 +158,7 @@ export default function ChatHeader({ data, chatId }: ChatHeaderProps) {
         favSheet={favSheet}
         setFavSheet={setFavSheet}
       />
+      <ProfileView />
     </div>
   );
 }

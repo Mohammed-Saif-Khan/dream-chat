@@ -11,6 +11,7 @@ import { Ban, EllipsisVertical } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import AvatarDP from "../avatar";
 import { Badge } from "../ui/badge";
+import { useProfilePreviewStore } from "@/store/useProfilePreviewStore";
 
 type ChatCard = {
   src?: string | null;
@@ -41,6 +42,7 @@ export default function ChatCard({
   deleteAt,
 }: ChatCard) {
   const searchParams = useSearchParams();
+  const { openPreview } = useProfilePreviewStore();
   const receiverId = searchParams.get("receiver");
 
   return (
@@ -53,13 +55,16 @@ export default function ChatCard({
         )}
       >
         <div className="flex items-center gap-2">
-          <AvatarDP
-            src={src}
-            alt="chat-card"
-            fallback={fallback}
-            avatarSize="w-12 h-12"
-            statusbar={status}
-          />
+          <div>
+            <AvatarDP
+              src={src}
+              alt="chat-card"
+              fallback={fallback}
+              avatarSize="w-12 h-12"
+              statusbar={status}
+              onClick={() => openPreview(src || "")}
+            />
+          </div>
           <div>
             <p className="text-base font-semibold text-accent-foreground">
               {name}

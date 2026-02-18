@@ -16,6 +16,7 @@ import AvatarDP from "@/components/avatar";
 import { Icon } from "@iconify/react";
 import ProfielInfo from "@/section/profile/profile-info";
 import { ExploreUserList } from "@/types/contact";
+import { useProfilePreviewStore } from "@/store/useProfilePreviewStore";
 
 type InfoSheetType = {
   open: boolean;
@@ -30,6 +31,7 @@ export default function InfoSheet({
   data,
   setFavSheet,
 }: InfoSheetType) {
+  const { openPreview } = useProfilePreviewStore();
   return (
     <SheetSlide open={open} onOpenChange={setOpen} title="Contact Info">
       <div className="p-4">
@@ -41,6 +43,7 @@ export default function InfoSheet({
             avatarSize="w-22 h-22"
             statusbarClass="size-4.5"
             statusbar={true}
+            onClick={() => openPreview(data?.avatar || "")}
           />
           <div className="mt-2">
             <p className="text-base font-semibold text-center text-foreground capitalize">
@@ -185,7 +188,7 @@ export default function InfoSheet({
                   }
                   className={cn(
                     "flex items-center w-full justify-between pb-4 mb-4 border-b cursor-pointer group",
-                    profileItem.length - 1 === index && "mb-0 border-0 pb-0"
+                    profileItem.length - 1 === index && "mb-0 border-0 pb-0",
                   )}
                 >
                   <div className="flex items-center gap-3">

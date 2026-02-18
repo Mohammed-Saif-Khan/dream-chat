@@ -13,6 +13,7 @@ type AvatarProps = {
   fallbackClass?: string;
   statusbar?: boolean;
   statusbarClass?: string;
+  onClick?: (e?: React.MouseEvent<HTMLDivElement>) => void;
 };
 
 export default function AvatarDP({
@@ -24,17 +25,18 @@ export default function AvatarDP({
   fallbackClass,
   statusbar,
   statusbarClass,
+  ...props
 }: AvatarProps) {
   // Safely get the URL
   const imageSrc =
     typeof src === "string"
       ? src
       : src && typeof src === "object"
-      ? src.src
-      : null;
+        ? src.src
+        : null;
 
   return (
-    <div className="relative w-fit">
+    <div {...props} className="relative w-fit">
       <Avatar className={cn("cursor-pointer", avatarSize)}>
         {imageSrc && (
           <AvatarImage src={imageSrc} alt={alt} className={cn(avatarImage)} />
@@ -48,7 +50,7 @@ export default function AvatarDP({
         <span
           className={cn(
             "border-white bg-online absolute end-0.5 bottom-0 size-3.5 rounded-full border-2",
-            statusbarClass
+            statusbarClass,
           )}
         >
           <span className="sr-only">Busy</span>
