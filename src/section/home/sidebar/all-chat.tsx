@@ -71,8 +71,9 @@ export default function AllChat() {
         </div>
       </div>
       {chatlist?.map((item) => (
-        <Link key={item?._id} href={`?receiver=${item?.participants?._id}`}>
+        <div key={item?._id} className="cursor-pointer">
           <ChatCard
+            key={item?._id}
             id={item?.participants?._id}
             name={`${item?.participants?.firstName} ${item?.participants?.lastName}`}
             src={item?.participants?.avatar}
@@ -85,7 +86,7 @@ export default function AllChat() {
             message={item?.lastMessage?.message}
             senderId={item?.lastMessage?.senderId}
           />
-        </Link>
+        </div>
       ))}
     </div>
   );

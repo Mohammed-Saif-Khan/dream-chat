@@ -3,6 +3,7 @@ import { Archivo } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
+import ProfileView from "@/components/profile-view";
 
 const archivo = Archivo({
   variable: "--font-archivo",
@@ -24,6 +25,7 @@ export default function RootLayout({
         <Toaster position="top-center" reverseOrder={false} />
         <NextTopLoader color="#734cf7" showSpinner={false} />
         {children}
+        <ProfileView />
       </body>
     </html>
   );

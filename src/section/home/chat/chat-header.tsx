@@ -158,7 +158,6 @@ export default function ChatHeader({ data, chatId }: ChatHeaderProps) {
         favSheet={favSheet}
         setFavSheet={setFavSheet}
       />
-      <ProfileView />
     </div>
   );
 }

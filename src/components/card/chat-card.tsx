@@ -12,6 +12,7 @@ import { useSearchParams } from "next/navigation";
 import AvatarDP from "../avatar";
 import { Badge } from "../ui/badge";
 import { useProfilePreviewStore } from "@/store/useProfilePreviewStore";
+import { useNavigate } from "@/hooks/use-navigate";
 
 type ChatCard = {
   src?: string | null;
@@ -41,6 +42,7 @@ export default function ChatCard({
   isDelete,
   deleteAt,
 }: ChatCard) {
+  const { push } = useNavigate();
   const searchParams = useSearchParams();
   const { openPreview } = useProfilePreviewStore();
   const receiverId = searchParams.get("receiver");
@@ -48,13 +50,17 @@ export default function ChatCard({
   return (
     <div>
       <div
-        onClick={onClick}
+        onClick={() => {
+          if (id) {
+            push(`?receiver=${id}`);
+          }
+        }}
         className={cn(
           "flex items-start justify-between lg:max-w-md bg-background p-5 rounded-md group ring-0 hover:ring-2 ring-primary transition-all duration-300 ease-in-out my-2 cursor-pointer",
           id === receiverId && "ring-2",
         )}
       >
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 cursor-pointer">
           <div>
             <AvatarDP
               src={src}
@@ -62,10 +68,13 @@ export default function ChatCard({
               fallback={fallback}
               avatarSize="w-12 h-12"
               statusbar={status}
-              onClick={() => openPreview(src || "")}
+              onClick={(e) => {
+                e?.stopPropagation();
+                openPreview(src || "");
+              }}
             />
           </div>
-          <div>
+          <div className="cursor-pointer">
             <p className="text-base font-semibold text-accent-foreground">
               {name}
             </p>

@@ -1,10 +1,5 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+"use client";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useProfilePreviewStore } from "@/store/useProfilePreviewStore";
 import Image from "next/image";
 
