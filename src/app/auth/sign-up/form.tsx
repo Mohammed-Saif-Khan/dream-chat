@@ -122,7 +122,7 @@ export default function SignUpForm() {
               >
                 Sign In
               </SubmitButton>
-              <div>
+              {/* <div>
                 <div className="flex items-center my-6">
                   <hr className="flex-grow border-t border-gray-300" />
                   <span className="px-4 text-primary text-sm font-medium">
@@ -167,7 +167,7 @@ export default function SignUpForm() {
                     Facebook
                   </SubmitButton>
                 </div>
-              </div>
+              </div> */}
             </form>
           </CardContent>
         </Card>
