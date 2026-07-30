@@ -63,11 +63,11 @@ export const navbar = [
     link: "/status",
     icon: Disc,
   },
-  {
-    id: "5",
-    link: "/call",
-    icon: PhoneCall,
-  },
+  // {
+  //   id: "5",
+  //   link: "/call",
+  //   icon: PhoneCall,
+  // },
   {
     id: "6",
     link: "/settings",
