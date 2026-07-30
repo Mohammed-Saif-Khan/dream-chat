@@ -32,7 +32,7 @@ export default function ProfileSidebar() {
       </div>
       <Separator />
       <ProfielInfo profile={profile} />
-      <SocialMedia profile={profile} />
+      {/* <SocialMedia profile={profile} /> */}
       <Deactivate />
       <Logout />
     </div>

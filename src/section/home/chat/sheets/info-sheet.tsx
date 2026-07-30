@@ -54,16 +54,16 @@ export default function InfoSheet({
             </p>
           </div>
         </div>
-        <div className="flex items-center justify-between gap-4 mb-0">
-          <div className="bg-background w-20 h-16 rounded-sm flex flex-col items-center justify-center">
+        <div className="flex items-center justify-center gap-4 mb-0">
+          {/* <div className="bg-background w-20 h-16 rounded-sm flex flex-col items-center justify-center">
             <Phone size={16} className="text-primary" />
             <p className="mt-2 text-sm text-foreground">Audio</p>
-          </div>
+          </div> */}
 
-          <div className="bg-background w-20 h-16 rounded-sm flex flex-col items-center justify-center">
+          {/* <div className="bg-background w-20 h-16 rounded-sm flex flex-col items-center justify-center">
             <Video size={16} className="text-primary" />
             <p className="mt-2 text-sm text-foreground">Video</p>
-          </div>
+          </div> */}
 
           <div className="bg-background w-20 h-16 rounded-sm flex flex-col items-center justify-center">
             <MessageCircle size={16} className="text-primary" />
@@ -77,7 +77,7 @@ export default function InfoSheet({
         </div>
         <div>
           <ProfielInfo data={data} />
-          <div>
+          {/* <div>
             <p className="text-lg font-semibold text-foreground mb-2">
               Social Profiles
             </p>
@@ -113,7 +113,7 @@ export default function InfoSheet({
                 className="text-muted-foreground"
               />
             </Card>
-          </div>
+          </div> */}
           <div className="py-6">
             <p className="text-lg font-semibold text-foreground mb-2">
               Common Groups

@@ -78,7 +78,7 @@ export default function ChatHeader({ data, chatId }: ChatHeaderProps) {
           </TooltipContent>
         </Tooltip>
 
-        <Tooltip>
+        {/* <Tooltip>
           <TooltipTrigger asChild className="hidden md:flex">
             <span>
               <Video
@@ -103,7 +103,7 @@ export default function ChatHeader({ data, chatId }: ChatHeaderProps) {
           <TooltipContent>
             <p>Voice Call</p>
           </TooltipContent>
-        </Tooltip>
+        </Tooltip> */}
         <Tooltip>
           <TooltipTrigger
             asChild

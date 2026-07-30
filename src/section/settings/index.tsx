@@ -83,7 +83,7 @@ export default function SettingSidebar() {
       Object.entries(profile).forEach(([key, value]) => {
         profileForm.setValue(
           key as keyof personalType,
-          value === null || value === undefined ? undefined : value
+          value === null || value === undefined ? undefined : value,
         );
         socialForm.setValue(key as keyof personalType, value as string);
       });
@@ -121,7 +121,7 @@ export default function SettingSidebar() {
               </form>
             </AccordionContent>
           </AccordionItem>
-          <AccordionItem value="item-2">
+          {/* <AccordionItem value="item-2">
             <AccordionTrigger className="cursor-pointer hover:no-underline text-sm text-muted-foreground font-semibold">
               <div className="flex items-center gap-2">
                 <Waypoints size={14} /> Social Profiles
@@ -137,7 +137,7 @@ export default function SettingSidebar() {
                 />
               </form>
             </AccordionContent>
-          </AccordionItem>
+          </AccordionItem> */}
         </Accordion>
       </div>
 
