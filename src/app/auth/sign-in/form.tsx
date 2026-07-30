@@ -134,7 +134,7 @@ export default function SignInForm() {
             </form>
           </CardContent>
         </Card>
-        <p className="md:mt-10 mt-5 text-sm text-center">
+        {/* <p className="md:mt-10 mt-5 text-sm text-center">
           Don&apos;t have an account ?{" "}
           <span
             onClick={() => push("/auth/sign-up")}
@@ -142,7 +142,7 @@ export default function SignInForm() {
           >
             Sign Up
           </span>{" "}
-        </p>
+        </p> */}
       </div>
     </div>
   );
