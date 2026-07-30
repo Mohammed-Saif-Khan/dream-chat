@@ -1,6 +1,6 @@
 "use client";
 import FACEBOOK from "@/assets/auth/facebook.svg";
-import LOGO from "@/assets/auth/full-logo.svg";
+import LOGO from "@/assets/auth/full-logo.png";
 import SubmitButton from "@/components/button/submit-button";
 import PasswordBox from "@/components/forms/password-box";
 import TextBox from "@/components/forms/text-box";
@@ -73,7 +73,7 @@ export default function SignInForm() {
               <FieldLabel
                 onClick={() => push("/auth/forgot-password")}
                 className={cn(
-                  "mb-2 ml-auto text-sm underline-offset-4 hover:underline cursor-pointer flex items-center justify-end text-primary"
+                  "mb-2 ml-auto text-sm underline-offset-4 hover:underline cursor-pointer flex items-center justify-end text-primary",
                 )}
               >
                 Forgot Password?

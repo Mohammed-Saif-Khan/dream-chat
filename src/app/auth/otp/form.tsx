@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import React from "react";
-import LOGO from "@/assets/auth/full-logo.svg";
+import LOGO from "@/assets/auth/full-logo.png";
 import {
   InputOTP,
   InputOTPGroup,

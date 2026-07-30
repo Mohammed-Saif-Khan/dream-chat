@@ -1,5 +1,5 @@
 "use client";
-import LOGO from "@/assets/auth/full-logo.svg";
+import LOGO from "@/assets/auth/full-logo.png";
 import SubmitButton from "@/components/button/submit-button";
 import TextBox from "@/components/forms/text-box";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";

@@ -31,7 +31,7 @@ export default function Menubar() {
         <div>
           <Image
             src={LOGO}
-            width={55}
+            width={35}
             height={30}
             alt="logo"
             onClick={() => push("/chat")}
@@ -47,7 +47,7 @@ export default function Menubar() {
                   href={item?.link}
                   className={cn(
                     index === 5 || index === 2 ? "hidden md:block" : "block",
-                    "aria-[current=page]:text-accent aria-[current=page]:bg-accent"
+                    "aria-[current=page]:text-accent aria-[current=page]:bg-accent",
                   )}
                 >
                   <p className="flex items-center flex-col gap-6">
@@ -55,7 +55,7 @@ export default function Menubar() {
                       pressed={item?.link === pathname}
                       className={cn(
                         "[&_svg]:!size-6 cursor-pointer text-muted-foreground hover:text-foreground",
-                        "group-aria-[current=page]:bg-accent group-aria-[current=page]:text-accent-foreground"
+                        "group-aria-[current=page]:bg-accent group-aria-[current=page]:text-accent-foreground",
                       )}
                     >
                       <Icon size={26} className="cursor-pointer" />

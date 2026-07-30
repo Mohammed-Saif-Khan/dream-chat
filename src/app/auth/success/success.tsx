@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import LOGO from "@/assets/auth/full-logo.svg";
+import LOGO from "@/assets/auth/full-logo.png";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import SubmitButton from "@/components/button/submit-button";
 import { CheckCheck } from "lucide-react";

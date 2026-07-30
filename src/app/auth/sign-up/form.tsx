@@ -1,6 +1,6 @@
 "use client";
 import FACEBOOK from "@/assets/auth/facebook.svg";
-import LOGO from "@/assets/auth/full-logo.svg";
+import LOGO from "@/assets/auth/full-logo.png";
 import SubmitButton from "@/components/button/submit-button";
 import PasswordBox from "@/components/forms/password-box";
 import TextBox from "@/components/forms/text-box";

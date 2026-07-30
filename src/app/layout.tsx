@@ -1,9 +1,9 @@
+import ProfileView from "@/components/profile-view";
 import type { Metadata } from "next";
 import { Archivo } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
-import ProfileView from "@/components/profile-view";
 
 const archivo = Archivo({
   variable: "--font-archivo",
