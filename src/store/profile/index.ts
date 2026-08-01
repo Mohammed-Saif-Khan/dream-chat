@@ -1,6 +1,7 @@
 import { fetchInstance } from "@/utils/fetch-instance";
 import { create } from "zustand";
 import { ProfileStore } from "./type";
+import { ProfileType } from "@/types/profile";
 
 export const useProfileStore = create<ProfileStore>()((set, get) => {
   return {
@@ -8,16 +9,16 @@ export const useProfileStore = create<ProfileStore>()((set, get) => {
     hasError: null,
     profile: null,
 
-    getProfile: async () => {
+    getProfile: async (force = false) => {
       try {
         set({ isLoading: true, hasError: null });
         const { profile } = get();
-        if (profile?._id) return;
+        if (profile?._id && !force) return;
         const response = await fetchInstance("api/v1/profile");
         if (!response.ok) {
           const errorText = await response.text();
           throw new Error(
-            `Failed to fetch getProfile: ${response?.url} ${response.status} ${errorText}`
+            `Failed to fetch getProfile: ${response?.url} ${response.status} ${errorText}`,
           );
         }
         if (response?.status === 200) {
@@ -27,7 +28,7 @@ export const useProfileStore = create<ProfileStore>()((set, get) => {
       } catch (error) {
         console.error(
           "getProfile error:",
-          error instanceof Error ? error.message : error
+          error instanceof Error ? error.message : error,
         );
         set({
           hasError: error instanceof Error ? error : new Error(String(error)),
@@ -36,5 +37,7 @@ export const useProfileStore = create<ProfileStore>()((set, get) => {
         });
       }
     },
+
+    setProfile: (profile: ProfileType) => set({ profile }),
   };
 });

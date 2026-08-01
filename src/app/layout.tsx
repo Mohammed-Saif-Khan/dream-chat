@@ -4,6 +4,7 @@ import { Archivo } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
+import { ThemeProvider } from "@/theme/theme-provider";
 
 const archivo = Archivo({
   variable: "--font-archivo",
@@ -22,10 +23,17 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${archivo.variable} antialiased`}>
-        <Toaster position="top-center" reverseOrder={false} />
-        <NextTopLoader color="#734cf7" showSpinner={false} />
-        {children}
-        <ProfileView />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Toaster position="top-center" reverseOrder={false} />
+          <NextTopLoader color="#734cf7" showSpinner={false} />
+          {children}
+          <ProfileView />
+        </ThemeProvider>
       </body>
     </html>
   );

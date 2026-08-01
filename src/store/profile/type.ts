@@ -7,5 +7,6 @@ export type StateType = {
 };
 
 export type ProfileStore = StateType & {
-  getProfile: () => Promise<void>;
+  getProfile: (force?: boolean) => Promise<void>;
+  setProfile: (profile: ProfileType) => void;
 };

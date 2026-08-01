@@ -6,7 +6,7 @@ type CookieAction = "get" | "set" | "delete";
 export async function nextCookies(
   key: string,
   value?: string,
-  action: CookieAction = "get"
+  action: CookieAction = "get",
 ): Promise<string | void> {
   const cookieStore = await cookies();
 
@@ -17,8 +17,8 @@ export async function nextCookies(
     case "set":
       if (value !== undefined) {
         cookieStore.set(key, value, {
-          httpOnly: true,
-          secure: true,
+          httpOnly: false,
+          secure: false,
           path: "/",
           maxAge: 60 * 60 * 24 * 7,
           // maxAge: 60 * 60 * 1,

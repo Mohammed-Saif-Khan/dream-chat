@@ -23,7 +23,7 @@ export default function Menubar() {
 
   React.useEffect(() => {
     getProfile();
-  }, []);
+  }, [getProfile]);
 
   return (
     !menubarShow && (

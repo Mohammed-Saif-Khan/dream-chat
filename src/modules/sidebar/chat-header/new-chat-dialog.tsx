@@ -145,7 +145,7 @@ const NewChatDialog = ({
                           <Checkbox
                             id="toggle-2"
                             checked={field.value?.includes(
-                              item.participants._id
+                              item.participants._id,
                             )}
                             onCheckedChange={(checked) => {
                               if (checked) {
@@ -157,8 +157,9 @@ const NewChatDialog = ({
                                 setValue(
                                   "receiverIds",
                                   field.value.filter(
-                                    (id: string) => id !== item.participants._id
-                                  )
+                                    (id: string) =>
+                                      id !== item.participants._id,
+                                  ),
                                 );
                               }
                             }}

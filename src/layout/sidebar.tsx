@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import ChatHeader from "@/modules/sidebar/chat-header/chat-header";
 import Explore from "@/section/explore";
 import ChatSidebar from "@/section/home/sidebar";
+import Groups from "@/section/home/sidebar/groups";
 import ProfileSidebar from "@/section/profile";
 import SettingSidebar from "@/section/settings";
 import { ExploreUserList } from "@/types/contact";
@@ -21,11 +22,12 @@ export default function Sidebar({ pathname, userList }: SidebarProps) {
         return <SettingSidebar />;
       case "profile":
         return <ProfileSidebar />;
+      case "groups":
+        return <Groups data={userList} />;
       case "explore":
         return <Explore userList={userList} />;
       default:
-        <ChatSidebar />;
-        break;
+        return <ChatSidebar />;
     }
   };
 
@@ -37,7 +39,7 @@ export default function Sidebar({ pathname, userList }: SidebarProps) {
           <div
             className={cn(
               "flex-1 overflow-y-auto",
-              pathname === "chat" ? "pt-0 px-4" : "pt-5 px-4"
+              pathname === "chat" ? "pt-0 px-4" : "pt-5 px-4",
             )}
           >
             {renderSidebar(pathname || "", userList)}

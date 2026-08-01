@@ -19,14 +19,12 @@ import {
   Trash,
   User,
   VolumeOff,
-  Waypoints,
 } from "lucide-react";
 import React from "react";
 import { Resolver, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import LogoutDialog from "../../modules/logout-dialog/logout";
 import PersonalInfo from "./account/personal-info";
-import SocialsProfiles from "./account/socials-profiles";
 import DeleteAccountDialog from "./others/delete-account";
 import MuteBlockedUserDialog from "./others/mute-blocked-user";
 import SecurityFormt from "./security/security-form";
@@ -37,7 +35,7 @@ export type muteBlockType = {
 };
 
 export default function SettingSidebar() {
-  const { profile } = useProfileStore();
+  const { profile, getProfile } = useProfileStore();
   const [muteblockDialog, setMuteBlockDialog] = React.useState<muteBlockType>({
     open: false,
     type: null,
@@ -50,7 +48,7 @@ export default function SettingSidebar() {
     mode: "all",
     defaultValues: {
       gender: undefined,
-      about: "Hey I'am using Dream Chat",
+      about: "Hey I'am using Bharat Sky",
     },
   });
 
@@ -67,6 +65,7 @@ export default function SettingSidebar() {
       });
       const result = await response?.json();
       if (response?.status === 200) {
+        getProfile(true); // force reload profile after update
         toast.success(result?.message || "Profile Submit Successfully");
       } else {
         toast.error(result?.message || "failed to submit form");

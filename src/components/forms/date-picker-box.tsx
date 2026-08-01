@@ -44,7 +44,7 @@ export default function DatePickerBox<T extends FieldValues>({
   const [open, setOpen] = React.useState(false);
 
   return (
-    <div className="flex flex-col gap-2 mb-3">
+    <div className="flex flex-col gap-2 mb-0">
       <Controller
         control={control}
         name={name as Path<T>}
@@ -60,7 +60,7 @@ export default function DatePickerBox<T extends FieldValues>({
                   variant={"outline"}
                   className={cn(
                     "w-full pl-3 text-left font-normal",
-                    !field.value && "text-muted-foreground border-input"
+                    !field.value && "text-muted-foreground border-input",
                   )}
                 >
                   {field.value ? (

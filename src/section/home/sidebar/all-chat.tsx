@@ -29,7 +29,7 @@ export default function AllChat() {
     socket.on("message-delete", handleMessageDelete);
 
     return () => {
-      socket.off("receive-message", handleChatlistSort);
+      socket.off("receiver-message", handleChatlistSort);
       socket.off("message-delivered", handleBulkDelivered);
       socket.off("message-delete", handleMessageDelete);
     };

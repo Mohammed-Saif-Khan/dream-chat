@@ -4,7 +4,6 @@ import WebLayout from "@/layout";
 import Home from "@/section/home";
 import { getUserExploreList } from "@/services/explore";
 import { getProfile } from "@/services/profile";
-import { ThemeProvider } from "@/theme/theme-provider";
 import { Suspense } from "react";
 
 export default async function Page({
@@ -20,17 +19,10 @@ export default async function Page({
   const userList = await getUserExploreList();
 
   return (
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="system"
-      enableSystem
-      disableTransitionOnChange
-    >
-      <WebLayout pathname={slug} query={query} userList={userList}>
-        <Suspense fallback={<p>Loding...</p>}>
-          <Home profile={profile} userList={userList} />
-        </Suspense>
-      </WebLayout>
-    </ThemeProvider>
+    <WebLayout pathname={slug} query={query} userList={userList}>
+      <Suspense fallback={<p>Loding...</p>}>
+        <Home profile={profile} userList={userList} />
+      </Suspense>
+    </WebLayout>
   );
 }

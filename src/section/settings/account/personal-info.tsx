@@ -1,10 +1,12 @@
 "use client";
 import SubmitButton from "@/components/button/submit-button";
+import SelectCombox from "@/components/forms/combobox";
 import DatePickerBox from "@/components/forms/date-picker-box";
 import SelectBox from "@/components/forms/select-box";
 import TextArea from "@/components/forms/text-area";
 import TextBox from "@/components/forms/text-box";
-import { Map, Save, User } from "lucide-react";
+import { Country } from "country-state-city";
+import { Save, User } from "lucide-react";
 import {
   Control,
   FieldErrors,
@@ -38,6 +40,10 @@ export default function PersonalInfo<T extends FieldValues>({
   setError,
   clearErrors,
 }: PersonalInfoProps<T>) {
+  const countries = Country.getAllCountries();
+
+  console.log("countries", countries);
+
   return (
     <div>
       <div className="flex items-center justify-center mb-4">
@@ -84,13 +90,17 @@ export default function PersonalInfo<T extends FieldValues>({
         hidden={{ after: new Date() }}
         placeholder="Date of Birth"
       />
-      <TextBox
+      <SelectCombox
+        control={control}
         name={"country" as Path<T>}
-        register={register}
-        setValue={setValue}
-        errors={errors}
         placeholder="Country"
-        endAddon={<Map />}
+        errors={errors}
+        options={
+          countries?.map((country) => ({
+            label: country.name,
+            value: country.name,
+          })) ?? []
+        }
       />
       <TextArea
         register={register}
