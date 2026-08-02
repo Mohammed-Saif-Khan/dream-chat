@@ -25,6 +25,11 @@ export interface ChatItem {
   updatedAt?: string;
   unreadCount: number;
   lastMessage: LastMessage | null;
+  isGroup?: boolean;
+  groupName?: string;
+  groupAvatar?: string | null;
+  groupParticipants?: Participant[];
+  admin?: string;
 }
 
 export type StateType = {

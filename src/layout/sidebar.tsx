@@ -23,7 +23,7 @@ export default function Sidebar({ pathname, userList }: SidebarProps) {
       case "profile":
         return <ProfileSidebar />;
       case "groups":
-        return <Groups data={userList} />;
+        return <Groups />;
       case "explore":
         return <Explore userList={userList} />;
       default:

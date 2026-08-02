@@ -11,10 +11,9 @@ import {
 import { socket } from "@/socket";
 import { handleChatlistSort } from "@/socket/chatlist";
 import { deliveredHandler, handleMessageDelete } from "@/socket/message";
-import { useMessageStore } from "@/store/messages";
 import { useChatlistStore } from "@/store/chat-list";
+import { useMessageStore } from "@/store/messages";
 import { Funnel } from "lucide-react";
-import Link from "next/link";
 import React from "react";
 
 export default function AllChat() {
@@ -74,9 +73,13 @@ export default function AllChat() {
         <div key={item?._id} className="cursor-pointer">
           <ChatCard
             key={item?._id}
-            id={item?.participants?._id}
-            name={`${item?.participants?.firstName} ${item?.participants?.lastName}`}
-            src={item?.participants?.avatar}
+            id={item?.isGroup ? item?._id : item?.participants?._id}
+            name={
+              item?.isGroup
+                ? item?.groupName || "Group"
+                : `${item?.participants?.firstName} ${item?.participants?.lastName}`
+            }
+            src={item?.isGroup ? item?.groupAvatar : item?.participants?.avatar}
             fallback="M"
             status={true}
             isDelete={item?.lastMessage?.isDeleted}

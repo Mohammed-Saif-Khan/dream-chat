@@ -1,9 +1,14 @@
+export type MessageReaction = {
+  user: { _id: string; firstName: string; lastName: string };
+  emoji: string;
+};
+
 export type MessageType = {
   chatId?: string;
   avatar?: string;
   message: string;
   senderId: { firstName: string; lastName: string; _id: string };
-  receiverId: { firstName: string; lastName: string; _id: string };
+  receiverId?: { firstName: string; lastName: string; _id: string };
   time: string;
   status: "pending" | "sent" | "delivered" | "read" | string;
   _id: string;
@@ -13,6 +18,8 @@ export type MessageType = {
   receiverAvtar: string;
   isFavorite: boolean;
   replyTo: ReplyMessage | null;
+  excludedFor?: string[];
+  reactions?: MessageReaction[];
 };
 
 export type ChatType = {
@@ -46,5 +53,6 @@ export type ChatStore = StateType & {
   updateMessageStatus: (id: string, status: Partial<MessageType>) => void;
   deleteMessage: (messageId: string, type: string) => void;
   toggleFavouriteMessage: (messageId: string) => void;
+  setMessageReactions: (messageId: string, reactions: MessageReaction[]) => void;
   setReply: (reply: ReplyMessage | null) => void;
 };

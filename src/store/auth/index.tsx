@@ -10,27 +10,6 @@ export const useAuthStore = create<AuthStore>()((set) => {
     isLoading: false,
     hasError: null,
 
-    signup: async (data, push) => {
-      try {
-        set({ isLoading: true, hasError: null });
-        const response = await fetchInstance("api/v1/signup", {
-          method: "POST",
-          body: JSON.stringify(data),
-        });
-        const result = await response?.json();
-        if (response?.status === 201) {
-          toast.success(result?.message || "Signup Successfully");
-          set({ isLoading: false });
-          push("/auth/sign-in");
-        } else {
-          toast.error(result?.message || "Signup Failed");
-        }
-      } catch (error) {
-        toast.error("Unexpected error occurred");
-        set({ hasError: error as Error, isLoading: false });
-      }
-    },
-
     login: async (data, push) => {
       try {
         set({ isLoading: true, hasError: null });

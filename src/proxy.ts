@@ -37,7 +37,6 @@ export async function proxy(request: NextRequest) {
 
   const publicPaths = [
     "/auth/sign-in",
-    "/auth/sign-up",
     "/auth/forgot-password",
     "/auth/otp",
     "/auth/reset-password",
@@ -46,6 +45,7 @@ export async function proxy(request: NextRequest) {
   ];
 
   const isPublicPath = publicPaths.includes(request.nextUrl.pathname);
+  const isAdminPath = request.nextUrl.pathname.startsWith("/admin");
 
   // If no token and in protected path → go to login
   if (!token && !isPublicPath) {
@@ -68,6 +68,13 @@ export async function proxy(request: NextRequest) {
       );
       response.cookies.set("token", "", { maxAge: 0 });
       return response;
+    }
+
+    if (isAdminPath) {
+      const data = await res.json();
+      if (data?.user?.role !== "admin") {
+        return NextResponse.redirect(new URL("/chat", request.url));
+      }
     }
   }
 

@@ -116,6 +116,22 @@ export const useMessageStore = create<ChatStore>()((set) => {
       });
     },
 
+    setMessageReactions: (messageId, reactions) => {
+      set((state) => {
+        if (!state.chat) return state;
+
+        return {
+          ...state,
+          chat: {
+            ...state.chat,
+            message: state.chat.message.map((msg) =>
+              msg._id === messageId ? { ...msg, reactions } : msg
+            ),
+          },
+        };
+      });
+    },
+
     setReply: (reply) => set({ reply }),
   };
 });

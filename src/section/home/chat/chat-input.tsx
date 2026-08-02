@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/popover";
 import { messageSchema, messageTyep } from "@/schema/message";
 import { socket } from "@/socket";
+import { Participant } from "@/store/chat-list/type";
 import { useChatlistStore } from "@/store/chat-list";
 import { useMessageStore } from "@/store/messages";
 import { MessageType } from "@/store/messages/type";
@@ -27,9 +28,11 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { getArrangeData } from "./constant";
+import ExcludeMembers from "./exclude-members";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import dynamic from "next/dynamic";
+import MicrophoneBoldIcon from "@iconify-react/solar/microphone-bold";
 
 const EmojiPicker = dynamic(() => import("emoji-picker-react"), { ssr: false });
 
@@ -37,6 +40,8 @@ type ChatInputProps = {
   receiverId: string;
   senderId: string;
   profile: ProfileType;
+  isGroup?: boolean;
+  groupParticipants?: Participant[];
   addMessage: (message: MessageType) => void;
   editMessage: (tempId: string, message: MessageType) => void;
 };
@@ -45,6 +50,8 @@ export default function ChatInput({
   receiverId,
   senderId,
   profile,
+  isGroup,
+  groupParticipants,
   addMessage,
   editMessage,
 }: ChatInputProps) {
@@ -56,12 +63,11 @@ export default function ChatInput({
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const [openEmojiPicker, setOpenEmojiPicker] = React.useState<boolean>(false);
   const [keyboardHeight, setKeyboardHeight] = React.useState<number>(0);
+  const [excludeIds, setExcludeIds] = React.useState<string[]>([]);
 
   const { handleSubmit, setValue, register, watch } = useForm<messageTyep>({
     resolver: zodResolver(messageSchema),
-    defaultValues: {
-      receiverId,
-    },
+    defaultValues: isGroup ? { chatId: receiverId } : { receiverId },
   });
 
   const isTyping = watch("message")?.length > 0;
@@ -93,6 +99,8 @@ export default function ChatInput({
         receiverId,
         time,
         reply,
+        isGroup,
+        excludeIds,
       );
 
       socket.emit("stop-typing", { receiverId });
@@ -101,10 +109,14 @@ export default function ChatInput({
       setReply(null);
 
       const finalData = {
-        ...data,
+        message: data.message,
         time,
         replyTo: reply?._id,
+        ...(isGroup ? { chatId: receiverId } : { receiverId }),
+        ...(isGroup && excludeIds.length > 0 ? { excludeIds } : {}),
       };
+
+      setExcludeIds([]);
 
       const response = await fetchInstance("api/v1/message", {
         method: "POST",
@@ -143,8 +155,12 @@ export default function ChatInput({
   }, [isMobile]);
 
   React.useEffect(() => {
-    setValue("receiverId", receiverId);
-  }, [receiverId]);
+    if (isGroup) {
+      setValue("chatId", receiverId);
+    } else {
+      setValue("receiverId", receiverId);
+    }
+  }, [receiverId, isGroup]);
 
   return (
     <form onSubmit={handleSubmit(onSendMessage)} className="my-2 mb-0 mx-2">
@@ -200,12 +216,26 @@ export default function ChatInput({
             <ImageIcon key="imageUpload" size={20} className="mb-2" />,
           ]}
         />
+        {isGroup && (
+          <ExcludeMembers
+            members={groupParticipants}
+            senderId={senderId}
+            excludeIds={excludeIds}
+            setExcludeIds={setExcludeIds}
+          />
+        )}
         <Button
           size="icon-lg"
-          className="rounded-full mb-3"
-          variant={isTyping ? "default" : "outline"}
+          className="rounded-full mb-3 bg-gray-500 hover:bg-gray-500"
         >
-          {isTyping ? <SendHorizonal className="text-white" /> : <AudioLines />}
+          <MicrophoneBoldIcon height="1em" className="text-white" />
+        </Button>
+        <Button
+          size="icon-lg"
+          className="rounded-full mb-3 bg-green-500"
+          variant="default"
+        >
+          <SendHorizonal className="text-white" />
         </Button>
       </div>
       <div

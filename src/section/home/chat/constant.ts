@@ -9,13 +9,16 @@ export const getArrangeData = (
   receiverId: string,
   time: string,
   reply: any,
+  isGroup?: boolean,
+  excludeIds?: string[],
 ) => {
   return {
     message: data?.message,
     isDeleted: false,
     deletedAt: null,
     createdAt: new Date().toISOString(),
-    receiverId,
+    ...(isGroup ? { chatId: receiverId } : { receiverId }),
+    ...(isGroup && excludeIds?.length ? { excludedFor: excludeIds } : {}),
     senderId: {
       firstName: profile?.firstName,
       lastName: profile?.lastName,

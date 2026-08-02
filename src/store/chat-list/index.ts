@@ -116,11 +116,13 @@ export const useChatlistStore = create<ChatlistStore>()((set, get) => {
       });
     },
 
-    resetReadCount: (userId) => {
+    resetReadCount: (id) => {
       set((prev) => {
         const chatlist = [...prev?.chatlist];
 
-        const index = chatlist.findIndex((f) => f.participants._id === userId);
+        const index = chatlist.findIndex(
+          (f) => f._id === id || f.participants?._id === id,
+        );
 
         if (index === -1) return { chatlist };
 

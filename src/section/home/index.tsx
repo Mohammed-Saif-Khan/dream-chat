@@ -3,11 +3,13 @@ import { socket } from "@/socket";
 import {
   deliveredHandler,
   handleMessageDelete,
+  reactionHandler,
   readHandler,
   readOldMessagesHandler,
   receiveMessageHandler,
 } from "@/socket/message";
 import { stopTypingHandler, typingHandler } from "@/socket/typing";
+import { useChatlistStore } from "@/store/chat-list";
 import { useMessageStore } from "@/store/messages";
 import { ExploreUserList } from "@/types/contact";
 import { ProfileType } from "@/types/profile";
@@ -24,8 +26,44 @@ type HomeProps = {
 export default function Home({ profile, userList }: HomeProps) {
   const searchParams = useSearchParams();
   const receiverId = searchParams.get("receiver");
+  const { chatlist, getChatlist } = useChatlistStore();
   const selectedUser = userList.find((u) => u?.user?._id === receiverId);
+  const selectedGroup = chatlist.find(
+    (c) => c?.isGroup && c?._id === receiverId,
+  );
+  const groupAsUser: ExploreUserList | undefined = selectedGroup
+    ? {
+        _id: selectedGroup._id || "",
+        avatar: selectedGroup.groupAvatar || "",
+        about: "",
+        dob: "",
+        phone: "",
+        facebook: "",
+        instagram: "",
+        linkedin: "",
+        youtube: "",
+        other: "",
+        x: "",
+        user: {
+          _id: selectedGroup._id || "",
+          firstName: selectedGroup.groupName || "Group",
+          lastName: "",
+          phone: "",
+          email: "",
+        },
+      }
+    : undefined;
   const senderId = profile?._id;
+  const isGroupAdmin = !!(
+    selectedGroup &&
+    senderId &&
+    selectedGroup.admin === senderId
+  );
+
+  console.log(
+    !!selectedGroup && senderId && selectedGroup.admin === senderId,
+    "ckckckc",
+  );
 
   const [typing, setTyping] = React.useState<boolean>(false);
   const { getMessages, addMessage, updateMessageStatus } = useMessageStore();
@@ -44,6 +82,7 @@ export default function Home({ profile, userList }: HomeProps) {
     socket.on("message-delivered", handleBulkDelivered);
     socket.on("message-read", handleReadMessage);
     socket.on("message-delete", handleMessageDelete);
+    socket.on("message-reaction", reactionHandler);
 
     return () => {
       socket.off("user-typing", handleTyping);
@@ -52,6 +91,7 @@ export default function Home({ profile, userList }: HomeProps) {
       socket.off("message-delivered", handleBulkDelivered);
       socket.off("message-read", handleReadMessage);
       socket.off("message-delete", handleMessageDelete);
+      socket.off("message-reaction", reactionHandler);
     };
   }, [receiverId]);
 
@@ -61,9 +101,9 @@ export default function Home({ profile, userList }: HomeProps) {
   }, [senderId]);
 
   React.useEffect(() => {
-    if (!receiverId) return;
+    if (!receiverId || selectedGroup) return;
     readOldMessagesHandler(receiverId);
-  }, [receiverId]);
+  }, [receiverId, selectedGroup]);
 
   React.useEffect(() => {
     useMessageStore.setState({ chat: null });
@@ -74,11 +114,15 @@ export default function Home({ profile, userList }: HomeProps) {
     <>
       {receiverId ? (
         <ChatLayout
-          selectedUser={selectedUser}
+          selectedUser={selectedUser || groupAsUser}
           senderId={senderId}
           receiverId={receiverId}
           profile={profile}
           typing={typing}
+          isGroup={!!selectedGroup}
+          isGroupAdmin={isGroupAdmin}
+          groupParticipants={selectedGroup?.groupParticipants}
+          onGroupAvatarUpdated={() => getChatlist()}
         />
       ) : (
         <Welcome profile={profile} />

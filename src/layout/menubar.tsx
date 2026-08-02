@@ -6,13 +6,13 @@ import { Toggle } from "@/components/ui/toggle";
 import { useNavigate } from "@/hooks/use-navigate";
 import { cn } from "@/lib/utils";
 import { useProfileStore } from "@/store/profile";
-import { ProfileType } from "@/types/profile";
 import { menubarHideURL, navbar } from "@/utils/constant";
 import { getFallbackName } from "@/utils/getFallbackName";
+import { ShieldUser } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { use } from "react";
+import React from "react";
 
 export default function Menubar() {
   const { profile, getProfile } = useProfileStore();
@@ -37,7 +37,6 @@ export default function Menubar() {
             onClick={() => push("/chat")}
             className="cursor-pointer md:block hidden"
           />
-
           <div className="md:mt-4 flex md:flex-col items-center justify-between md:gap-6">
             {navbar?.map((item, index) => {
               const Icon = item?.icon;
@@ -75,6 +74,13 @@ export default function Menubar() {
           </div>
         </div>
         <div className="md:flex hidden flex-col items-center gap-6">
+          {profile?.role === "admin" && (
+            <ShieldUser
+              size={26}
+              onClick={() => push("/admin/users")}
+              className="cursor-pointer text-muted-foreground hover:text-foreground"
+            />
+          )}
           <ModeToogleButton />
           <div onClick={() => push("/profile")}>
             <AvatarDP

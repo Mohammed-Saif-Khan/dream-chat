@@ -19,6 +19,7 @@ export const signUpSchema = z
       .min(1, "Phone number is required")
       .max(10, "Phone number must be at least 10 digits")
       .regex(/^\+?\d{10,15}$/, "Enter a valid phone number"),
+    role: z.enum(["admin", "user"], "Role is required"),
     password: z
       .string()
       .min(8, "Password must be at least 8 characters long")

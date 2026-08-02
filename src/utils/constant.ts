@@ -38,7 +38,6 @@ export const menubarHideURL = [
   "/auth/otp",
   "/auth/reset-password",
   "/auth/sign-in",
-  "/auth/sign-up",
   "/auth/success",
 ];
 

@@ -7,10 +7,16 @@ const stringOrArrayToArray = z.preprocess((val) => {
   return val;
 }, z.array(z.string().min(1)).min(1));
 
-export const messageSchema = z.object({
-  message: z.string().min(1, "Message is required"),
-  receiverId: z.string().min(1, "Receiver id is required"),
-});
+export const messageSchema = z
+  .object({
+    message: z.string().min(1, "Message is required"),
+    receiverId: z.string().optional(),
+    chatId: z.string().optional(),
+  })
+  .refine((data) => !!data.receiverId || !!data.chatId, {
+    message: "Receiver id or chat id is required",
+    path: ["receiverId"],
+  });
 
 export type messageTyep = z.infer<typeof messageSchema>;
 

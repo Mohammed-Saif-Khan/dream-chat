@@ -1,4 +1,5 @@
 import AvatarDP from "@/components/avatar";
+import GroupAvatarUpload from "@/components/avatar/group-avatar-upload";
 import ProfileView from "@/components/profile-view";
 import {
   DropdownMenu,
@@ -32,9 +33,20 @@ import InfoSheet from "./sheets/info-sheet";
 type ChatHeaderProps = {
   data: ExploreUserList | undefined;
   chatId: string | undefined;
+  isGroup?: boolean;
+  isGroupAdmin?: boolean;
+  groupId?: string;
+  onGroupAvatarUpdated?: () => void;
 };
 
-export default function ChatHeader({ data, chatId }: ChatHeaderProps) {
+export default function ChatHeader({
+  data,
+  chatId,
+  isGroup,
+  isGroupAdmin,
+  groupId,
+  onGroupAvatarUpdated,
+}: ChatHeaderProps) {
   const [open, setOpen] = React.useState<boolean>(false);
   const { openPreview } = useProfilePreviewStore();
   const [favSheet, setFavSheet] = React.useState<boolean>(false);
@@ -46,15 +58,25 @@ export default function ChatHeader({ data, chatId }: ChatHeaderProps) {
           <ArrowLeft size={16} className="flex md:hidden" />
         </Link>
         <div className="flex items-center gap-3">
-          <AvatarDP
-            src={data?.avatar}
-            fallback="A"
-            alt="chat-user"
-            statusbar={true}
-            avatarSize="md:w-12 md:h-12 w-10 h-10"
-            statusbarClass="md:size-3.5 size-3"
-            onClick={() => openPreview(data?.avatar || "")}
-          />
+          {isGroup && isGroupAdmin && groupId ? (
+            <GroupAvatarUpload
+              chatId={groupId}
+              src={data?.avatar}
+              fallback="G"
+              avatarSize="md:w-12 md:h-12 w-10 h-10"
+              onUploaded={() => onGroupAvatarUpdated?.()}
+            />
+          ) : (
+            <AvatarDP
+              src={data?.avatar}
+              fallback="A"
+              alt="chat-user"
+              statusbar={true}
+              avatarSize="md:w-12 md:h-12 w-10 h-10"
+              statusbarClass="md:size-3.5 size-3"
+              onClick={() => openPreview(data?.avatar || "")}
+            />
+          )}
           <div onClick={() => setOpen(true)} className="cursor-pointer">
             <p className="md:text-base text-sm font-semibold text-accent-foreground capitalize">
               {data?.user?.firstName} {data?.user?.lastName}

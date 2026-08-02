@@ -13,13 +13,15 @@ export default function ProfileView() {
         className="border-0 w-fit p-0 rounded-full"
       >
         <DialogTitle className="sr-only">Profile Preview</DialogTitle>
-        <Image
-          src={image || ""}
-          width={300}
-          height={300}
-          alt="Avatar"
-          className="rounded-full"
-        />
+        {image && (
+          <Image
+            src={image}
+            width={300}
+            height={300}
+            alt="Avatar"
+            className="rounded-full"
+          />
+        )}
       </DialogContent>
     </Dialog>
   );

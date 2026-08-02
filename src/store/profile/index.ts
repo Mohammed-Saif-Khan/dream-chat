@@ -9,11 +9,11 @@ export const useProfileStore = create<ProfileStore>()((set, get) => {
     hasError: null,
     profile: null,
 
-    getProfile: async (force = false) => {
+    getProfile: async () => {
       try {
         set({ isLoading: true, hasError: null });
         const { profile } = get();
-        if (profile?._id && !force) return;
+        if (profile?._id) return;
         const response = await fetchInstance("api/v1/profile");
         if (!response.ok) {
           const errorText = await response.text();

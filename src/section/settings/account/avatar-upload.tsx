@@ -104,7 +104,7 @@ export default function AvatarUpload<T extends FieldValues>({
   // Function to crop image using canvas
   const getCroppedImg = async (
     imageSrc: string,
-    croppedAreaPixels: CroppedArea
+    croppedAreaPixels: CroppedArea,
   ): Promise<string | null> => {
     const image = await createImage(imageSrc);
     const canvas = document.createElement("canvas");
@@ -125,7 +125,7 @@ export default function AvatarUpload<T extends FieldValues>({
       0,
       0,
       size,
-      size
+      size,
     );
 
     return new Promise((resolve) => {
@@ -137,7 +137,7 @@ export default function AvatarUpload<T extends FieldValues>({
 
   const handleCropComplete = (
     _croppedArea: CroppedArea,
-    croppedPixels: CroppedArea
+    croppedPixels: CroppedArea,
   ) => {
     setCroppedAreaPixels(croppedPixels);
   };
@@ -177,8 +177,6 @@ export default function AvatarUpload<T extends FieldValues>({
     setAvatarImage(bind);
   }, [bind]);
 
-  console.log(errors, "EEEEE");
-
   return (
     <div className="relative border-3 border-dashed border-primary rounded-full p-1 cursor-pointer">
       <Avatar onClick={handleAvatarClick} className="size-18">
@@ -190,7 +188,7 @@ export default function AvatarUpload<T extends FieldValues>({
       </Avatar>
       <span
         className={cn(
-          "bg-white absolute end-0 bottom-0 flex items-center justify-center size-5 rounded-full border-2 border-white"
+          "bg-white absolute end-0 bottom-0 flex items-center justify-center size-5 rounded-full border-2 border-white",
         )}
       >
         <Button

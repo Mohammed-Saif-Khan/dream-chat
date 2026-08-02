@@ -35,14 +35,30 @@ export default function AvatarDP({
         ? src.src
         : null;
 
+  // Reduce whatever text is passed down to short, visible initials
+  const words = fallback?.trim()?.split(/\s+/).filter(Boolean) ?? [];
+  const initials =
+    words.length > 1
+      ? words
+          .slice(0, 2)
+          .map((word) => word[0])
+          .join("")
+          .toUpperCase()
+      : (fallback?.slice(0, 2) ?? "").toUpperCase();
+
   return (
     <div {...props} className="relative w-fit">
       <Avatar className={cn("cursor-pointer", avatarSize)}>
         {imageSrc && (
           <AvatarImage src={imageSrc} alt={alt} className={cn(avatarImage)} />
         )}
-        <AvatarFallback className={cn(fallbackClass)}>
-          {fallback}
+        <AvatarFallback
+          className={cn(
+            "bg-muted-foreground/20 text-foreground font-medium",
+            fallbackClass,
+          )}
+        >
+          {initials}
         </AvatarFallback>
       </Avatar>
 

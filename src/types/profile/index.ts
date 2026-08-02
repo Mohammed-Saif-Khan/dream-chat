@@ -5,6 +5,7 @@ export interface ProfileType {
   isVerified: boolean;
   lastName: string;
   phone: string;
+  role: "admin" | "user";
   about: string;
   gender: string;
   dob: string;

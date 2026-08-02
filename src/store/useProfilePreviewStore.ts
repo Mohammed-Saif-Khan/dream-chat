@@ -12,11 +12,13 @@ export const useProfilePreviewStore = create<ProfilePreviewState>((set) => ({
   open: false,
   image: "",
 
-  openPreview: (img) =>
+  openPreview: (img) => {
+    if (!img) return;
     set({
       open: true,
       image: img,
-    }),
+    });
+  },
 
   closePreview: () => {
     set((state) => ({
