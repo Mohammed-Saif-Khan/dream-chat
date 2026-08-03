@@ -57,6 +57,18 @@ export const useMessageStore = create<ChatStore>()((set) => {
       }));
     },
 
+    removeMessage: (tempId) => {
+      set((state) => ({
+        ...state,
+        chat: {
+          ...state.chat!,
+          message: (state?.chat?.message || []).filter(
+            (msg) => msg?._id !== tempId
+          ),
+        },
+      }));
+    },
+
     updateMessageStatus: (id, status) => {
       set((prev) => ({
         ...prev,

@@ -5,24 +5,22 @@ import { Badge } from "@/components/ui/badge";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 import DataTableRowAction from "@/components/data-table/data-table-row-action";
 import { getFallbackName } from "@/utils/getFallbackName";
-import { formatDateTimeReadable } from "@/utils/formatDate";
-import { ColumnDef } from "@tanstack/react-table";
-import { deleteUrl, pathRevalidate } from "./constant";
 import { cn } from "@/lib/utils";
+import { ColumnDef } from "@tanstack/react-table";
+import { pathRevalidate } from "./constant";
 
-export interface AdminUserRow {
+export interface ChatUserRow {
   _id: string;
   firstName: string;
   lastName: string;
   email: string;
   phone: string;
   role: "admin" | "user";
-  createdAt: string;
   avatar?: string | null;
   [key: string]: unknown;
 }
 
-export const columns: ColumnDef<AdminUserRow>[] = [
+export const columns: ColumnDef<ChatUserRow>[] = [
   {
     id: "name",
     accessorFn: (row) => `${row.firstName} ${row.lastName}`,
@@ -76,27 +74,16 @@ export const columns: ColumnDef<AdminUserRow>[] = [
     ),
   },
   {
-    accessorKey: "createdAt",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Joined" />
-    ),
-    cell: ({ row }) => formatDateTimeReadable(row.original.createdAt),
-  },
-  {
     id: "actions",
     cell: ({ row }) => (
       <DataTableRowAction
         id={row.original._id}
-        deleteUrl={deleteUrl}
         pathRevalidate={pathRevalidate}
+        isDelete={false}
         actions={[
           {
             label: "View Chats",
             url: `/admin/admin-chat/${row.original._id}`,
-          },
-          {
-            label: "Edit",
-            url: `/admin/users/form/${row.original._id}`,
           },
         ]}
       />

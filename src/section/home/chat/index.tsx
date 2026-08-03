@@ -15,6 +15,7 @@ type ChatLayoutProps = {
   typing: boolean;
   isGroup?: boolean;
   isGroupAdmin?: boolean;
+  isRestricted?: boolean;
   groupParticipants?: Participant[];
   onGroupAvatarUpdated?: () => void;
 };
@@ -27,6 +28,7 @@ export default function ChatLayout({
   typing,
   isGroup,
   isGroupAdmin,
+  isRestricted,
   groupParticipants,
   onGroupAvatarUpdated,
 }: ChatLayoutProps) {
@@ -56,6 +58,7 @@ export default function ChatLayout({
         senderId={senderId}
         receiverId={receiverId}
         isGroup={isGroup}
+        isRestricted={isRestricted}
         groupParticipants={groupParticipants}
         addMessage={addMessage}
         editMessage={editMessage}

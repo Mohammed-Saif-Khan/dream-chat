@@ -135,6 +135,14 @@ export const useChatlistStore = create<ChatlistStore>()((set, get) => {
       });
     },
 
+    updateGroupRestriction: (chatId, restrictedMembers) => {
+      set((prev) => ({
+        chatlist: prev.chatlist.map((c) =>
+          c._id === chatId ? { ...c, restrictedMembers } : c
+        ),
+      }));
+    },
+
     deleteChatlistMessage: (userId, type, prevMessage) => {
       set((prev) => {
         if (!prev.chatlist) return prev;

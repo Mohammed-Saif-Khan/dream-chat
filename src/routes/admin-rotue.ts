@@ -1,4 +1,4 @@
-import { UsersRound, Users } from "lucide-react";
+import { UsersRound, Users, MessageSquare } from "lucide-react";
 
 export const navItems = [
   {
@@ -10,5 +10,10 @@ export const navItems = [
     label: "Groups",
     link: "/admin/groups",
     icon: UsersRound,
+  },
+  {
+    label: "Chats",
+    link: "/admin/admin-chat",
+    icon: MessageSquare,
   },
 ];

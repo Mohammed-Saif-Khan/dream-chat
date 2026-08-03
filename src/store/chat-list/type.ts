@@ -30,6 +30,7 @@ export interface ChatItem {
   groupAvatar?: string | null;
   groupParticipants?: Participant[];
   admin?: string;
+  restrictedMembers?: string[];
 }
 
 export type StateType = {
@@ -44,6 +45,7 @@ export type ChatlistStore = StateType & {
   createChat: (data: ChatMessagePayload, inComming?: boolean) => void;
   updateExistingChat: (data: ChatMessagePayload, inComming?: boolean) => void;
   resetReadCount: (userId: string) => void;
+  updateGroupRestriction: (chatId: string, restrictedMembers: string[]) => void;
   deleteChatlistMessage: (
     userId: string,
     type: string,

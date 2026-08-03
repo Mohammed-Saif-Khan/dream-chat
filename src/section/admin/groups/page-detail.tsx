@@ -10,9 +10,13 @@ import {
 } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 import { useNavigate } from "@/hooks/use-navigate";
 import { formatDateTimeReadable } from "@/utils/formatDate";
+import { toggleGroupMemberRestriction } from "@/services/admin-groups";
 import { ArrowLeft } from "lucide-react";
+import React from "react";
+import toast from "react-hot-toast";
 
 type GroupMember = {
   _id: string;
@@ -28,6 +32,7 @@ type GroupDetail = {
   createdAt: string;
   admin: GroupMember | null;
   participants: GroupMember[];
+  restrictedMembers?: string[];
 };
 
 type GroupsPageDetailProps = {
@@ -36,6 +41,35 @@ type GroupsPageDetailProps = {
 
 export default function GroupsPageDetail({ group }: GroupsPageDetailProps) {
   const { back } = useNavigate();
+  const [restrictedMembers, setRestrictedMembers] = React.useState<string[]>(
+    group.restrictedMembers || [],
+  );
+  const [pendingId, setPendingId] = React.useState<string | null>(null);
+
+  const handleToggleRestriction = async (
+    memberId: string,
+    restricted: boolean,
+  ) => {
+    setPendingId(memberId);
+    const { success } = await toggleGroupMemberRestriction(
+      group._id,
+      memberId,
+      restricted,
+    );
+    if (success) {
+      setRestrictedMembers((prev) =>
+        restricted ? [...prev, memberId] : prev.filter((id) => id !== memberId),
+      );
+      toast.success(
+        restricted
+          ? "Member restricted from sending messages"
+          : "Member restriction removed",
+      );
+    } else {
+      toast.error("Something went wrong");
+    }
+    setPendingId(null);
+  };
 
   return (
     <div className="flex flex-col gap-4 max-w-2xl">
@@ -92,27 +126,51 @@ export default function GroupsPageDetail({ group }: GroupsPageDetailProps) {
               Members ({group.participants?.length || 0})
             </p>
             <ScrollArea className="h-72 rounded-md border p-2">
-              {group.participants?.map((member) => (
-                <div
-                  key={member._id}
-                  className="flex items-center justify-between gap-3 rounded-md p-3 my-1"
-                >
-                  <div className="flex items-center gap-2">
-                    <AvatarDP
-                      src={member.avatar}
-                      avatarSize="size-8"
-                      alt={`${member.firstName} ${member.lastName}`}
-                      fallback={`${member.firstName} ${member.lastName}`}
-                    />
-                    <p className="text-sm font-medium">
-                      {member.firstName} {member.lastName}
-                    </p>
+              {group.participants?.map((member) => {
+                const isRestricted = restrictedMembers.includes(member._id);
+                return (
+                  <div
+                    key={member._id}
+                    className="flex items-center justify-between gap-3 rounded-md p-3 my-1"
+                  >
+                    <div className="flex items-center gap-2">
+                      <AvatarDP
+                        src={member.avatar}
+                        avatarSize="size-8"
+                        alt={`${member.firstName} ${member.lastName}`}
+                        fallback={`${member.firstName} ${member.lastName}`}
+                      />
+                      <div>
+                        <p className="text-sm font-medium">
+                          {member.firstName} {member.lastName}
+                        </p>
+                        {group.admin?._id === member._id && (
+                          <Badge variant="secondary" className="mt-0.5">
+                            Group Admin
+                          </Badge>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {isRestricted && (
+                        <Badge variant="destructive">Restricted</Badge>
+                      )}
+                      <Switch
+                        checked={isRestricted}
+                        disabled={pendingId === member._id}
+                        onCheckedChange={(checked) =>
+                          handleToggleRestriction(member._id, checked)
+                        }
+                        aria-label={
+                          isRestricted
+                            ? "Unrestrict member from sending messages"
+                            : "Restrict member from sending messages"
+                        }
+                      />
+                    </div>
                   </div>
-                  {group.admin?._id === member._id && (
-                    <Badge variant="secondary">Group Admin</Badge>
-                  )}
-                </div>
-              ))}
+                );
+              })}
             </ScrollArea>
           </div>
         </CardContent>

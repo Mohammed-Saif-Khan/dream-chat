@@ -12,9 +12,11 @@ import { useNavigate } from "@/hooks/use-navigate";
 import { fetchInstance } from "@/utils/fetch-instance";
 import revalidate from "@/utils/revalidate";
 import { UsersIcon } from "lucide-react";
+import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { actionUrl, listUrl, pathRevalidate } from "./constant";
+import GroupAvatarPicker from "./group-avatar-picker";
 
 export type GroupMemberOption = {
   _id: string;
@@ -33,15 +35,22 @@ type GroupsPageFormProps = {
   id: string;
   users: GroupMemberOption[];
   defaultValues?: Partial<GroupFormValues>;
+  defaultAvatar?: string | null;
 };
 
 export default function GroupsPageForm({
   id,
   users,
   defaultValues,
+  defaultAvatar,
 }: GroupsPageFormProps) {
   const { back } = useNavigate();
   const isEdit = Boolean(id && id !== "new");
+
+  const [avatarFile, setAvatarFile] = React.useState<File | null>(null);
+  const [avatarPreview, setAvatarPreview] = React.useState<string | null>(
+    defaultAvatar || null,
+  );
 
   const {
     control,
@@ -98,28 +107,60 @@ export default function GroupsPageForm({
         }),
       });
       const result = await response?.json();
-      if (result?.success) {
-        toast.success(result?.message || "Saved successfully");
-        await revalidate(pathRevalidate, "page");
-        back();
-      } else {
+
+      if (!result?.success) {
         toast.error(result?.message || "Something went wrong");
+        return;
       }
+
+      const groupId = isEdit ? id : result?.data?._id;
+
+      if (avatarFile && groupId) {
+        const formData = new FormData();
+        formData.append("avatar", avatarFile);
+        const avatarResponse = await fetchInstance(
+          `${actionUrl}/${groupId}/avatar`,
+          {
+            method: "PATCH",
+            body: formData,
+          },
+        );
+        const avatarResult = await avatarResponse.json();
+        if (!avatarResult?.success) {
+          toast.error(
+            avatarResult?.message || "Group saved but avatar upload failed",
+          );
+        }
+      }
+
+      toast.success(result?.message || "Saved successfully");
+      await revalidate(pathRevalidate, "page");
+      back();
     } catch (error) {
       toast.error("Failed to submit. Please try again.");
     }
   };
 
   return (
-    <Card className="max-w-2xl">
+    <Card>
       <CardHeader>
         <CardTitle>{isEdit ? "Edit Group" : "Add Group"}</CardTitle>
       </CardHeader>
       <CardContent>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-3"
-        >
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
+          <div>
+            <Label className="mb-2 block">Group Photo</Label>
+            <GroupAvatarPicker
+              preview={avatarPreview}
+              fallback="G"
+              avatarSize="size-16"
+              onChange={(file, preview) => {
+                setAvatarFile(file);
+                setAvatarPreview(preview);
+              }}
+            />
+          </div>
+
           <TextBox
             name="name"
             label="Group Name"
@@ -139,9 +180,7 @@ export default function GroupsPageForm({
                   control={control}
                   name="receiverIds"
                   render={({ field }) => (
-                    <Label
-                      className="hover:bg-accent/50 flex items-center justify-between gap-3 rounded-md p-3 has-aria-checked:border-blue-600 has-aria-checked:bg-blue-50 dark:has-aria-checked:border-blue-900 dark:has-aria-checked:bg-blue-950 my-1"
-                    >
+                    <Label className="hover:bg-accent/50 flex items-center justify-between gap-3 rounded-md p-3 has-aria-checked:border-blue-600 has-aria-checked:bg-blue-50 dark:has-aria-checked:border-blue-900 dark:has-aria-checked:bg-blue-950 my-1">
                       <div className="flex items-center gap-2 font-normal">
                         <AvatarDP
                           src={user.avatar}

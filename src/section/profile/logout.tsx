@@ -3,7 +3,6 @@ import { Card } from "@/components/ui/card";
 import LogoutDialog from "@/modules/logout-dialog/logout";
 import { useLogoutStore } from "@/store/logout";
 import { LogOut } from "lucide-react";
-import React from "react";
 
 export default function Logout() {
   const { logout, setLogout } = useLogoutStore();

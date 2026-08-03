@@ -42,6 +42,36 @@ export const getAdminGroupById = async (id: string) => {
   }
 };
 
+export const toggleGroupMemberRestriction = async (
+  groupId: string,
+  userId: string,
+  restricted: boolean
+) => {
+  try {
+    const response = await fetchInstance(
+      `${listUrl}/${groupId}/members/${userId}/restrict`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({ restricted }),
+      }
+    );
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(
+        `Failed to fetch toggleGroupMemberRestriction: ${response?.url} ${response.status} ${errorText}`
+      );
+    }
+    const result = await response.json();
+    return { success: true, data: result?.data };
+  } catch (error) {
+    console.log(
+      "toggleGroupMemberRestriction error:",
+      error instanceof Error ? error.message : error
+    );
+    return { success: false, data: null };
+  }
+};
+
 export const getAdminGroupMessages = async (id: string) => {
   try {
     const response = await fetchInstance(`${listUrl}/${id}/messages`);

@@ -20,6 +20,7 @@ export default async function Page({
     <GroupsPageForm
       id={id}
       users={users}
+      defaultAvatar={group?.groupAvatar}
       defaultValues={
         group
           ? {

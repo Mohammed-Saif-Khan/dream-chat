@@ -26,7 +26,8 @@ type HomeProps = {
 export default function Home({ profile, userList }: HomeProps) {
   const searchParams = useSearchParams();
   const receiverId = searchParams.get("receiver");
-  const { chatlist, getChatlist } = useChatlistStore();
+  const { chatlist, getChatlist, updateGroupRestriction } =
+    useChatlistStore();
   const selectedUser = userList.find((u) => u?.user?._id === receiverId);
   const selectedGroup = chatlist.find(
     (c) => c?.isGroup && c?._id === receiverId,
@@ -58,6 +59,11 @@ export default function Home({ profile, userList }: HomeProps) {
     selectedGroup &&
     senderId &&
     selectedGroup.admin === senderId
+  );
+  const isRestricted = !!(
+    selectedGroup &&
+    senderId &&
+    selectedGroup.restrictedMembers?.includes(senderId)
   );
 
   console.log(
@@ -101,6 +107,25 @@ export default function Home({ profile, userList }: HomeProps) {
   }, [senderId]);
 
   React.useEffect(() => {
+    const handleRestrictionUpdate = ({
+      chatId,
+      restrictedMembers,
+    }: {
+      chatId: string;
+      restricted: boolean;
+      restrictedMembers: string[];
+    }) => {
+      updateGroupRestriction(chatId, restrictedMembers);
+    };
+
+    socket.on("group-restriction-updated", handleRestrictionUpdate);
+
+    return () => {
+      socket.off("group-restriction-updated", handleRestrictionUpdate);
+    };
+  }, []);
+
+  React.useEffect(() => {
     if (!receiverId || selectedGroup) return;
     readOldMessagesHandler(receiverId);
   }, [receiverId, selectedGroup]);
@@ -121,6 +146,7 @@ export default function Home({ profile, userList }: HomeProps) {
           typing={typing}
           isGroup={!!selectedGroup}
           isGroupAdmin={isGroupAdmin}
+          isRestricted={isRestricted}
           groupParticipants={selectedGroup?.groupParticipants}
           onGroupAvatarUpdated={() => getChatlist()}
         />

@@ -19,6 +19,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { EmojiStyle } from "emoji-picker-react";
 import {
   AudioLines,
+  Ban,
   Image as ImageIcon,
   PlusCircle,
   SendHorizonal,
@@ -41,6 +42,7 @@ type ChatInputProps = {
   senderId: string;
   profile: ProfileType;
   isGroup?: boolean;
+  isRestricted?: boolean;
   groupParticipants?: Participant[];
   addMessage: (message: MessageType) => void;
   editMessage: (tempId: string, message: MessageType) => void;
@@ -51,6 +53,7 @@ export default function ChatInput({
   senderId,
   profile,
   isGroup,
+  isRestricted,
   groupParticipants,
   addMessage,
   editMessage,
@@ -58,7 +61,7 @@ export default function ChatInput({
   const isMobile = useIsMobile();
   const emojiTheme = useEmojiTheme();
   const { upsertChat } = useChatlistStore();
-  const { reply, setReply } = useMessageStore();
+  const { reply, setReply, removeMessage } = useMessageStore();
   const typingTimeoutRef = React.useRef<NodeJS.Timeout>(null);
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const [openEmojiPicker, setOpenEmojiPicker] = React.useState<boolean>(false);
@@ -129,6 +132,7 @@ export default function ChatInput({
         editMessage(tempId, originalMessage);
         upsertChat(originalMessage);
       } else {
+        removeMessage(tempMsg?._id);
         toast.error(result?.message || "Failed to send Messgae");
       }
     } catch (error) {
@@ -162,6 +166,15 @@ export default function ChatInput({
     }
   }, [receiverId, isGroup]);
 
+  if (isGroup && isRestricted) {
+    return (
+      <div className="mx-2 mb-3 flex items-center justify-center gap-2 rounded-md border bg-muted/50 px-4 py-3 text-sm text-muted-foreground">
+        <Ban className="size-4 shrink-0" />
+        You have been restricted from sending messages in this group
+      </div>
+    );
+  }
+
   return (
     <form onSubmit={handleSubmit(onSendMessage)} className="my-2 mb-0 mx-2">
       <div className="flex items-center justify-between gap-2">
@@ -179,7 +192,7 @@ export default function ChatInput({
             }
           }}
           replyTo={reply}
-          startAddon={[<PlusCircle key="clip" size={20} className="mb-2" />]}
+          startAddon={[<PlusCircle key="clip" size={20} />]}
           endAddon={[
             <Popover open={isMobile ? false : undefined}>
               <PopoverTrigger asChild>
@@ -197,7 +210,7 @@ export default function ChatInput({
                     }
                   }}
                 >
-                  <Smile key="simle" size={20} className="mb-2" />
+                  <Smile key="simle" size={20} />
                 </span>
               </PopoverTrigger>
               <PopoverContent className="w-fit p-0 bg-transparent border-0 mx-2 shadow-none">
@@ -213,7 +226,7 @@ export default function ChatInput({
                 />
               </PopoverContent>
             </Popover>,
-            <ImageIcon key="imageUpload" size={20} className="mb-2" />,
+            <ImageIcon key="imageUpload" size={20} />,
           ]}
         />
         {isGroup && (

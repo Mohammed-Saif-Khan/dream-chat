@@ -50,6 +50,7 @@ export type ChatStore = StateType & {
   getMessages: (id: string) => Promise<void>;
   addMessage: (message: MessageType) => void;
   editMessage: (tempId: string, updateMsg: any) => void;
+  removeMessage: (tempId: string) => void;
   updateMessageStatus: (id: string, status: Partial<MessageType>) => void;
   deleteMessage: (messageId: string, type: string) => void;
   toggleFavouriteMessage: (messageId: string) => void;
